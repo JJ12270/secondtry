@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<script>
+/* lp:auth */
+(function(){
+  var _h='54e31eb997ef062d46dd9cb58716e0cdfbf75c3558c8e2764b2e9553f01b143a';
+  var _ic={'ga2025':'GUEST-ALPHA-2025','gb2025':'GUEST-BETA-2025'};
+  var _sv=1,_sk='_lp'+_sv,_lk='_ll',_ak='_la',_pk='_ph';
+  function _g(k){try{return sessionStorage.getItem(k)||localStorage.getItem(k);}catch(e){return null;}}
+  function _s(k,v,p){try{p?localStorage.setItem(k,v):sessionStorage.setItem(k,v)}catch(e){}}
+  function _d(k){try{sessionStorage.removeItem(k);localStorage.removeItem(k);}catch(e){}}
+  function _ok(){return _g(_sk)==='O'||_g(_sk)==='G';}
+  function _ah(){return _g(_pk)||_h;}
+  function _lc(){return Date.now()<parseInt(_g(_lk)||'0',10);}
+  function _ls(){return Math.max(0,Math.ceil((parseInt(_g(_lk)||'0',10)-Date.now())/1e3));}
+  function _at(){return parseInt(_g(_ak)||'0',10);}
+  function _ia(){var a=_at()+1;_s(_ak,String(a),true);if(a>=5){_s(_lk,String(Date.now()+3e5),true);_s(_ak,'0',true)}return a;}
+  function _ra(){_d(_ak);_d(_lk);}
+  async function _sh(m){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+  function _gr(r){_ra();_s(_sk,r,false);var g=document.getElementById('_lpg');if(g)g.remove();document.documentElement.style.overflow='';document.title='LeadPulse — Real-Time Lead Intelligence';}
+  if(_ok()){return;}
+  document.documentElement.style.overflow='hidden';
+  var _ui=false,_lt=null;
+  function _sm(t){var e=document.getElementById('_lm');if(e){e.textContent=t;e.style.display=t?'block':'none';}}
+  function _sw(t){var e=document.getElementById('_lw');if(e){e.textContent=t;e.style.display=t?'block':'none';}}
+  function _cl(){
+    if(!_lc())return;
+    var i=document.getElementById('_li'),b=document.getElementById('_lb');
+    if(i)i.disabled=true;if(b)b.disabled=true;
+    _sm('');_sw('Locked — retry in '+_ls()+'s');
+    if(_lt)clearInterval(_lt);
+    _lt=setInterval(function(){
+      if(!_lc()){clearInterval(_lt);var i2=document.getElementById('_li'),b2=document.getElementById('_lb');if(i2)i2.disabled=false;if(b2)b2.disabled=false;_sw('');}
+      else _sw('Locked — retry in '+_ls()+'s');
+    },1e3);
+  }
+  function _try(){
+    if(_lc()){_cl();return;}
+    var v=(document.getElementById('_li').value||'').trim();
+    if(!v){document.getElementById('_li').style.borderColor='#ff3d5a';return;}
+    if(_ui){
+      var ok=false,ks=Object.keys(_ic);
+      for(var k=0;k<ks.length;k++){if(_ic[ks[k]]===v){ok=true;break;}}
+      if(!ok){try{var si=JSON.parse(localStorage.getItem('lp_invites')||'{}');var sk2=Object.keys(si);for(var j=0;j<sk2.length;j++){if(si[sk2[j]]===v){ok=true;break;}}}catch(e){}}
+      if(ok)_gr('G');else{_ia();_sm('Invalid invite code.');_cl();}
+      return;
+    }
+    _sh(v).then(function(hv){
+      if(hv===_ah())_gr('O');
+      else{var a=_ia();if(_lc())_cl();else _sm('Wrong password. '+(5-a)+' attempt'+(5-a===1?'':'s')+' left.');}
+    });
+  }
+  function _bg(){
+    var g=document.createElement('div');g.id='_lpg';
+    g.style.cssText='position:fixed;inset:0;background:#020408;z-index:2147483647;display:flex;align-items:center;justify-content:center;';
+    g.innerHTML='<div style="width:340px;padding:32px 28px;background:#080d14;border:1px solid #1a2535;border-radius:16px;">'
+      +'<div style="width:44px;height:44px;border-radius:50%;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">'
+      +'<div style="width:9px;height:9px;background:#00e5ff;border-radius:50%;box-shadow:0 0 8px #00e5ff;animation:pdot 1.5s ease-in-out infinite;"></div></div>'
+      +'<div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#e8f4ff;text-align:center;margin-bottom:4px;">Lead<span style=\"color:#00e5ff\">Pulse</span></div>'
+      +'<div style="font-family:DM Mono,monospace;font-size:10px;color:#4a6080;letter-spacing:1.5px;text-transform:uppercase;text-align:center;margin-bottom:24px;">Restricted Access</div>'
+      +'<div id="_lm" style="display:none;font-size:11px;color:#ff3d5a;background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.2);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;"></div>'
+      +'<div id="_lw" style="display:none;font-size:11px;color:#ffb020;background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.2);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;"></div>'
+      +'<input id="_li" type="password" placeholder="Enter password" autocomplete="off" style="width:100%;background:#0d1520;border:1px solid #1a2535;border-radius:8px;padding:11px 14px;color:#e8f4ff;font-family:DM Mono,monospace;font-size:14px;outline:none;box-sizing:border-box;transition:border-color .2s;margin-bottom:12px;" />'
+      +'<button id="_lb" style="width:100%;background:#00e5ff;border:none;border-radius:8px;padding:12px;color:#020408;font-family:DM Mono,monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1.5px;transition:opacity .2s;">ENTER &rarr;</button>'
+      +'<div id="_lt" style="text-align:center;margin-top:14px;font-family:DM Mono,monospace;font-size:11px;color:#4a6080;cursor:pointer;text-decoration:underline;" onclick="_tp()">Have an invite code?</div>'
+      +'</div>';
+    document.body.appendChild(g);
+    document.getElementById('_lb').addEventListener('click',_try);
+    document.getElementById('_li').addEventListener('keydown',function(e){if(e.key==='Enter')_try();});
+    document.getElementById('_li').addEventListener('focus',function(){this.style.borderColor='#00e5ff';});
+    document.getElementById('_li').addEventListener('blur',function(){this.style.borderColor='#1a2535';});
+    _cl();
+    setTimeout(function(){var i=document.getElementById('_li');if(i)i.focus();},80);
+  }
+  window._tp=function(){
+    _ui=!_ui;
+    var i=document.getElementById('_li'),t=document.getElementById('_lt');
+    if(i){i.placeholder=_ui?'Enter invite code':'Enter password';i.value='';}
+    if(t)t.textContent=_ui?'Use password instead':'Have an invite code?';
+    _sm('');
+  };
+  /* Password change bridge — settings panel writes here */
+  window._lpSetHash=function(h){localStorage.setItem(_pk,h);};
+  window._lpGetHash=function(){return _ah();};
+  window._lpLogout=function(){_d(_sk);sessionStorage.clear();location.reload();};
+  window._lpRole=function(){return _g(_sk);}; 
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_bg);
+  else _bg();
+  document.addEventListener('keydown',function(e){
+    if(!_ok()&&(e.ctrlKey||e.metaKey)&&(e.key==='u'||e.key==='U'))e.preventDefault();
+  });
+})();
+</script>
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadPulse — Real-Time Lead Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#020408; --surface:#080d14; --surface2:#0d1520;
+  --border:#1a2535; --border2:#243347;
+  --accent:#00e5ff; --accent2:#ff6b35; --accent3:#7fff6b; --accent4:#d4ff3d;
+  --text:#e8f4ff; --muted:#4a6080; --muted2:#7090b0;
+  --danger:#ff3d5a; --warning:#ffb020; --success:#00d47e;
+  --font-display:'Syne',sans-serif;
+  --font-body:'Cabinet Grotesk',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(2,4,8,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px;}
+.logo-dot{width:9px;height:9px;background:var(--accent);border-radius:50%;animation:pdot 1.5s ease-in-out infinite;box-shadow:0 0 10px var(--accent);}
+@keyframes pdot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+.logo span{color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:16px;}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,212,126,.1);border:1px solid rgba(0,212,126,.3);border-radius:20px;padding:4px 12px;font-family:var(--font-mono);font-size:10px;color:var(--success);letter-spacing:1px;text-transform:uppercase;}
+.live-badge::before{content:'';width:6px;height:6px;background:var(--success);border-radius:50%;animation:pdot 1s ease-in-out infinite;box-shadow:0 0 6px var(--success);}
+.header-time{font-family:var(--font-mono);font-size:12px;color:var(--muted2);}
+
+/* LAYOUT */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:260px 1fr 360px;grid-template-rows:auto 1fr;height:calc(100vh - 60px);overflow:hidden;}
+.top-bar{grid-column:1/-1;display:flex;gap:12px;padding:16px 20px 14px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.kpi-card{flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 18px;position:relative;overflow:hidden;transition:border-color .3s;}
+.kpi-card:hover{border-color:var(--border2);}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--kpi-color,var(--accent));opacity:.6;}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);font-family:var(--font-mono);margin-bottom:7px;}
+.kpi-value{font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--kpi-color,var(--accent));line-height:1;margin-bottom:3px;}
+.kpi-delta{font-size:11px;color:var(--muted2);}
+.kpi-delta.up{color:var(--success);}
+
+/* LEFT */
+.left-panel{border-right:1px solid var(--border);overflow-y:auto;padding:16px 0;display:flex;flex-direction:column;}
+.left-panel::-webkit-scrollbar{width:3px;}
+.left-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.panel-title{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 18px;margin-bottom:14px;}
+.channel-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-left:3px solid transparent;cursor:pointer;transition:all .2s;}
+.channel-item:hover,.channel-item.active{background:rgba(0,229,255,.04);border-left-color:var(--accent);}
+.channel-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border);}
+.channel-info{flex:1;min-width:0;}
+.channel-name{font-size:12px;font-weight:600;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.channel-meta{font-family:var(--font-mono);font-size:10px;color:var(--muted2);}
+.channel-bar-wrap{width:100%;padding:2px 18px;margin-bottom:4px;}
+.channel-bar-bg{height:3px;background:var(--border);border-radius:4px;overflow:hidden;}
+.channel-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.channel-count{font-family:var(--font-display);font-size:14px;font-weight:700;flex-shrink:0;}
+
+/* CENTER */
+.center-panel{display:flex;flex-direction:column;overflow:hidden;}
+.heatmap-section{padding:16px 20px 0;flex-shrink:0;}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.section-title{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.section-action{font-family:var(--font-mono);font-size:10px;color:var(--accent);cursor:pointer;opacity:.7;transition:opacity .2s;}
+.section-action:hover{opacity:1;}
+.heatmap-grid{display:grid;grid-template-columns:repeat(24,1fr);grid-template-rows:repeat(7,1fr);gap:2px;height:98px;margin-bottom:5px;}
+.heatmap-cell{border-radius:2px;transition:transform .15s;cursor:pointer;}
+.heatmap-cell:hover{transform:scale(1.6);z-index:10;position:relative;}
+.heatmap-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:12px;}
+.feed-section{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:0 20px 16px;}
+.feed-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px;}
+.feed-scroll::-webkit-scrollbar{width:3px;}
+.feed-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* FEED ITEM */
+.feed-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:flex-start;gap:10px;animation:slidein .35s cubic-bezier(.16,1,.3,1);transition:all .2s;cursor:pointer;}
+.feed-item:hover{border-color:var(--accent);background:rgba(0,229,255,.02);}
+.feed-item.selected{border-color:var(--accent);background:rgba(0,229,255,.05);box-shadow:0 0 0 1px var(--accent);}
+@keyframes slidein{from{opacity:0;transform:translateY(-8px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.feed-icon{width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.feed-body{flex:1;min-width:0;}
+.feed-headline{font-size:12px;font-weight:600;margin-bottom:2px;line-height:1.3;}
+.feed-sub{font-size:10px;color:var(--muted2);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+.feed-location-row{font-family:var(--font-mono);font-size:10px;color:var(--accent);display:flex;align-items:center;gap:5px;margin-top:2px;}
+.loc-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:5px;padding:2px 7px;font-size:10px;}
+.loc-pill.page{color:var(--accent);}
+.loc-pill.group{color:var(--accent3);background:rgba(127,255,107,.08);border-color:rgba(127,255,107,.2);}
+.loc-pill.session{color:var(--warning);background:rgba(255,176,32,.08);border-color:rgba(255,176,32,.2);}
+.loc-pulse{width:5px;height:5px;background:var(--success);border-radius:50%;animation:pdot .9s ease-in-out infinite;display:inline-block;flex-shrink:0;}
+.feed-tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-family:var(--font-mono);font-size:10px;border:1px solid;}
+.feed-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;padding-top:1px;}
+.tag-hot{color:var(--danger);border-color:rgba(255,61,90,.3);background:rgba(255,61,90,.08);}
+.tag-warm{color:var(--warning);border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.08);}
+.tag-cold{color:#7090b0;border-color:rgba(112,144,176,.3);background:rgba(112,144,176,.08);}
+
+/* RIGHT — APPROACH PANEL */
+.right-panel{border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+.right-panel::-webkit-scrollbar{width:3px;}
+.right-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.approach-header{padding:16px 18px 14px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border);}
+.approach-title{font-family:var(--font-display);font-size:15px;font-weight:800;margin-bottom:3px;}
+.approach-sub{font-size:11px;color:var(--muted2);}
+
+/* LIVE CONTEXT BANNER */
+.context-banner{margin:14px 14px 0;border-radius:11px;overflow:hidden;border:1px solid rgba(0,229,255,.25);background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(0,229,255,.02));}
+.context-banner-top{padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,229,255,.12);}
+.cb-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pdot .9s ease-in-out infinite;box-shadow:0 0 6px var(--accent);flex-shrink:0;}
+.cb-title{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;flex:1;}
+.cb-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.context-body{padding:12px 14px;display:flex;flex-direction:column;gap:7px;}
+.ctx-row{display:flex;align-items:flex-start;gap:8px;}
+.ctx-icon{font-size:13px;flex-shrink:0;margin-top:1px;}
+.ctx-info{flex:1;}
+.ctx-label{font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.ctx-val{font-size:12px;font-weight:600;color:var(--text);}
+.ctx-val span{color:var(--accent);}
+.no-selection{padding:20px 18px;text-align:center;color:var(--muted2);font-size:12px;line-height:1.6;}
+.no-selection strong{display:block;margin-bottom:6px;color:var(--muted);font-size:13px;}
+
+/* APPROACH CARDS */
+.approach-cards{padding:0 14px;}
+.approach-card{margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.approach-card:hover{border-color:var(--border2);}
+.ac-header{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid transparent;transition:border-color .2s;}
+.approach-card.open .ac-header{border-bottom-color:var(--border);}
+.ac-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:var(--font-mono);}
+.ac-meta{flex:1;}
+.ac-name{font-weight:700;font-size:12px;margin-bottom:2px;}
+.ac-sub{font-family:var(--font-mono);font-size:10px;color:var(--muted2);}
+.ac-badge{font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:20px;border:1px solid;flex-shrink:0;font-weight:600;text-transform:uppercase;}
+.ac-body{padding:0;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.approach-card.open .ac-body{max-height:800px;padding:14px;}
+
+/* LIVE INSTRUCTION BOX */
+.live-instruction{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:10px 12px;margin-bottom:12px;}
+.li-header{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.li-pulse{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pdot .9s ease-in-out infinite;flex-shrink:0;}
+.li-label{font-family:var(--font-mono);font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;}
+.li-text{font-size:11px;color:var(--text);line-height:1.55;}
+.li-text strong{color:var(--accent);}
+
+.ac-step{display:flex;gap:9px;margin-bottom:10px;align-items:flex-start;}
+.ac-step:last-child{margin-bottom:0;}
+.step-num{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;font-weight:600;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:11px;color:var(--muted2);line-height:1.55;}
+.step-text strong{color:var(--text);font-weight:600;}
+.cta-btn{display:block;width:100%;margin-top:12px;padding:9px;border-radius:8px;border:none;font-family:var(--font-body);font-weight:700;font-size:11px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:all .2s;}
+.cta-btn:hover{transform:translateY(-1px);filter:brightness(1.1);}
+
+/* MINI CHART */
+.mini-chart{display:flex;align-items:flex-end;gap:2px;height:22px;}
+.mini-bar{width:4px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.4;transition:height .6s ease;}
+.mini-bar.peak{opacity:1;}
+
+/* TOOLTIP */
+.tooltip{position:fixed;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text);pointer-events:none;z-index:999;opacity:0;transition:opacity .15s;white-space:nowrap;}
+.badge-high{color:var(--danger);border-color:rgba(255,61,90,.4);}
+.badge-med{color:var(--warning);border-color:rgba(255,176,32,.4);}
+.badge-low{color:var(--success);border-color:rgba(0,212,126,.4);}
+.right-pad{height:20px;}
+
+
+/* GO THERE NOW button */
+.go-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;border:none;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;text-decoration:none;transition:all .18s;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.go-btn:hover{transform:translateY(-1px);filter:brightness(1.15);}
+.go-btn svg{width:10px;height:10px;flex-shrink:0;}
+.go-btn-feed{background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);color:#00e5ff;}
+.go-btn-card{color:#fff;width:100%;justify-content:center;padding:10px;border-radius:8px;font-size:11px;margin-top:8px;}
+
+.go-banner-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);border-radius:9px;padding:11px;text-decoration:none;color:#00e5ff;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.5px;transition:all .2s;}
+.go-banner-btn:hover{background:rgba(0,229,255,.2);border-color:rgba(0,229,255,.5);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-dot"></div>Lead<span>Pulse</span></div>
+  <div class="header-right">
+    <div class="live-badge">Live Monitoring</div>
+    <div class="header-time" id="clock">--:--:--</div>
+    <div id="hdr-role" style="font-family:var(--font-mono);font-size:10px;padding:4px 10px;border-radius:10px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);color:var(--accent);"></div>
+    <button onclick="window._lpLogout()" style="font-family:var(--font-mono);font-size:10px;padding:5px 12px;border-radius:8px;background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.25);color:#ff3d5a;cursor:pointer;letter-spacing:.5px;transition:all .2s;" onmouseover="this.style.background='rgba(255,61,90,.18)'" onmouseout="this.style.background='rgba(255,61,90,.08)'">Sign Out</button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- KPI BAR -->
+  <div class="top-bar">
+    <div class="kpi-card" style="--kpi-color:var(--accent)">
+      <div class="kpi-label">Total Leads Today</div>
+      <div class="kpi-value" id="kpi-total">0</div>
+      <div class="kpi-delta up" id="kpi-total-d">+0 this hour</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--danger)">
+      <div class="kpi-label">Hot Leads</div>
+      <div class="kpi-value" id="kpi-hot">0</div>
+      <div class="kpi-delta up" id="kpi-hot-d">+0 new</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent3)">
+      <div class="kpi-label">Top Channel</div>
+      <div class="kpi-value" id="kpi-channel" style="font-size:15px;padding-top:6px">-</div>
+      <div class="kpi-delta" id="kpi-ch-d">detecting...</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent4)">
+      <div class="kpi-label">Avg Lead Score</div>
+      <div class="kpi-value" id="kpi-score">0</div>
+      <div class="kpi-delta">trending up</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent2)">
+      <div class="kpi-label">Active Right Now</div>
+      <div class="kpi-value" id="kpi-active">0</div>
+      <div class="kpi-delta" id="kpi-active-d">on tracked pages</div>
+    </div>
+  </div>
+
+  <!-- LEFT CHANNELS -->
+  <div class="left-panel">
+    <div class="panel-title">Lead Channels</div>
+    <div id="channel-list"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-panel">
+    <div class="heatmap-section">
+      <div class="section-header">
+        <div class="section-title">Activity Heatmap — 7 Days x 24h</div>
+        <div class="section-action" id="refresh-btn">&#8635; Refresh</div>
+      </div>
+      <div class="heatmap-grid" id="heatmap"></div>
+      <div class="heatmap-labels">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+    </div>
+    <div class="feed-section">
+      <div class="section-header">
+        <div class="section-title">&#128204; Real-Time Lead Feed — click any lead</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="mini-chart" id="mini-chart"></div>
+          <div class="section-action" id="clear-btn">Clear</div>
+        </div>
+      </div>
+      <div class="feed-scroll" id="feed"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: APPROACH PANEL -->
+  <div class="right-panel">
+    <div class="approach-header">
+      <div class="approach-title">&#128225; Approach Methods</div>
+      <div class="approach-sub" id="approach-sub">Click a lead to get real-time approach tactics</div>
+    </div>
+    <div id="context-section">
+      <div class="no-selection">
+        <strong>&#128064; No lead selected</strong>
+        Click any lead in the feed to see exactly where they are right now and get a personalized approach playbook.
+      </div>
+    </div>
+    <div class="approach-cards" id="approach-cards"></div>
+    <div class="right-pad"></div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ======================================================
+   DATA
+   ====================================================== */
+
+var CHANNELS = [
+  {id:'linkedin', name:'LinkedIn',         icon:'&#128188;', color:'#0a66c2', leads:0, score:0},
+  {id:'email',    name:'Email Campaigns',  icon:'&#128231;', color:'#ff6b35', leads:0, score:0},
+  {id:'website',  name:'Website Visitors', icon:'&#127760;', color:'#00e5ff', leads:0, score:0},
+  {id:'referral', name:'Referrals',        icon:'&#129309;', color:'#7fff6b', leads:0, score:0},
+  {id:'google',   name:'Google Ads',       icon:'&#128226;', color:'#d4ff3d', leads:0, score:0},
+  {id:'twitter',  name:'X / Twitter',      icon:'&#128038;', color:'#1d9bf0', leads:0, score:0},
+  {id:'events',   name:'Events & Webinars',icon:'&#127919;', color:'#d0a0ff', leads:0, score:0},
+  {id:'cold',     name:'Cold Outreach',    icon:'&#128222;', color:'#ff3d5a', leads:0, score:0},
+  {id:'youtube',  name:'YouTube',          icon:'&#9654;',   color:'#ff4444', leads:0, score:0},
+  {id:'podcast',   name:'Podcasts',          icon:'&#127908;', color:'#ff9500', leads:0, score:0},
+  {id:'reddit',    name:'Reddit',             icon:'&#128009;', color:'#ff4500', leads:0, score:0},
+  {id:'facebook',  name:'Facebook Groups',    icon:'&#128483;', color:'#1877f2', leads:0, score:0},
+  {id:'instagram', name:'Instagram',          icon:'&#128247;', color:'#e1306c', leads:0, score:0},
+  {id:'tiktok',    name:'TikTok',             icon:'&#127926;', color:'#69c9d0', leads:0, score:0},
+  {id:'slack',     name:'Slack Communities',  icon:'&#128172;', color:'#4a154b', leads:0, score:0},
+  {id:'discord',   name:'Discord Servers',    icon:'&#127918;', color:'#5865f2', leads:0, score:0},
+  {id:'quora',     name:'Quora',              icon:'&#10067;',  color:'#b92b27', leads:0, score:0},
+  {id:'producthunt',name:'Product Hunt',      icon:'&#128045;', color:'#da552f', leads:0, score:0},
+  {id:'github',    name:'GitHub',             icon:'&#128025;', color:'#6e40c9', leads:0, score:0},
+  {id:'medium',    name:'Medium / Substack',  icon:'&#9997;',   color:'#00ab6c', leads:0, score:0},
+  {id:'sms',       name:'SMS Campaigns',      icon:'&#128241;', color:'#25d366', leads:0, score:0},
+  {id:'whatsapp',  name:'WhatsApp',           icon:'&#128242;', color:'#25d366', leads:0, score:0},
+  {id:'meta',      name:'Meta Ads',           icon:'&#128198;', color:'#0082fb', leads:0, score:0},
+  {id:'crm',       name:'CRM Signals',        icon:'&#128202;', color:'#00a1e0', leads:0, score:0},
+  {id:'review',    name:'Review Sites',       icon:'&#11088;',  color:'#ffb900', leads:0, score:0},
+  {id:'community', name:'Online Communities', icon:'&#127968;', color:'#a855f7', leads:0, score:0},
+  {id:'newsletter',name:'Newsletter',         icon:'&#128240;', color:'#06b6d4', leads:0, score:0},
+  {id:'affiliate', name:'Affiliate Partners', icon:'&#129309;', color:'#f59e0b', leads:0, score:0},
+  {id:'chatbot',   name:'Chatbot / Live Chat',icon:'&#129302;', color:'#10b981', leads:0, score:0},
+  {id:'webinar',   name:'On-Demand Webinars', icon:'&#127916;', color:'#8b5cf6', leads:0, score:0},
+  {id:'amazon',    name:'Amazon Marketplace',  icon:'&#128722;', color:'#ff9900', leads:0, score:0},
+  {id:'ebay',      name:'eBay / Marketplace',  icon:'&#128717;', color:'#e53238', leads:0, score:0},
+  {id:'etsy',      name:'Etsy',                icon:'&#127912;', color:'#f1641e', leads:0, score:0},
+  {id:'shopify',   name:'Shopify Store',        icon:'&#128681;', color:'#96bf48', leads:0, score:0},
+  {id:'pinterest', name:'Pinterest',            icon:'&#128204;', color:'#e60023', leads:0, score:0},
+  {id:'bing',      name:'Bing Shopping Ads',   icon:'&#128269;', color:'#008373', leads:0, score:0},
+  {id:'gshop',     name:'Google Shopping',     icon:'&#128717;', color:'#4285f4', leads:0, score:0},
+  {id:'craigslist',name:'Craigslist / Classifieds',icon:'&#128394;',color:'#7c3aed', leads:0, score:0},
+  {id:'alibaba',   name:'Alibaba / B2B Trade', icon:'&#127758;', color:'#ff6a00', leads:0, score:0},
+  {id:'wayfair',   name:'Wayfair / HomeGoods', icon:'&#127968;', color:'#7f187f', leads:0, score:0},
+  {id:'walmart',   name:'Walmart Marketplace', icon:'&#127881;', color:'#0071dc', leads:0, score:0},
+  {id:'houzz',     name:'Houzz',               icon:'&#127775;', color:'#7dbb00', leads:0, score:0},
+  {id:'thumbtack', name:'Thumbtack',           icon:'&#128205;', color:'#009fd9', leads:0, score:0},
+  {id:'angi',      name:'Angi / HomeAdvisor',  icon:'&#128296;', color:'#f96302', leads:0, score:0},
+  {id:'yelp',      name:'Yelp',                icon:'&#11088;',  color:'#d32323', leads:0, score:0},
+  {id:'tripadvisor',name:'TripAdvisor',        icon:'&#9992;',   color:'#34e0a1', leads:0, score:0},
+  {id:'booking',   name:'Booking.com',         icon:'&#127970;', color:'#003580', leads:0, score:0},
+  {id:'zillow',    name:'Zillow / Real Estate',icon:'&#127962;', color:'#006aff', leads:0, score:0},
+  {id:'autotrader',name:'AutoTrader / Cars',   icon:'&#128664;', color:'#e8232a', leads:0, score:0},
+  {id:'linkedin_jobs',name:'LinkedIn Jobs',    icon:'&#128084;', color:'#0a66c2', leads:0, score:0},
+  {id:'indeed',    name:'Indeed / Job Sites',  icon:'&#128188;', color:'#2164f3', leads:0, score:0},
+  {id:'fiverr',    name:'Fiverr / Freelance',  icon:'&#127795;', color:'#1dbf73', leads:0, score:0},
+  {id:'upwork',    name:'Upwork',              icon:'&#128187;', color:'#6fda44', leads:0, score:0},
+  {id:'coursera',  name:'Coursera / EdTech',   icon:'&#127979;', color:'#0056d2', leads:0, score:0},
+  {id:'udemy',     name:'Udemy',               icon:'&#127891;', color:'#a435f0', leads:0, score:0},
+  {id:'airbnb',    name:'Airbnb',              icon:'&#127968;', color:'#ff385c', leads:0, score:0},
+  {id:'doordash',  name:'DoorDash / Delivery', icon:'&#127829;', color:'#ff3008', leads:0, score:0},
+  {id:'grubhub',   name:'Grubhub / Food',      icon:'&#127828;', color:'#f63440', leads:0, score:0},
+  {id:'instacart', name:'Instacart',           icon:'&#128246;', color:'#43b02a', leads:0, score:0},
+  {id:'clubhouse', name:'Clubhouse / Audio',   icon:'&#127908;', color:'#f5e6d3', leads:0, score:0},
+  {id:'snapchat',  name:'Snapchat Ads',        icon:'&#128248;', color:'#fffc00', leads:0, score:0},
+  {id:'nextdoor',  name:'Nextdoor',            icon:'&#127968;', color:'#00b246', leads:0, score:0},
+  {id:'meetup',    name:'Meetup.com',          icon:'&#127913;', color:'#f65858', leads:0, score:0},
+  {id:'crunchbase',name:'Crunchbase',          icon:'&#128200;', color:'#0288d1', leads:0, score:0},
+  {id:'angelist',  name:'AngelList / Wellfound',icon:'&#128640;',color:'#000000', leads:0, score:0},
+  {id:'gartner',   name:'Gartner / Forrester', icon:'&#128203;', color:'#ea1c2d', leads:0, score:0},
+  {id:'techcrunch',name:'TechCrunch / Press',  icon:'&#128240;', color:'#0a9f3c', leads:0, score:0},
+  {id:'typeform',  name:'Survey / Typeform',   icon:'&#128196;', color:'#262627', leads:0, score:0},
+  {id:'calendly',  name:'Calendly / Booking',  icon:'&#128197;', color:'#006bff', leads:0, score:0},
+  {id:'drift',     name:'Drift / Conversational',icon:'&#128483;',color:'#3d1d96', leads:0, score:0},
+  {id:'apollo',    name:'Apollo.io',           icon:'&#128269;', color:'#5d2ebe', leads:0, score:0},
+  {id:'zoominfo',  name:'ZoomInfo',            icon:'&#128202;', color:'#ff6600', leads:0, score:0},
+  {id:'salesforce',name:'Salesforce / Pardot', icon:'&#9729;',   color:'#00a1e0', leads:0, score:0},
+  {id:'hubspot_mkt',name:'HubSpot Marketing',  icon:'&#128200;', color:'#ff7a59', leads:0, score:0},
+  {id:'semrush',   name:'SEMrush / SEO Intent',icon:'&#127760;', color:'#ff642d', leads:0, score:0},
+  {id:'clearbit',  name:'Clearbit / Reveal',   icon:'&#128064;', color:'#4158d0', leads:0, score:0},
+  {id:'bombora',   name:'Bombora Intent Data',  icon:'&#128161;', color:'#00b4d8', leads:0, score:0},
+  {id:'demandbase',name:'Demandbase / 6sense',  icon:'&#128302;', color:'#6b21a8', leads:0, score:0},
+  {id:'g2crowd',   name:'G2 / Peer Reviews',   icon:'&#11088;',  color:'#ff492c', leads:0, score:0},
+  {id:'trustpilot',name:'Trustpilot',          icon:'&#127775;', color:'#00b67a', leads:0, score:0},
+];
+
+/* ---- REAL-TIME LOCATIONS: where the lead IS right now ---- */
+var LIVE_LOCATIONS = {
+  linkedin: [
+    {type:'group', label:'Group: SaaS Founders Circle (12,400 members)', short:'SaaS Founders Circle', url:'https://www.linkedin.com/groups/4521695/'},
+    {type:'group', label:'Group: B2B Growth Hackers (8,900 members)', short:'B2B Growth Hackers', url:'https://www.linkedin.com/groups/1802028/'},
+    {type:'group', label:'Group: CRO & Revenue Leaders (5,200 members)', short:'CRO & Revenue Leaders', url:'https://www.linkedin.com/groups/12614931/'},
+    {type:'group', label:'Group: VC-Backed Startups Network (3,800 members)', short:'VC-Backed Startups', url:'https://www.linkedin.com/groups/3853522/'},
+    {type:'page',  label:'Browsing: Competitor Company Page (TechRival Inc)', short:'TechRival Inc page', url:'https://www.linkedin.com/feed/'},
+    {type:'page',  label:'Browsing: LinkedIn Sales Navigator - Lead Search', short:'Sales Navigator search', url:'https://www.linkedin.com/sales/'},
+    {type:'page',  label:'Reading: "Top 10 SaaS Tools 2025" article feed', short:'SaaS Tools article', url:'https://www.linkedin.com/feed/'},
+    {type:'page',  label:'Viewing: Your company page (last 3 mins)', short:'Your company page', url:'https://www.linkedin.com/company/'},
+    {type:'page',  label:'Browsing: Job listings at competitor companies', short:'Competitor job posts', url:'https://www.linkedin.com/jobs/'},
+    {type:'event', label:'Registered: "AI in B2B Sales" virtual event (tomorrow)', short:'AI in B2B Sales event', url:'https://www.linkedin.com/events/'},
+    {type:'event', label:'Attending: "RevOps Summit 2025" LinkedIn Live', short:'RevOps Summit Live', url:'https://www.linkedin.com/events/'},
+  ],
+  email: [
+    {type:'page', label:'Opened email: "How to 3x pipeline in Q2" (2 mins ago)', short:'Opened nurture email', url:'https://mail.google.com/'},
+    {type:'page', label:'Clicked: Pricing CTA inside drip email #3', short:'Email pricing CTA', url:'https://mail.google.com/'},
+    {type:'page', label:'Forwarded: Case study email to 2 colleagues', short:'Forwarded case study', url:'https://mail.google.com/'},
+    {type:'page', label:'Opened email 4x in last 12 hours', short:'Repeated email opens', url:'https://mail.google.com/'},
+    {type:'page', label:'Clicked: "Book a demo" link in welcome email', short:'Demo CTA in email', url:'https://mail.google.com/'},
+    {type:'page', label:'Replied to cold outreach email (1 min ago)', short:'Replied to cold email', url:'https://mail.google.com/'},
+  ],
+  website: [
+    {type:'page',    label:'Currently on: /pricing (2 min 18 sec dwell time)', short:'/pricing page', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /demo - filling out request form', short:'/demo form', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /case-studies/enterprise', short:'/case-studies/enterprise', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /features/integrations (4th visit today)', short:'/features page', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /blog/roi-calculator (high intent)', short:'/roi-calculator', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /compare/us-vs-competitor', short:'/compare page', url:'https://clarity.microsoft.com/'},
+    {type:'page',    label:'Currently on: /onboarding - step 2 of 4', short:'/onboarding step 2', url:'https://clarity.microsoft.com/'},
+    {type:'session', label:'Session: 8 pages in 14 mins, score 92/100', short:'8-page session', url:'https://clarity.microsoft.com/'},
+    {type:'session', label:'Session: Returned after 3-day gap, viewing /pricing again', short:'Return visit /pricing', url:'https://clarity.microsoft.com/'},
+    {type:'session', label:'Session: Scrolled 90% of /enterprise page', short:'Enterprise page scroll', url:'https://clarity.microsoft.com/'},
+  ],
+  referral: [
+    {type:'page', label:'Intro by: David Chen (your current customer, NPS 10)', short:'Intro by David Chen', url:'https://www.linkedin.com/search/results/people/'},
+    {type:'page', label:'Intro by: Sarah Mills via LinkedIn mutual connection', short:'Intro by Sarah Mills', url:'https://www.linkedin.com/search/results/people/'},
+    {type:'page', label:'Came from: Partner portal - PartnerStack referral link', short:'PartnerStack link', url:'https://app.partnerstack.com/'},
+    {type:'page', label:'Came from: G2 review page - clicked "Get a demo"', short:'G2 review page', url:'https://www.g2.com/'},
+    {type:'page', label:'Came from: Capterra profile - clicked contact button', short:'Capterra profile', url:'https://www.capterra.com/'},
+  ],
+  google: [
+    {type:'page', label:'Clicked ad: "[Your brand] vs Competitor" search query', short:'Competitor ad click', url:'https://ads.google.com/aw/overview'},
+    {type:'page', label:'Clicked ad: "best CRM for SaaS startups" - landed /pricing', short:'Pricing landing page', url:'https://ads.google.com/aw/overview'},
+    {type:'page', label:'Clicked ad: "how to scale B2B sales" - landed /blog', short:'Blog landing page', url:'https://ads.google.com/aw/overview'},
+    {type:'page', label:'Clicked retargeting banner on TechCrunch article', short:'TechCrunch retarget', url:'https://ads.google.com/aw/overview'},
+    {type:'page', label:'Clicked YouTube pre-roll ad (watched 45 sec)', short:'YouTube pre-roll ad', url:'https://ads.google.com/aw/overview'},
+  ],
+  twitter: [
+    {type:'page',  label:'Engaged: Replied to your company tweet (1 min ago)', short:'Replied to tweet', url:'https://x.com/notifications'},
+    {type:'page',  label:'Browsing: #SaaS hashtag - saw your sponsored post', short:'#SaaS hashtag feed', url:'https://x.com/search?q=%23SaaS&f=live'},
+    {type:'group', label:'Twitter Space: "Future of B2B Sales" (live, 340 listeners)', short:'B2B Sales Twitter Space', url:'https://x.com/i/spaces'},
+    {type:'page',  label:'Liked and retweeted: Your thought leadership thread', short:'Retweeted your thread', url:'https://x.com/notifications'},
+    {type:'page',  label:'Clicked link in your pinned tweet to /pricing', short:'Pinned tweet click', url:'https://x.com/notifications'},
+  ],
+  events: [
+    {type:'event', label:'Live now: Watching your webinar "Scale to $10M ARR"', short:'Scale to $10M ARR webinar', url:'https://app.livestorm.co/'},
+    {type:'event', label:'Registered: "SaaS Growth Masterclass" next Tuesday', short:'SaaS Growth Masterclass', url:'https://www.eventbrite.com/'},
+    {type:'event', label:'Attended: Last 3 of your webinars (high intent)', short:'3x webinar attendee', url:'https://app.livestorm.co/'},
+    {type:'event', label:'Booth scan: SaaStr Annual 2025 - Badge scanned', short:'SaaStr Annual 2025', url:'https://www.saastr.com/'},
+    {type:'event', label:'Virtual summit: "RevOps Week" - Session 3 live', short:'RevOps Week Session 3', url:'https://www.linkedin.com/events/'},
+  ],
+  cold: [
+    {type:'page', label:'Viewed: Your LinkedIn profile (30 sec ago)', short:'Viewed your LinkedIn', url:'https://www.linkedin.com/me/profile-views/'},
+    {type:'page', label:'Opened cold email x3 without replying', short:'3x cold email opens', url:'https://app.instantly.ai/'},
+    {type:'page', label:'Visited website after cold call (2 min after hangup)', short:'Post-call website visit', url:'https://clarity.microsoft.com/'},
+    {type:'page', label:'Connected on LinkedIn after cold DM (accepted 5 min ago)', short:'Accepted LinkedIn DM', url:'https://www.linkedin.com/messaging/'},
+    {type:'page', label:'Searched your brand on Google after cold email', short:'Post-email brand search', url:'https://search.google.com/search-console/'},
+  ],
+  youtube: [
+    {type:'page', label:'Watching: "How to build a B2B sales funnel" (4:22 / 11:30)', short:'YouTube sales funnel video', url:'https://studio.youtube.com/'},
+    {type:'page', label:'Subscribed to your YouTube channel (2 min ago)', short:'Subscribed to channel', url:'https://studio.youtube.com/'},
+    {type:'page', label:'Clicked: CTA link in video description to /pricing', short:'YouTube desc CTA', url:'https://studio.youtube.com/'},
+    {type:'page', label:'Watched 3 of your videos in past 1 hour', short:'3x video session', url:'https://studio.youtube.com/'},
+  ],
+  podcast: [
+    {type:'event', label:'Listening: Your guest spot on "SaaS Unplugged" Ep.112', short:'SaaS Unplugged Ep.112', url:'https://open.spotify.com/'},
+    {type:'page',  label:'Clicked: Podcast show notes link to /free-trial', short:'Podcast show notes CTA', url:'https://open.spotify.com/'},
+    {type:'page',  label:'Left 5-star review mentioning your brand by name', short:'5-star podcast review', url:'https://podcasts.apple.com/'},
+    {type:'event', label:'Live podcast: "B2B Founders Roundtable" - mentioned you', short:'B2B Founders Roundtable', url:'https://open.spotify.com/'},
+  ],
+  reddit: [
+    {type:'group', label:'r/SaaS - Asked: "Best tools for B2B outreach in 2025?"', short:'r/SaaS thread', url:'https://www.reddit.com/r/SaaS/'},
+    {type:'group', label:'r/entrepreneur - Upvoted your case study post', short:'r/entrepreneur post', url:'https://www.reddit.com/r/entrepreneur/'},
+    {type:'group', label:'r/startups - Commented on "How we got first 100 customers"', short:'r/startups thread', url:'https://www.reddit.com/r/startups/'},
+    {type:'group', label:'r/marketing - Browsing: "Lead gen strategies that actually work"', short:'r/marketing thread', url:'https://www.reddit.com/r/marketing/'},
+    {type:'group', label:'r/growthacking - Live now: posting a question about CRMs', short:'r/growthhacking', url:'https://www.reddit.com/r/growthhacking/'},
+    {type:'page',  label:'Reddit Ads: Clicked your promoted post in r/SaaS', short:'Reddit promoted post', url:'https://ads.reddit.com/'},
+  ],
+  facebook: [
+    {type:'group', label:'Group: SaaS Growth Secrets (22,000 members) - active now', short:'SaaS Growth Secrets FB', url:'https://www.facebook.com/groups/'},
+    {type:'group', label:'Group: B2B Sales Mastery (14,500 members) - posted question', short:'B2B Sales Mastery FB', url:'https://www.facebook.com/groups/'},
+    {type:'group', label:'Group: Startup Founders Network (9,800 members) - commenting', short:'Startup Founders FB', url:'https://www.facebook.com/groups/'},
+    {type:'page',  label:'Clicked: Facebook retargeting ad - visited /pricing', short:'FB retargeting click', url:'https://www.facebook.com/adsmanager/'},
+    {type:'page',  label:'Liked your Facebook Business page (2 min ago)', short:'Liked FB page', url:'https://www.facebook.com/'},
+    {type:'event', label:'RSVP: Facebook Event - "Digital Marketing Summit 2025"', short:'FB Marketing Summit', url:'https://www.facebook.com/events/'},
+  ],
+  instagram: [
+    {type:'page',  label:'Viewed: Your Instagram story CTA (swiped up)', short:'IG story swipe-up', url:'https://www.instagram.com/'},
+    {type:'page',  label:'Clicked: Link in bio - landed on /free-trial', short:'IG bio link click', url:'https://www.instagram.com/'},
+    {type:'page',  label:'Liked: 3 of your recent product posts in 5 minutes', short:'IG post engagement', url:'https://www.instagram.com/'},
+    {type:'page',  label:'Replied to your Instagram DM (1 min ago)', short:'IG DM reply', url:'https://www.instagram.com/direct/'},
+    {type:'page',  label:'Saved your carousel post on "5 sales mistakes"', short:'IG carousel saved', url:'https://www.instagram.com/'},
+  ],
+  tiktok: [
+    {type:'page',  label:'Watched your TikTok "Day in life of a SaaS founder" 3x', short:'TikTok video 3x watch', url:'https://www.tiktok.com/'},
+    {type:'page',  label:'Clicked: TikTok bio link to /pricing page', short:'TikTok bio link', url:'https://www.tiktok.com/'},
+    {type:'page',  label:'Commented on your TikTok: "How do I get started?"', short:'TikTok comment', url:'https://www.tiktok.com/'},
+    {type:'page',  label:'Shared your TikTok to 4 friends via DM', short:'TikTok share', url:'https://www.tiktok.com/'},
+    {type:'page',  label:'Followed your TikTok account (30 sec ago)', short:'TikTok new follower', url:'https://www.tiktok.com/'},
+  ],
+  slack: [
+    {type:'group', label:'Slack: "Online Geniuses" workspace - #tools channel (active)', short:'Online Geniuses Slack', url:'https://slack.com/'},
+    {type:'group', label:'Slack: "Revenue Collective" - asked about outreach tools', short:'Revenue Collective Slack', url:'https://slack.com/'},
+    {type:'group', label:'Slack: "Demand Gen Junkies" - reacted to your shared tip', short:'Demand Gen Junkies', url:'https://slack.com/'},
+    {type:'group', label:'Slack: "SaaS Alliance" - #intros channel, just joined', short:'SaaS Alliance Slack', url:'https://slack.com/'},
+    {type:'page',  label:'Slack Connect: Opened shared channel you created (live)', short:'Slack Connect channel', url:'https://slack.com/'},
+  ],
+  discord: [
+    {type:'group', label:'Discord: "Indie Hackers" server - #tools-and-resources (active)', short:'Indie Hackers Discord', url:'https://discord.com/'},
+    {type:'group', label:'Discord: "Startup School" - asked about lead gen in #help', short:'Startup School Discord', url:'https://discord.com/'},
+    {type:'group', label:'Discord: "Growth Marketing Hub" - reacted to your resource drop', short:'Growth Marketing Discord', url:'https://discord.com/'},
+    {type:'group', label:'Discord: "SaaS Community" - browsing #recommendations channel', short:'SaaS Community Discord', url:'https://discord.com/'},
+    {type:'page',  label:'Discord DM: Replied to your cold DM within 2 minutes', short:'Discord DM reply', url:'https://discord.com/'},
+  ],
+  quora: [
+    {type:'page',  label:'Answered question: "What is the best CRM for startups?" (your link clicked)', short:'Quora CRM answer', url:'https://www.quora.com/'},
+    {type:'page',  label:'Browsing: "How do I generate B2B leads?" - your answer ranked #1', short:'Quora lead gen answer', url:'https://www.quora.com/'},
+    {type:'page',  label:'Followed your Quora profile after reading 3 answers', short:'Quora profile follow', url:'https://www.quora.com/'},
+    {type:'page',  label:'Upvoted your answer and clicked bio link to /blog', short:'Quora upvote + click', url:'https://www.quora.com/'},
+  ],
+  producthunt: [
+    {type:'page',  label:'Upvoted your product on Product Hunt (live launch day)', short:'PH upvote', url:'https://www.producthunt.com/'},
+    {type:'page',  label:'Left a review comment on your Product Hunt listing', short:'PH review comment', url:'https://www.producthunt.com/'},
+    {type:'page',  label:'Clicked "Visit Website" from your PH listing to /pricing', short:'PH website click', url:'https://www.producthunt.com/'},
+    {type:'page',  label:'Subscribed to your Product Hunt upcoming launch notification', short:'PH upcoming launch sub', url:'https://www.producthunt.com/'},
+    {type:'page',  label:'Browsing: "Top SaaS tools this week" - your product featured', short:'PH weekly digest', url:'https://www.producthunt.com/'},
+  ],
+  github: [
+    {type:'page',  label:'Starred your open-source repo (2 min ago) - 843 stars total', short:'GitHub repo star', url:'https://github.com/'},
+    {type:'page',  label:'Opened an issue on your public repo - high intent signal', short:'GitHub issue opened', url:'https://github.com/'},
+    {type:'page',  label:'Forked your repo and is exploring your code', short:'GitHub repo fork', url:'https://github.com/'},
+    {type:'page',  label:'Clicked README link to your commercial product page', short:'GitHub README CTA click', url:'https://github.com/'},
+    {type:'page',  label:'Browsing your GitHub Discussions - asking product questions', short:'GitHub Discussions', url:'https://github.com/'},
+  ],
+  medium: [
+    {type:'page',  label:'Reading your Medium article: "How we closed $1M ARR"', short:'Medium article read', url:'https://medium.com/'},
+    {type:'page',  label:'Clapped 50x on your Medium post and clicked bio link', short:'Medium clap + bio click', url:'https://medium.com/'},
+    {type:'page',  label:'Subscribed to your Substack newsletter (just now)', short:'Substack subscribe', url:'https://substack.com/'},
+    {type:'page',  label:'Replied to your Substack post with a question', short:'Substack reply', url:'https://substack.com/'},
+    {type:'page',  label:'Shared your Medium article to LinkedIn (3 min ago)', short:'Medium share to LinkedIn', url:'https://medium.com/'},
+  ],
+  sms: [
+    {type:'page',  label:'Replied to SMS campaign: "Interested, tell me more"', short:'SMS campaign reply', url:'https://app.salesmsg.com/'},
+    {type:'page',  label:'Clicked SMS link to /demo page (30 sec ago)', short:'SMS link click', url:'https://app.salesmsg.com/'},
+    {type:'page',  label:'Opted in to SMS list from landing page', short:'SMS opt-in', url:'https://app.salesmsg.com/'},
+    {type:'page',  label:'Opened SMS 3x - has not replied yet (warm signal)', short:'SMS 3x open', url:'https://app.salesmsg.com/'},
+  ],
+  whatsapp: [
+    {type:'page',  label:'WhatsApp Broadcast: Opened your message (2 min ago)', short:'WhatsApp broadcast open', url:'https://business.whatsapp.com/'},
+    {type:'page',  label:'Replied to WhatsApp: "Can you send me pricing details?"', short:'WhatsApp pricing reply', url:'https://business.whatsapp.com/'},
+    {type:'group', label:'WhatsApp Group: "Tech Founders ZA" - mentioned your brand', short:'Tech Founders WA group', url:'https://business.whatsapp.com/'},
+    {type:'page',  label:'Clicked WhatsApp Click-to-Chat from your website', short:'WA website click-to-chat', url:'https://business.whatsapp.com/'},
+  ],
+  meta: [
+    {type:'page',  label:'Clicked Meta Lead Ad: filled in-app form (hot)', short:'Meta Lead Ad form fill', url:'https://www.facebook.com/adsmanager/'},
+    {type:'page',  label:'Watched 75% of your Instagram video ad - retarget now', short:'IG video ad 75% view', url:'https://www.facebook.com/adsmanager/'},
+    {type:'page',  label:'Engaged with your Facebook carousel ad (3 cards viewed)', short:'FB carousel ad engage', url:'https://www.facebook.com/adsmanager/'},
+    {type:'page',  label:'Clicked Messenger ad - opened chat (live conversation)', short:'Messenger ad click', url:'https://www.facebook.com/adsmanager/'},
+    {type:'page',  label:'Retargeted: Visited /pricing after seeing your FB ad', short:'FB retarget /pricing', url:'https://www.facebook.com/adsmanager/'},
+  ],
+  crm: [
+    {type:'session',label:'HubSpot: Contact re-opened your proposal email (live)', short:'HubSpot proposal open', url:'https://app.hubspot.com/'},
+    {type:'session',label:'Salesforce: Deal stage moved to "Evaluation" by prospect', short:'SF deal evaluation', url:'https://login.salesforce.com/'},
+    {type:'session',label:'Pipedrive: Contact clicked your quote link (2 min ago)', short:'Pipedrive quote click', url:'https://app.pipedrive.com/'},
+    {type:'session',label:'HubSpot: Lead score jumped from 42 to 91 in 10 minutes', short:'HubSpot score spike', url:'https://app.hubspot.com/'},
+    {type:'page',   label:'CRM: Contact last seen 90 days ago - reactivated today', short:'CRM re-engagement', url:'https://app.hubspot.com/'},
+  ],
+  review: [
+    {type:'page',  label:'G2: Left 5-star review and clicked "Similar Products"', short:'G2 review + browse', url:'https://www.g2.com/'},
+    {type:'page',  label:'Trustpilot: Reading your reviews page (4 min dwell time)', short:'Trustpilot review page', url:'https://www.trustpilot.com/'},
+    {type:'page',  label:'Capterra: Compared you vs 2 competitors - clicked your profile', short:'Capterra comparison', url:'https://www.capterra.com/'},
+    {type:'page',  label:'G2: Submitted a review request - actively evaluating', short:'G2 review submission', url:'https://www.g2.com/'},
+    {type:'page',  label:'GetApp: Viewed your listing and clicked "Get Pricing"', short:'GetApp pricing click', url:'https://www.getapp.com/'},
+  ],
+  community: [
+    {type:'group', label:'Indie Hackers: Posted "Looking for tool recommendations"', short:'Indie Hackers post', url:'https://www.indiehackers.com/'},
+    {type:'group', label:'GrowthHackers.com: Commented on your shared growth case study', short:'GrowthHackers.com', url:'https://growthhackers.com/'},
+    {type:'group', label:'Hacker News: "Ask HN" - mentioned your product positively', short:'Hacker News mention', url:'https://news.ycombinator.com/'},
+    {type:'group', label:'Circle.so community: New member - joined from your landing page', short:'Circle community join', url:'https://circle.so/'},
+    {type:'group', label:'Mighty Networks: Engaged in your branded community (active now)', short:'Mighty Networks community', url:'https://www.mightynetworks.com/'},
+  ],
+  newsletter: [
+    {type:'page',  label:'Newsletter: Opened and clicked every link (3 min ago)', short:'Newsletter full engage', url:'https://app.beehiiv.com/'},
+    {type:'page',  label:'Forwarded your newsletter to 3 colleagues this morning', short:'Newsletter forwarded', url:'https://app.beehiiv.com/'},
+    {type:'page',  label:'Replied to newsletter: "This is exactly what I needed"', short:'Newsletter reply', url:'https://app.beehiiv.com/'},
+    {type:'page',  label:'Upgraded from free to paid newsletter subscriber (live)', short:'Newsletter paid upgrade', url:'https://substack.com/'},
+    {type:'page',  label:'Clicked newsletter CTA to /demo - high intent signal', short:'Newsletter demo click', url:'https://app.beehiiv.com/'},
+  ],
+  affiliate: [
+    {type:'page',  label:'Affiliate link clicked: Partner sent warm referral (live)', short:'Affiliate link click', url:'https://app.partnerstack.com/'},
+    {type:'page',  label:'Partner portal: New referral submitted with notes', short:'Partner referral submit', url:'https://app.partnerstack.com/'},
+    {type:'page',  label:'Affiliate: Prospect visited /pricing from partner blog post', short:'Affiliate blog click', url:'https://app.partnerstack.com/'},
+    {type:'page',  label:'Reseller partner: Booked demo on behalf of their client', short:'Reseller demo booked', url:'https://app.partnerstack.com/'},
+  ],
+  chatbot: [
+    {type:'session',label:'Chatbot: Asked "What does pricing look like?" (live session)', short:'Chatbot pricing question', url:'https://app.intercom.com/'},
+    {type:'session',label:'Live Chat: Visitor requested human handoff - high intent', short:'Live chat handoff request', url:'https://app.intercom.com/'},
+    {type:'session',label:'Chatbot: Completed qualification flow - score 88/100', short:'Chatbot qual complete', url:'https://app.drift.com/'},
+    {type:'session',label:'Chatbot: Started demo booking flow (2 min ago)', short:'Chatbot demo flow start', url:'https://app.drift.com/'},
+    {type:'session',label:'Intercom: Visitor on /pricing opened chat after 90 sec', short:'Intercom pricing chat', url:'https://app.intercom.com/'},
+  ],
+  webinar: [
+    {type:'event', label:'On-Demand: Watching recorded webinar at 1.5x speed (high intent)', short:'On-demand webinar view', url:'https://app.livestorm.co/'},
+    {type:'event', label:'Registered for replay: "How to 10x B2B pipeline" (just now)', short:'Replay registration', url:'https://app.livestorm.co/'},
+    {type:'event', label:'Watched 90% of on-demand demo video - CTA clicked', short:'On-demand 90% watched', url:'https://www.wistia.com/'},
+    {type:'event', label:'Shared your on-demand webinar link with their team', short:'Webinar shared to team', url:'https://app.livestorm.co/'},
+    {type:'event', label:'Downloaded slides from last month webinar (2 min ago)', short:'Webinar slides download', url:'https://app.livestorm.co/'},
+  ],
+  amazon: [
+    {type:'page', label:'Browsing: Your product listing — viewed 3 images + reviews', short:'Amazon product listing', url:'https://sellercentral.amazon.com/'},
+    {type:'page', label:'Added to cart: Your product (has not checked out yet)', short:'Amazon cart add', url:'https://sellercentral.amazon.com/'},
+    {type:'page', label:'Left 5-star review mentioning specific feature', short:'Amazon 5-star review', url:'https://sellercentral.amazon.com/'},
+    {type:'page', label:'Clicked "Buy Again" — repeat buyer signal', short:'Amazon repeat buyer', url:'https://sellercentral.amazon.com/'},
+    {type:'page', label:'Asked a product question on your listing (just now)', short:'Amazon product Q&A', url:'https://sellercentral.amazon.com/'},
+    {type:'page', label:'Saved your product to a Wish List — intent signal', short:'Amazon Wish List save', url:'https://sellercentral.amazon.com/'},
+  ],
+  ebay: [
+    {type:'page', label:'Watching your eBay listing — placed a watch alert', short:'eBay listing watch', url:'https://www.ebay.com/sh/ovw'},
+    {type:'page', label:'Made an offer below asking price — actively negotiating', short:'eBay offer submitted', url:'https://www.ebay.com/sh/ovw'},
+    {type:'page', label:'Viewed your store 3x in last hour — high intent', short:'eBay store 3x view', url:'https://www.ebay.com/sh/ovw'},
+    {type:'page', label:'Sent a question via eBay Messages (1 min ago)', short:'eBay message received', url:'https://www.ebay.com/messages'},
+  ],
+  etsy: [
+    {type:'page', label:'Favorited your Etsy product — browsing and comparing', short:'Etsy product favorite', url:'https://www.etsy.com/your/shops/me/dashboard'},
+    {type:'page', label:'Added to cart on Etsy — has not purchased yet', short:'Etsy cart add', url:'https://www.etsy.com/your/shops/me/dashboard'},
+    {type:'page', label:'Sent a custom order request via Etsy Convo', short:'Etsy custom request', url:'https://www.etsy.com/your/shops/me/dashboard'},
+    {type:'page', label:'Left a 5-star Etsy review with photo (just now)', short:'Etsy photo review', url:'https://www.etsy.com/your/shops/me/dashboard'},
+  ],
+  shopify: [
+    {type:'session', label:'Session: Viewed 4 products, added 2 to cart — abandoning', short:'Shopify cart abandon', url:'https://admin.shopify.com/'},
+    {type:'page',    label:'Returned to complete abandoned cart (link clicked)', short:'Shopify cart recovery', url:'https://admin.shopify.com/'},
+    {type:'page',    label:'Reached checkout step 3 of 4 — payment page', short:'Shopify checkout step 3', url:'https://admin.shopify.com/'},
+    {type:'page',    label:'Repeat visitor: 4th session this week on same product', short:'Shopify 4x product view', url:'https://admin.shopify.com/'},
+    {type:'page',    label:'Clicked "Notify Me When Back In Stock" — hot buyer', short:'Shopify back-in-stock alert', url:'https://admin.shopify.com/'},
+    {type:'page',    label:'Used site search: typed "best deal" + your product category', short:'Shopify search intent', url:'https://admin.shopify.com/'},
+  ],
+  pinterest: [
+    {type:'page', label:'Pinned your product to "Things I Want to Buy" board', short:'Pinterest wish board pin', url:'https://ads.pinterest.com/'},
+    {type:'page', label:'Clicked your Pinterest Shopping ad to product page', short:'Pinterest shopping ad click', url:'https://ads.pinterest.com/'},
+    {type:'page', label:'Saved your pin 3x across different boards — repeat interest', short:'Pinterest 3x save', url:'https://ads.pinterest.com/'},
+    {type:'page', label:'Clicked "Shop" button on your promoted pin (live)', short:'Pinterest shop click', url:'https://ads.pinterest.com/'},
+  ],
+  bing: [
+    {type:'page', label:'Bing Shopping: Clicked your product listing — price compared', short:'Bing Shopping click', url:'https://ui.ads.microsoft.com/'},
+    {type:'page', label:'Bing search: "buy [your product] near me" — local intent', short:'Bing local buy intent', url:'https://ui.ads.microsoft.com/'},
+    {type:'page', label:'Bing Ads: Clicked your retargeting display banner', short:'Bing retarget click', url:'https://ui.ads.microsoft.com/'},
+    {type:'page', label:'Bing: Searched your brand name + "review" or "price"', short:'Bing brand + review search', url:'https://ui.ads.microsoft.com/'},
+  ],
+  gshop: [
+    {type:'page', label:'Google Shopping: Clicked your product — comparing with 3 others', short:'Google Shopping comparison', url:'https://merchants.google.com/'},
+    {type:'page', label:'Google Shopping: Added your product to Google Save list', short:'Google Save list', url:'https://merchants.google.com/'},
+    {type:'page', label:'Google: Searched "buy [product] online" — bottom funnel', short:'Google buy intent search', url:'https://merchants.google.com/'},
+    {type:'page', label:'Google Local: Clicked "Get Directions" to your store', short:'Google Local directions', url:'https://business.google.com/'},
+    {type:'page', label:'Google Maps: Viewed your listing + called (1 min ago)', short:'Google Maps call', url:'https://business.google.com/'},
+  ],
+  craigslist: [
+    {type:'page', label:'Craigslist: Replied to your ad — "Is this still available?"', short:'Craigslist ad reply', url:'https://www.craigslist.org/'},
+    {type:'page', label:'Craigslist: Viewed your listing 4x in 2 hours', short:'Craigslist 4x view', url:'https://www.craigslist.org/'},
+    {type:'page', label:'Facebook Marketplace: Sent a buying inquiry on your listing', short:'FB Marketplace inquiry', url:'https://www.facebook.com/marketplace/'},
+    {type:'page', label:'OfferUp: Made an offer on your listing (active)', short:'OfferUp offer made', url:'https://offerup.com/'},
+  ],
+  alibaba: [
+    {type:'page', label:'Alibaba: Sent RFQ — requesting bulk pricing on your product', short:'Alibaba RFQ submitted', url:'https://supplier.alibaba.com/'},
+    {type:'page', label:'Global Sources: Buyer requested samples (high intent)', short:'Global Sources sample request', url:'https://www.globalsources.com/'},
+    {type:'page', label:'Alibaba: Viewed your supplier page 3x — shortlisting vendors', short:'Alibaba supplier page view', url:'https://supplier.alibaba.com/'},
+    {type:'page', label:'Made in China: Sent trade inquiry message (live)', short:'MIC trade inquiry', url:'https://www.made-in-china.com/'},
+  ],
+  wayfair: [
+    {type:'page', label:'Wayfair: Saved your item to "My Ideas" wishlist', short:'Wayfair wishlist save', url:'https://partners.wayfair.com/'},
+    {type:'page', label:'Wayfair: Returned to view the same product 5th time', short:'Wayfair 5x product view', url:'https://partners.wayfair.com/'},
+    {type:'page', label:'Houzz: Bookmarked your product in a mood board project', short:'Houzz mood board save', url:'https://www.houzz.com/pro'},
+  ],
+  walmart: [
+    {type:'page', label:'Walmart: Added to cart — price-checking vs Amazon', short:'Walmart cart add', url:'https://sellerportal.walmart.com/'},
+    {type:'page', label:'Walmart: Searched your brand — clicked your listing #1', short:'Walmart brand search', url:'https://sellerportal.walmart.com/'},
+    {type:'page', label:'Walmart+: Member clicked your free shipping product offer', short:'Walmart+ member click', url:'https://sellerportal.walmart.com/'},
+  ],
+  houzz: [
+    {type:'page', label:'Houzz: Pro request — "Request a Quote" submitted (live)', short:'Houzz quote request', url:'https://www.houzz.com/pro'},
+    {type:'page', label:'Houzz: Saved your project photo to their ideabook', short:'Houzz ideabook save', url:'https://www.houzz.com/pro'},
+    {type:'page', label:'Houzz: Viewed your profile + reviews (3 min dwell)', short:'Houzz profile + reviews', url:'https://www.houzz.com/pro'},
+  ],
+  thumbtack: [
+    {type:'page', label:'Thumbtack: Customer posted a job matching your services', short:'Thumbtack job posted', url:'https://pro.thumbtack.com/'},
+    {type:'page', label:'Thumbtack: Viewed your profile after seeing your quote', short:'Thumbtack profile view', url:'https://pro.thumbtack.com/'},
+    {type:'page', label:'Thumbtack: Customer sent a direct hire request (live)', short:'Thumbtack direct hire', url:'https://pro.thumbtack.com/'},
+  ],
+  angi: [
+    {type:'page', label:'Angi: New lead submitted in your service area (1 min ago)', short:'Angi new lead', url:'https://pro.angi.com/'},
+    {type:'page', label:'HomeAdvisor: Customer requested quotes from 3 pros including you', short:'HomeAdvisor quote request', url:'https://pro.angi.com/'},
+    {type:'page', label:'Angi: Customer left a review + wants follow-up work', short:'Angi review + follow-up', url:'https://pro.angi.com/'},
+  ],
+  yelp: [
+    {type:'page', label:'Yelp: User viewed your business + clicked "Call" button', short:'Yelp call click', url:'https://biz.yelp.com/'},
+    {type:'page', label:'Yelp Ads: Clicked your sponsored listing — high local intent', short:'Yelp sponsored click', url:'https://biz.yelp.com/'},
+    {type:'page', label:'Yelp: Request a Quote submitted from your listing', short:'Yelp quote request', url:'https://biz.yelp.com/'},
+    {type:'page', label:'Yelp: User bookmarked your business to visit later', short:'Yelp bookmark', url:'https://biz.yelp.com/'},
+  ],
+  tripadvisor: [
+    {type:'page', label:'TripAdvisor: Viewed your listing + clicked booking link', short:'TripAdvisor booking click', url:'https://www.tripadvisor.com/Owners'},
+    {type:'page', label:'TripAdvisor: Left a review and asked a follow-up question', short:'TripAdvisor review + question', url:'https://www.tripadvisor.com/Owners'},
+    {type:'page', label:'TripAdvisor: Saved your business to their trip plan', short:'TripAdvisor trip plan save', url:'https://www.tripadvisor.com/Owners'},
+  ],
+  booking: [
+    {type:'page', label:'Booking.com: Viewed your property 6x — comparing options', short:'Booking.com 6x view', url:'https://account.booking.com/'},
+    {type:'page', label:'Booking.com: Started checkout — entered dates + guest count', short:'Booking checkout started', url:'https://account.booking.com/'},
+    {type:'page', label:'Booking.com: Sent a property question (just now)', short:'Booking.com property question', url:'https://account.booking.com/'},
+  ],
+  zillow: [
+    {type:'page', label:'Zillow: Saved your listing to Favorites — ready to buy', short:'Zillow listing favorited', url:'https://www.zillow.com/premier-agent/'},
+    {type:'page', label:'Zillow: Clicked "Request a Tour" button on your listing', short:'Zillow tour request', url:'https://www.zillow.com/premier-agent/'},
+    {type:'page', label:'Zillow: Viewed your listing 8x in last 48 hours', short:'Zillow 8x listing view', url:'https://www.zillow.com/premier-agent/'},
+    {type:'page', label:'Realtor.com: Sent an agent inquiry from your listing', short:'Realtor.com agent inquiry', url:'https://www.realtor.com/'},
+  ],
+  autotrader: [
+    {type:'page', label:'AutoTrader: Saved your vehicle listing — comparing 4 cars', short:'AutoTrader saved listing', url:'https://www.autotrader.com/'},
+    {type:'page', label:'Cars.com: Clicked "Get a Price Quote" on your vehicle', short:'Cars.com price quote', url:'https://www.cars.com/'},
+    {type:'page', label:'CarGurus: Viewed your listing + dealer rating (5 min dwell)', short:'CarGurus listing view', url:'https://www.cargurus.com/'},
+    {type:'page', label:'AutoTrader: Submitted a test drive request (live)', short:'AutoTrader test drive', url:'https://www.autotrader.com/'},
+  ],
+  linkedin_jobs: [
+    {type:'page', label:'LinkedIn: Applied to your job posting — talent pipeline lead', short:'LinkedIn job applicant', url:'https://www.linkedin.com/talent/'},
+    {type:'page', label:'LinkedIn: Recruiter viewed your company + open roles', short:'LinkedIn recruiter view', url:'https://www.linkedin.com/talent/'},
+    {type:'page', label:'LinkedIn Jobs: "Easy Apply" submitted — hot candidate', short:'LinkedIn Easy Apply', url:'https://www.linkedin.com/talent/'},
+  ],
+  indeed: [
+    {type:'page', label:'Indeed: Applied to your posting — resume attached', short:'Indeed application', url:'https://employers.indeed.com/'},
+    {type:'page', label:'Indeed: Sponsored job — 14 clicks today, 3 applications', short:'Indeed sponsored job clicks', url:'https://employers.indeed.com/'},
+    {type:'page', label:'Glassdoor: Candidate reviewed your company + applied', short:'Glassdoor review + apply', url:'https://www.glassdoor.com/employers/'},
+  ],
+  fiverr: [
+    {type:'page', label:'Fiverr: Buyer sent a custom order request to your gig', short:'Fiverr custom order request', url:'https://www.fiverr.com/'},
+    {type:'page', label:'Fiverr: Viewed your gig portfolio 3x — comparing sellers', short:'Fiverr gig 3x view', url:'https://www.fiverr.com/'},
+    {type:'page', label:'Fiverr: Buyer started a conversation in inbox (live)', short:'Fiverr inbox message', url:'https://www.fiverr.com/'},
+  ],
+  upwork: [
+    {type:'page', label:'Upwork: Client posted a job matching your exact skills', short:'Upwork job posting match', url:'https://www.upwork.com/'},
+    {type:'page', label:'Upwork: Client invited you to submit a proposal (live)', short:'Upwork direct invite', url:'https://www.upwork.com/'},
+    {type:'page', label:'Upwork: Client viewed your profile after your proposal', short:'Upwork proposal profile view', url:'https://www.upwork.com/'},
+  ],
+  coursera: [
+    {type:'page', label:'Coursera: Enrolled in your course — ready to upsell certificate', short:'Coursera enrollment', url:'https://www.coursera.org/'},
+    {type:'page', label:'Coursera: Completed 80% of your course — prime upsell moment', short:'Coursera 80% complete', url:'https://www.coursera.org/'},
+    {type:'page', label:'Teachable: Student purchased intro — browsing premium bundle', short:'Teachable premium browse', url:'https://www.teachable.com/'},
+  ],
+  udemy: [
+    {type:'page', label:'Udemy: Student left a 5-star review + wants advanced course', short:'Udemy 5-star + next course', url:'https://www.udemy.com/'},
+    {type:'page', label:'Udemy: Watched your free preview — has not enrolled yet', short:'Udemy free preview watch', url:'https://www.udemy.com/'},
+    {type:'page', label:'Kajabi: Student in free trial — visited upgrade page (live)', short:'Kajabi trial upgrade page', url:'https://app.kajabi.com/'},
+  ],
+  airbnb: [
+    {type:'page', label:'Airbnb: Guest sent a booking inquiry — high buy intent', short:'Airbnb booking inquiry', url:'https://www.airbnb.com/hosting'},
+    {type:'page', label:'Airbnb: Saved your listing to a wishlist', short:'Airbnb wishlist save', url:'https://www.airbnb.com/hosting'},
+    {type:'page', label:'Vrbo: Guest viewed your property 5x in 24 hours', short:'Vrbo 5x property view', url:'https://www.vrbo.com/'},
+  ],
+  doordash: [
+    {type:'page', label:'DoorDash: Customer reordered from your menu (loyal buyer)', short:'DoorDash repeat order', url:'https://merchant.doordash.com/'},
+    {type:'page', label:'DoorDash: Browsed your menu for 4 min — no order yet', short:'DoorDash menu browse', url:'https://merchant.doordash.com/'},
+    {type:'page', label:'Uber Eats: Viewed your restaurant + clicked a popular item', short:'Uber Eats item click', url:'https://restaurant.uber.com/'},
+  ],
+  grubhub: [
+    {type:'page', label:'Grubhub: Added items to cart — checking delivery time', short:'Grubhub cart add', url:'https://restaurant.grubhub.com/'},
+    {type:'page', label:'Grubhub: Favorite restaurant — just opened your menu again', short:'Grubhub menu reopen', url:'https://restaurant.grubhub.com/'},
+  ],
+  instacart: [
+    {type:'page', label:'Instacart: Customer searching your brand — clicked your products', short:'Instacart brand search click', url:'https://instacart.com/'},
+    {type:'page', label:'Instacart: Added 6 of your products to their cart (live)', short:'Instacart cart 6 products', url:'https://instacart.com/'},
+  ],
+  clubhouse: [
+    {type:'event', label:'Clubhouse Room: "Best ways to find buyers in 2025" — active listener', short:'Clubhouse buying room', url:'https://www.clubhouse.com/'},
+    {type:'event', label:'Clubhouse: Raised hand in your brand-hosted room', short:'Clubhouse raised hand', url:'https://www.clubhouse.com/'},
+  ],
+  snapchat: [
+    {type:'page', label:'Snapchat: Swiped up on your product story ad', short:'Snapchat story swipe-up', url:'https://ads.snapchat.com/'},
+    {type:'page', label:'Snapchat: Viewed your collection ad — clicked product', short:'Snapchat collection ad click', url:'https://ads.snapchat.com/'},
+    {type:'page', label:'Snapchat: AR lens tried your product virtually (high intent)', short:'Snapchat AR try-on', url:'https://ads.snapchat.com/'},
+  ],
+  nextdoor: [
+    {type:'page',  label:'Nextdoor: Neighbor recommended your business (just now)', short:'Nextdoor recommendation', url:'https://business.nextdoor.com/'},
+    {type:'page',  label:'Nextdoor: Local post asking for your type of service', short:'Nextdoor service request', url:'https://business.nextdoor.com/'},
+    {type:'page',  label:'Nextdoor Ads: Neighbor clicked your neighborhood promo', short:'Nextdoor ad click', url:'https://business.nextdoor.com/'},
+  ],
+  meetup: [
+    {type:'event', label:'Meetup: RSVP to your local business networking event', short:'Meetup RSVP', url:'https://www.meetup.com/'},
+    {type:'event', label:'Meetup: Attended your last 3 events — repeat attendee', short:'Meetup 3x attendee', url:'https://www.meetup.com/'},
+    {type:'event', label:'Eventbrite: Ticket purchased for your paid workshop', short:'Eventbrite ticket purchase', url:'https://www.eventbrite.com/'},
+  ],
+  crunchbase: [
+    {type:'page', label:'Crunchbase: Investor viewed your company profile (3 min ago)', short:'Crunchbase investor view', url:'https://www.crunchbase.com/'},
+    {type:'page', label:'Crunchbase: Competitor researcher added you to a list', short:'Crunchbase list added', url:'https://www.crunchbase.com/'},
+    {type:'page', label:'Crunchbase Pro: VC downloaded your company summary PDF', short:'Crunchbase PDF download', url:'https://www.crunchbase.com/'},
+  ],
+  angelist: [
+    {type:'page', label:'AngelList: Investor bookmarked your startup profile', short:'AngelList investor bookmark', url:'https://wellfound.com/'},
+    {type:'page', label:'Wellfound: Job seeker applied to your startup role', short:'Wellfound job application', url:'https://wellfound.com/'},
+    {type:'page', label:'AngelList: VC firm viewed your funding round details', short:'AngelList VC view', url:'https://wellfound.com/'},
+  ],
+  gartner: [
+    {type:'page', label:'Gartner Peer Insights: Enterprise buyer read your reviews', short:'Gartner Peer Insights read', url:'https://www.gartner.com/'},
+    {type:'page', label:'Forrester Wave: Analyst requested your product briefing', short:'Forrester briefing request', url:'https://www.forrester.com/'},
+    {type:'page', label:'Gartner: Listed in Magic Quadrant — buyer clicked your profile', short:'Gartner MQ profile click', url:'https://www.gartner.com/'},
+  ],
+  techcrunch: [
+    {type:'page', label:'TechCrunch: Article about your company — traffic spike live', short:'TechCrunch article traffic', url:'https://techcrunch.com/'},
+    {type:'page', label:'Press release: Picked up by 14 outlets — inbound spike', short:'Press release pickup', url:'https://www.prnewswire.com/'},
+    {type:'page', label:'Product Hunt launch: Featured in morning newsletter digest', short:'PH newsletter feature', url:'https://www.producthunt.com/'},
+  ],
+  typeform: [
+    {type:'page', label:'Typeform: Lead survey completed — 8/10 buying intent score', short:'Typeform survey complete', url:'https://admin.typeform.com/'},
+    {type:'page', label:'Jotform: Quote request form submitted (just now)', short:'Jotform quote request', url:'https://www.jotform.com/'},
+    {type:'page', label:'Typeform: NPS survey — rated 9/10, asked about upgrading', short:'Typeform NPS 9/10', url:'https://admin.typeform.com/'},
+  ],
+  calendly: [
+    {type:'page', label:'Calendly: Booked a discovery call — 2 days from now', short:'Calendly discovery call booked', url:'https://calendly.com/event_types/user/me'},
+    {type:'page', label:'Calendly: Viewed your booking page 3x without booking', short:'Calendly 3x page view', url:'https://calendly.com/event_types/user/me'},
+    {type:'page', label:'Calendly: Rescheduled call — still engaged, different time', short:'Calendly reschedule', url:'https://calendly.com/event_types/user/me'},
+  ],
+  drift: [
+    {type:'session', label:'Drift: Completed bot qualification — score 94/100 (live)', short:'Drift qualification 94', url:'https://app.drift.com/'},
+    {type:'session', label:'Drift: Requested to talk to sales via conversational flow', short:'Drift sales request', url:'https://app.drift.com/'},
+    {type:'session', label:'Drift: Visitor on /pricing opened chat — asking about plan', short:'Drift pricing chat open', url:'https://app.drift.com/'},
+  ],
+  apollo: [
+    {type:'page', label:'Apollo.io: Prospect opened your tracked email 4x today', short:'Apollo email 4x open', url:'https://app.apollo.io/'},
+    {type:'page', label:'Apollo: Lead clicked your email link to /pricing (live)', short:'Apollo link to pricing', url:'https://app.apollo.io/'},
+    {type:'page', label:'Apollo: Sequence step completed — hot reply detected', short:'Apollo sequence reply', url:'https://app.apollo.io/'},
+  ],
+  zoominfo: [
+    {type:'page', label:'ZoomInfo Intent: Company surging on your category keywords', short:'ZoomInfo intent surge', url:'https://app.zoominfo.com/'},
+    {type:'page', label:'ZoomInfo: Contact researched your competitors this week', short:'ZoomInfo competitor research', url:'https://app.zoominfo.com/'},
+    {type:'page', label:'ZoomInfo WebSights: Identified anonymous visitor from Fortune 500', short:'ZoomInfo Fortune 500 visitor', url:'https://app.zoominfo.com/'},
+  ],
+  salesforce: [
+    {type:'session', label:'Pardot: Lead score jumped 40pts — triggered sales alert', short:'Pardot score spike', url:'https://login.salesforce.com/'},
+    {type:'session', label:'Salesforce: Opportunity moved to "Decision" stage by prospect', short:'SF Decision stage', url:'https://login.salesforce.com/'},
+    {type:'session', label:'Marketing Cloud: Email journey completed — CTA clicked', short:'SFMC journey CTA', url:'https://login.salesforce.com/'},
+  ],
+  hubspot_mkt: [
+    {type:'session', label:'HubSpot: Lifecycle stage auto-updated to SQL (just now)', short:'HubSpot SQL upgrade', url:'https://app.hubspot.com/'},
+    {type:'session', label:'HubSpot: Contact visited /pricing 3x — workflow triggered', short:'HubSpot pricing workflow', url:'https://app.hubspot.com/'},
+    {type:'page',    label:'HubSpot: Form submitted on gated content — MQL created', short:'HubSpot MQL form', url:'https://app.hubspot.com/'},
+  ],
+  semrush: [
+    {type:'page', label:'SEMrush: Competitor gap — prospect searching your keywords now', short:'SEMrush competitor gap', url:'https://www.semrush.com/'},
+    {type:'page', label:'Ahrefs: Your branded keyword spiking — 38% more searches today', short:'Branded keyword spike', url:'https://ahrefs.com/'},
+    {type:'page', label:'Google Search Console: New query "buy [your product]" trending', short:'GSC buy intent query', url:'https://search.google.com/search-console/'},
+  ],
+  clearbit: [
+    {type:'session', label:'Clearbit Reveal: Identified Fortune 500 visitor on /pricing now', short:'Clearbit F500 on /pricing', url:'https://clearbit.com/'},
+    {type:'session', label:'Clearbit: Anonymous visitor de-anonymized — VP of Sales at TechCo', short:'Clearbit VP Sales identified', url:'https://clearbit.com/'},
+    {type:'session', label:'Clearbit Enrichment: New lead auto-enriched — 87 data points', short:'Clearbit lead enriched', url:'https://clearbit.com/'},
+  ],
+  bombora: [
+    {type:'page', label:'Bombora: Company surging 340% on "B2B software" intent topic', short:'Bombora 340% surge', url:'https://bombora.com/'},
+    {type:'page', label:'Bombora: Prospect company in active research phase — act now', short:'Bombora research phase', url:'https://bombora.com/'},
+    {type:'page', label:'Bombora: Intent cluster — 6 employees researching your category', short:'Bombora 6-person cluster', url:'https://bombora.com/'},
+  ],
+  demandbase: [
+    {type:'page', label:'6sense: Account in "Decision" stage of buying journey (live)', short:'6sense Decision stage', url:'https://6sense.com/'},
+    {type:'page', label:'Demandbase: Target account hit 92 engagement score this week', short:'Demandbase 92 score', url:'https://www.demandbase.com/'},
+    {type:'page', label:'6sense: Predicted purchase date within 30 days — act now', short:'6sense 30-day prediction', url:'https://6sense.com/'},
+  ],
+  g2crowd: [
+    {type:'page', label:'G2: Buyer in "Evaluating" stage read 9 of your reviews', short:'G2 evaluation read', url:'https://sell.g2.com/'},
+    {type:'page', label:'G2: "Get Pricing" button clicked from your category page', short:'G2 pricing CTA click', url:'https://sell.g2.com/'},
+    {type:'page', label:'G2: Buyer compared you vs 3 competitors — spent 8 min on your page', short:'G2 competitor comparison', url:'https://sell.g2.com/'},
+    {type:'page', label:'G2 Buyer Intent: Target account showing 5 buying signals', short:'G2 intent 5 signals', url:'https://sell.g2.com/'},
+  ],
+  trustpilot: [
+    {type:'page', label:'Trustpilot: Potential buyer read 12 reviews — spent 6 minutes', short:'Trustpilot 12 reviews read', url:'https://business.trustpilot.com/'},
+    {type:'page', label:'Trustpilot: Left a 5-star review + asked about premium plan', short:'Trustpilot 5-star + upgrade', url:'https://business.trustpilot.com/'},
+    {type:'page', label:'Trustpilot: Flagged a concern in review — needs urgent reply', short:'Trustpilot concern flagged', url:'https://business.trustpilot.com/'},
+  ],
+};
+
+/* ---- Approach playbooks — dynamically injected with live location ---- */
+var APPROACH_TEMPLATES = [
+  {
+    channelId: 'linkedin',
+    name: 'LinkedIn Approach',
+    icon: 'LI', color: '#0a66c2', badge: 'ACT NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Find them right now', d: 'They are currently in <strong>' + loc.label + '</strong>. Navigate there immediately before the window closes.'},
+        {t: 'Warm engagement first', d: 'If in a group: <strong>comment on a post they liked or made</strong> in that group. Do not DM yet. Let them notice you organically.'},
+        {t: 'Context-aware connection note', d: 'Reference the exact location: <strong>"I saw you in ' + loc.short + ' — your comment on [X] resonated."</strong> Max 200 chars.'},
+        {t: 'Value DM within 24h', d: 'After they accept, send a <strong>specific insight tied to what they were reading or discussing</strong> in that location. No pitch.'},
+        {t: 'Soft CTA (Day 5)', d: '<strong>"Given what you were exploring in ' + loc.short + ', would a 15-min chat make sense?"</strong> One time slot. Low commitment.'},
+      ];
+    },
+    cta: 'Open LinkedIn Now', ctaBg: '#0a66c2'
+  },
+  {
+    channelId: 'email',
+    name: 'Email Approach',
+    icon: 'EM', color: '#ff6b35', badge: 'TRIGGER NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Immediate trigger detected', d: 'Signal: <strong>' + loc.label + '</strong>. This is a high-intent moment — respond within 5 minutes for best results.'},
+        {t: 'Personalize to exact action', d: 'Open with: <strong>"I noticed you [specific action from ' + loc.short + ']"</strong> — this specificity boosts reply rates by 3x.'},
+        {t: 'One insight, not a pitch', d: 'Share <strong>one relevant stat or case study</strong> tied to what they engaged with. No product mention in email 1.'},
+        {t: 'Next email — social proof', d: 'Day 3: Send a <strong>case study from a company identical to ' + lead.company + '</strong> in size and industry.'},
+        {t: 'Hard CTA at Day 7', d: 'If they opened emails 2x+: <strong>direct booking link with urgency frame</strong>. "Spots filling this week."'},
+      ];
+    },
+    cta: 'Send Email Now', ctaBg: '#ff6b35'
+  },
+  {
+    channelId: 'website',
+    name: 'Website Intercept',
+    icon: 'WB', color: '#00e5ff', badge: 'LIVE SESSION', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'They are on-site RIGHT NOW', d: '<strong>Active session detected: ' + loc.label + '</strong>. This is the highest-intent moment possible.'},
+        {t: 'Fire personalized chat NOW', d: 'Trigger live chat: <strong>"Hey, I saw you exploring ' + loc.short + ' — can I answer anything specific?"</strong> Use their company name if known.'},
+        {t: 'Route to SDR in under 60 sec', d: 'Score is ' + lead.score + '/100. <strong>Alert the nearest available rep immediately.</strong> Brief them on pages visited: ' + loc.short + '.'},
+        {t: 'If they leave — retarget', d: 'Launch <strong>LinkedIn + Google retargeting ad</strong> within 15 min of session end. Use copy referencing ' + loc.short + '.'},
+        {t: 'Follow-up email within 1h', d: '<strong>Send a personalized email referencing their ' + loc.short + ' visit.</strong> Include one case study from their industry: ' + lead.industry + '.'},
+      ];
+    },
+    cta: 'Open Live Chat Now', ctaBg: '#0097a7'
+  },
+  {
+    channelId: 'referral',
+    name: 'Referral Approach',
+    icon: 'RF', color: '#7fff6b', badge: 'WARM INTRO', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Source identified', d: 'This lead came via <strong>' + loc.label + '</strong>. Warm leads convert 4x higher — act within 60 minutes.'},
+        {t: 'Contact within 1 hour', d: '<strong>Speed is everything with referrals.</strong> Reach out immediately via the same channel they came from: ' + loc.short + '.'},
+        {t: 'Mention the referral source', d: 'Open with: <strong>"[Referrer name] mentioned you — they thought [specific reason] would resonate with you."</strong>'},
+        {t: 'Personalize to their role', d: lead.role + ' at ' + lead.company + ': frame your message around <strong>outcomes for their seniority level</strong> in the ' + lead.industry + ' space.'},
+        {t: 'Close the loop with referrer', d: '<strong>Notify the referrer you reached out</strong> — this encourages repeat referrals and keeps the relationship warm.'},
+      ];
+    },
+    cta: 'Reach Out Now', ctaBg: '#43a047'
+  },
+  {
+    channelId: 'google',
+    name: 'Ad Lead Intercept',
+    icon: 'AD', color: '#d4ff3d', badge: 'HIGH INTENT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Ad click source', d: 'They found you via: <strong>' + loc.label + '</strong>. The query reveals their exact pain point — use it.'},
+        {t: 'Match landing page to intent', d: 'Ensure the page they landed on directly answers <strong>what the ad promised.</strong> Mismatch = immediate bounce.'},
+        {t: 'Fire retargeting within 5 min', d: 'If they left without converting: <strong>launch LinkedIn retargeting ad immediately</strong> with social proof for ' + lead.industry + ' companies.'},
+        {t: 'SDR follow-up call', d: 'For score ' + lead.score + '+: <strong>call within 30 minutes of the click.</strong> Reference the search term they used from ' + loc.short + '.'},
+        {t: 'Email sequence trigger', d: '<strong>Add to bottom-funnel email sequence immediately.</strong> Day 1 email subject should mirror the search intent from ' + loc.short + '.'},
+      ];
+    },
+    cta: 'Launch Retargeting', ctaBg: '#9e9d24'
+  },
+  {
+    channelId: 'twitter',
+    name: 'Social Intercept',
+    icon: 'TW', color: '#1d9bf0', badge: 'ENGAGE NOW', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Activity spotted', d: 'They are active on: <strong>' + loc.label + '</strong>. Engage while they are still in that context.'},
+        {t: 'Reply in the same thread/space', d: 'If in a Twitter Space or thread: <strong>add a valuable comment or question</strong> — not a pitch. Be the smartest voice in the room.'},
+        {t: 'Follow + DM within 10 min', d: 'Follow their account, then DM: <strong>"Caught your activity in ' + loc.short + ' — your take on [X] was sharp."</strong>'},
+        {t: 'Bridge to LinkedIn', d: 'After Twitter engagement: <strong>send a LinkedIn connection request within 24h</strong> referencing the Twitter interaction as context.'},
+        {t: 'Nurture over 7 days', d: 'Engage with their content daily for 7 days before sending any CTA. <strong>Build familiarity before asking for anything.</strong>'},
+      ];
+    },
+    cta: 'Engage on Twitter', ctaBg: '#1565c0'
+  },
+  {
+    channelId: 'events',
+    name: 'Event Lead Approach',
+    icon: 'EV', color: '#d0a0ff', badge: 'HOT WINDOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Caught live at event', d: 'Status: <strong>' + loc.label + '</strong>. Event leads have a 48-hour peak window — every minute counts.'},
+        {t: 'Engage during event', d: 'If webinar/live event: <strong>message them via the event chat or Q&A</strong> with a relevant insight — not a pitch.'},
+        {t: 'Within 1h post-event outreach', d: 'Email subject: <strong>"Your question during ' + loc.short + '"</strong> — reference something specific they said or asked. Response rates spike 60%.'},
+        {t: 'LinkedIn connect same day', d: 'Send connection with note: <strong>"Also attended ' + loc.short + ' — your perspective on [X] stood out."</strong>'},
+        {t: 'Follow-up Day 2 — offer value', d: 'Send the <strong>event recording + a one-page cheat sheet</strong> tailored to ' + lead.role + 's in ' + lead.industry + '.'},
+      ];
+    },
+    cta: 'Send Event Follow-Up', ctaBg: '#7b1fa2'
+  },
+  {
+    channelId: 'cold',
+    name: 'Cold Outreach Pivot',
+    icon: 'CO', color: '#ff3d5a', badge: 'SIGNAL LIVE', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Intent signal detected', d: 'Cold lead just showed interest: <strong>' + loc.label + '</strong>. This changes your approach entirely — warm them now.'},
+        {t: 'Pivot from cold to warm', d: 'Reference the signal explicitly: <strong>"I noticed you ' + loc.short + ' — most people only do that when they\'re actively evaluating options."</strong>'},
+        {t: 'Phone call within 15 min', d: '<strong>Call now — this is the highest-intent window in a cold sequence.</strong> Lead with the observation, not your pitch.'},
+        {t: 'If no answer — email immediately', d: 'Subject: <strong>"Saw your activity just now"</strong> — reference ' + loc.short + '. One sentence. One question. No pitch.'},
+        {t: 'LinkedIn follow-up within 1h', d: '<strong>Send LinkedIn message referencing the signal.</strong> "Noticed you [action] — happy to answer any questions directly."'},
+      ];
+    },
+    cta: 'Call Now', ctaBg: '#c62828'
+  },
+  {
+    channelId: 'youtube',
+    name: 'Video Lead Capture',
+    icon: 'YT', color: '#ff4444', badge: 'CONTENT WARM', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Content engagement detected', d: 'Activity: <strong>' + loc.label + '</strong>. Content-warmed leads convert at 2x the rate of cold outreach.'},
+        {t: 'Retarget via YouTube ads', d: '<strong>Launch a targeted YouTube pre-roll ad</strong> to their viewer profile within 1 hour. Use testimonial-style creative.'},
+        {t: 'LinkedIn match and outreach', d: 'Match their email to LinkedIn. <strong>Send DM referencing the content: "Saw you engaged with our ' + loc.short + '."</strong>'},
+        {t: 'Lead magnet follow-up', d: 'Offer a <strong>free resource tied to the video topic</strong> in exchange for a discovery call. Lower barrier than direct sales ask.'},
+        {t: 'Add to nurture sequence', d: '<strong>Email sequence starting with the video topic</strong> as subject line. Personalize to ' + lead.role + ' at ' + lead.company + '.'},
+      ];
+    },
+    cta: 'Launch Retargeting', ctaBg: '#b71c1c'
+  },
+  {
+    channelId: 'podcast',
+    name: 'Podcast Lead Approach',
+    icon: 'PD', color: '#ff9500', badge: 'BRAND WARM', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Podcast touchpoint', d: 'They interacted via: <strong>' + loc.label + '</strong>. Podcast audiences have the highest brand trust of any channel.'},
+        {t: 'Email via show notes CTA', d: 'If they clicked a show notes link: <strong>trigger immediate email referencing the specific episode</strong> and guest insight.'},
+        {t: 'LinkedIn outreach with episode hook', d: 'Message: <strong>"Noticed you engaged with ' + loc.short + ' — curious what your take was on [episode topic]."</strong>'},
+        {t: 'Invite to next live episode', d: '<strong>Offer an exclusive listener invite</strong> to your next live recording or Q&A session. Deepens the relationship.'},
+        {t: 'Nurture with related content', d: 'Send <strong>2 more related podcast episodes or blog posts</strong> before any sales CTA. Build authority first.'},
+      ];
+    },
+    cta: 'Send Podcast Follow-Up', ctaBg: '#e65100'
+  },
+  {
+    channelId: 'reddit',
+    name: 'Reddit Intercept',
+    icon: 'RD', color: '#ff4500', badge: 'ACT NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'Find their thread now', d: 'They are active on <strong>' + loc.label + '</strong>. Open the subreddit immediately — Reddit activity windows last minutes.'},
+      {t: 'Post a genuine answer', d: '<strong>Answer their question directly</strong> in the thread — no product mention. Be the most helpful comment.'},
+      {t: 'Soft mention if relevant', d: 'If the conversation fits naturally: <strong>"We built something for exactly this — happy to share if useful."</strong> Let them ask.'},
+      {t: 'Reddit DM follow-up', d: 'After your comment gets upvotes: <strong>DM them referencing your comment.</strong> "Expanded on my answer — thought this might help."'},
+      {t: 'Bridge to LinkedIn', d: '<strong>Find them on LinkedIn within 24h.</strong> Reference the Reddit thread as your opener.'},
+    ]; },
+    cta: 'Open Reddit Now', ctaBg: '#ff4500'
+  },
+  {
+    channelId: 'facebook',
+    name: 'Facebook Group Approach',
+    icon: 'FB', color: '#1877f2', badge: 'ENGAGE', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Join the group now', d: 'They are active in <strong>' + loc.label + '</strong>. Navigate there and engage while they are still online.'},
+      {t: 'Comment on their post', d: '<strong>Add value to whatever they posted or commented on.</strong> Tag them naturally in your response.'},
+      {t: 'Facebook Messenger DM', d: 'After group engagement: <strong>send a short DM referencing your group interaction.</strong> Keep it 2 sentences max.'},
+      {t: 'Retarget with Meta ad', d: 'Add them to a <strong>Custom Audience and serve a testimonial ad</strong> from a company in their industry within 1 hour.'},
+      {t: 'Email follow-up if known', d: 'If you have their email: <strong>send within 4 hours referencing the Facebook group discussion.</strong>'},
+    ]; },
+    cta: 'Open Facebook Now', ctaBg: '#1877f2'
+  },
+  {
+    channelId: 'instagram',
+    name: 'Instagram Approach',
+    icon: 'IG', color: '#e1306c', badge: 'ENGAGE', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Signal detected', d: 'They just triggered: <strong>' + loc.label + '</strong>. Instagram leads respond best within 10 minutes.'},
+      {t: 'Engage their content first', d: '<strong>Like their last 2 posts and leave a genuine comment</strong> before sending any DM.'},
+      {t: 'Instagram DM — short opener', d: 'DM: <strong>"Noticed you [action from ' + loc.short + '] — had a question about your thoughts on [relevant topic]."</strong>'},
+      {t: 'Send a voice note DM', d: '<strong>Voice notes on Instagram get 3x higher open rates</strong> than text DMs. Keep it under 30 seconds. Conversational.'},
+      {t: 'Bridge to email or call', d: 'Once they reply: <strong>move to email or WhatsApp</strong> for the actual conversation. Keep Instagram for relationship building.'},
+    ]; },
+    cta: 'Open Instagram Now', ctaBg: '#e1306c'
+  },
+  {
+    channelId: 'tiktok',
+    name: 'TikTok Approach',
+    icon: 'TT', color: '#69c9d0', badge: 'WARM', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Content engagement detected', d: 'Signal: <strong>' + loc.label + '</strong>. TikTok followers convert when followed up on the same platform first.'},
+      {t: 'Reply to their comment', d: '<strong>If they commented: reply directly in the comments</strong> — public engagement builds trust with their audience too.'},
+      {t: 'TikTok DM', d: 'Follow their account then DM: <strong>"Saw you engaged with our content — curious what you found most useful?"</strong>'},
+      {t: 'Offer a resource', d: 'Send a <strong>free resource directly related to the video they watched</strong> — template, checklist, or guide. No sales ask.'},
+      {t: 'Bridge to LinkedIn or email', d: '<strong>Move the conversation off TikTok ASAP.</strong> "I have something more detailed — easier to share over email."'},
+    ]; },
+    cta: 'Open TikTok Now', ctaBg: '#010101'
+  },
+  {
+    channelId: 'slack',
+    name: 'Slack Community Approach',
+    icon: 'SL', color: '#4a154b', badge: 'HOT WINDOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'They are in Slack right now', d: 'Active in: <strong>' + loc.label + '</strong>. Slack communities reward fast, helpful responses.'},
+      {t: 'Reply in the channel', d: '<strong>Post a helpful answer in the same channel</strong> they are active in. Be specific, not generic.'},
+      {t: 'Slack DM within 5 min', d: 'After your channel reply: DM them: <strong>"Expanded on my answer in DM — thought this would be more useful for your situation."</strong>'},
+      {t: 'Share a tailored resource', d: 'In the DM: attach a <strong>case study or tool directly relevant</strong> to what they asked about in ' + loc.short + '.'},
+      {t: 'Ask for a quick call', d: 'After 2 exchanges: <strong>"Would 15 mins on a call be useful? I can show you exactly how we handled this."</strong>'},
+    ]; },
+    cta: 'Open Slack Now', ctaBg: '#4a154b'
+  },
+  {
+    channelId: 'discord',
+    name: 'Discord Approach',
+    icon: 'DC', color: '#5865f2', badge: 'ENGAGE', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Live in Discord now', d: 'They are active in <strong>' + loc.label + '</strong>. Discord communities value depth over promotion.'},
+      {t: 'Join the channel they are in', d: '<strong>Navigate to the exact channel and add value</strong> to the conversation in progress. Read before you post.'},
+      {t: 'Discord DM — warm opener', d: 'DM: <strong>"Hey, saw your message in ' + loc.short + ' — we actually solved this exact problem."</strong>'},
+      {t: 'Drop a resource not a pitch', d: 'Send a <strong>genuinely useful resource first</strong>. Discord users are quick to call out self-promotion — lead with value.'},
+      {t: 'Invite to your community or event', d: '<strong>Invite them to your own Discord, webinar, or AMA</strong> — community-to-community bridges work very well.'},
+    ]; },
+    cta: 'Open Discord Now', ctaBg: '#5865f2'
+  },
+  {
+    channelId: 'quora',
+    name: 'Quora Approach',
+    icon: 'QA', color: '#b92b27', badge: 'CONTENT WARM', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) { return [
+      {t: 'Intent signal on Quora', d: 'They engaged with: <strong>' + loc.label + '</strong>. Quora readers are in research mode — ideal for value-led outreach.'},
+      {t: 'Find their Quora profile', d: '<strong>Click their username to see their other questions</strong> — this reveals their pain points and industry context.'},
+      {t: 'LinkedIn outreach with Quora hook', d: 'Connect on LinkedIn: <strong>"Saw your question on Quora about [topic] — we work with ' + lead.industry + ' companies on exactly this."</strong>'},
+      {t: 'Answer more of their questions', d: '<strong>Answer 2 more questions they have asked</strong> on Quora before reaching out. Build authority first.'},
+      {t: 'Email with Quora context', d: 'If email is known: subject line: <strong>"Your Quora question about [X]"</strong> — highest open rates for cold outreach.'},
+    ]; },
+    cta: 'Open Quora Now', ctaBg: '#b92b27'
+  },
+  {
+    channelId: 'producthunt',
+    name: 'Product Hunt Approach',
+    icon: 'PH', color: '#da552f', badge: 'LAUNCH HOT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'PH activity detected', d: 'Signal: <strong>' + loc.label + '</strong>. Product Hunt leads are tech-forward early adopters — respond in their language.'},
+      {t: 'Reply to their comment on PH', d: '<strong>Reply directly on the Product Hunt listing</strong> — thank them personally and answer any implicit question.'},
+      {t: 'Twitter/X DM from PH profile', d: 'Most PH users link their Twitter. <strong>DM them referencing their PH support</strong> within 30 minutes.'},
+      {t: 'Offer early access or upgrade', d: '<strong>"As a day-1 supporter — want early access to our next feature?"</strong> PH users love exclusivity.'},
+      {t: 'LinkedIn follow-up next day', d: 'Connect on LinkedIn: <strong>"Thanks for the upvote on PH — would love to get your take as someone in ' + lead.industry + '."</strong>'},
+    ]; },
+    cta: 'Open Product Hunt Now', ctaBg: '#da552f'
+  },
+  {
+    channelId: 'github',
+    name: 'GitHub Dev Approach',
+    icon: 'GH', color: '#6e40c9', badge: 'TECHNICAL', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Developer signal detected', d: 'They just triggered: <strong>' + loc.label + '</strong>. Developers hate pitches — lead with technical depth.'},
+      {t: 'Reply to their issue or PR', d: '<strong>If they opened an issue: respond technically and helpfully</strong> before mentioning anything commercial.'},
+      {t: 'GitHub Sponsor or Discussions', d: 'In GitHub Discussions: <strong>add a detailed technical answer</strong> that positions you as an expert, not a vendor.'},
+      {t: 'Email from GitHub profile', d: 'Many GitHub profiles list email. <strong>Send a technical-first email</strong> referencing their repo activity: "Saw you were exploring X."'},
+      {t: 'LinkedIn with developer angle', d: 'Connect on LinkedIn: <strong>"Fellow engineer here — noticed your GitHub activity on ' + loc.short + '. Would love your feedback."</strong>'},
+    ]; },
+    cta: 'Open GitHub Now', ctaBg: '#6e40c9'
+  },
+  {
+    channelId: 'medium',
+    name: 'Medium / Substack Approach',
+    icon: 'MD', color: '#00ab6c', badge: 'CONTENT WARM', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) { return [
+      {t: 'Content engagement detected', d: 'They engaged with: <strong>' + loc.label + '</strong>. Content-warmed leads have 2x conversion rate vs cold.'},
+      {t: 'Respond to their comment', d: '<strong>Reply to any comment they left</strong> on your Medium or Substack post. Make it personal and extend the idea.'},
+      {t: 'Email them directly', d: 'Substack shows subscriber emails (if opted-in). <strong>Email: "Saw you engaged with [post title] — thought this follow-up resource would land."</strong>'},
+      {t: 'LinkedIn outreach with article hook', d: 'Connect on LinkedIn: <strong>"You clapped on my piece about [X] — curious if it resonated with what you are working on at ' + lead.company + '."</strong>'},
+      {t: 'Invite to email list', d: '<strong>Offer your newsletter or private list</strong> as the next step. Lower friction than a sales call. Builds the relationship first.'},
+    ]; },
+    cta: 'Open Medium Now', ctaBg: '#00ab6c'
+  },
+  {
+    channelId: 'sms',
+    name: 'SMS Campaign Approach',
+    icon: 'SM', color: '#25d366', badge: 'REPLY NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'SMS signal live', d: 'Status: <strong>' + loc.label + '</strong>. SMS has 98% open rate — they have seen your message. Act within 2 minutes.'},
+      {t: 'Reply immediately', d: '<strong>Respond within 90 seconds of their action.</strong> SMS conversations go cold fast — speed is everything here.'},
+      {t: 'Keep reply under 160 chars', d: '<strong>Short, human, no sales language.</strong> "Hey [name] — thanks for the reply. What is the best time for a quick call?" is perfect.'},
+      {t: 'Move to call or WhatsApp', d: 'After 2 exchanges: <strong>"Easier to talk — can I call you now or in 10?"</strong> SMS is a bridge, not a sales channel.'},
+      {t: 'Follow up via email if no call', d: '<strong>Send a personalized email within 1 hour</strong> referencing the SMS exchange. Omnichannel = higher conversion.'},
+    ]; },
+    cta: 'Reply to SMS Now', ctaBg: '#128c7e'
+  },
+  {
+    channelId: 'whatsapp',
+    name: 'WhatsApp Approach',
+    icon: 'WA', color: '#25d366', badge: 'HOT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'WhatsApp activity detected', d: 'Signal: <strong>' + loc.label + '</strong>. WhatsApp has 98% read rate within 3 minutes — they saw it.'},
+      {t: 'Reply within 2 minutes', d: '<strong>Respond immediately.</strong> WhatsApp users expect fast replies. Delays signal low priority.'},
+      {t: 'Use voice note strategically', d: '<strong>Send a 20-second voice note instead of text</strong> — builds trust and stands out. Be conversational, not scripted.'},
+      {t: 'Send relevant media', d: '<strong>Share a short video, PDF, or image</strong> directly relevant to their question or signal in ' + loc.short + '.'},
+      {t: 'Book directly in WhatsApp', d: 'Share a <strong>Calendly or direct booking link</strong> in WhatsApp. "Here is a link to grab 15 mins — totally your call."'},
+    ]; },
+    cta: 'Open WhatsApp Now', ctaBg: '#128c7e'
+  },
+  {
+    channelId: 'meta',
+    name: 'Meta Ads Approach',
+    icon: 'MT', color: '#0082fb', badge: 'HIGH INTENT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'Meta ad engagement detected', d: 'Signal: <strong>' + loc.label + '</strong>. They self-identified by engaging with a paid placement — warm signal.'},
+      {t: 'Check Ads Manager instantly', d: 'Open Meta Ads Manager: <strong>look at who filled the lead form</strong> or clicked through and use that data to personalize outreach.'},
+      {t: 'Messenger follow-up', d: 'If they clicked a Messenger ad: <strong>reply in that same Messenger thread</strong> within 5 minutes. Do not let the conversation go cold.'},
+      {t: 'Email within 15 minutes', d: '<strong>If a lead form was filled: email within 15 minutes.</strong> Response rates drop 10x after 1 hour. Subject: "Your enquiry via [ad name]."'},
+      {t: 'Retarget with social proof', d: 'Serve a <strong>video testimonial ad from a similar company</strong> to anyone who engaged but did not convert within 24h.'},
+    ]; },
+    cta: 'Open Ads Manager Now', ctaBg: '#0082fb'
+  },
+  {
+    channelId: 'crm',
+    name: 'CRM Signal Approach',
+    icon: 'CR', color: '#00a1e0', badge: 'LIVE SIGNAL', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'CRM activity spiked', d: 'Live signal: <strong>' + loc.label + '</strong>. This is a buying signal from an existing contact — act immediately.'},
+      {t: 'Open the CRM contact now', d: '<strong>Pull up their full history:</strong> last touch, emails sent, pages visited, deal stage. Go in informed.'},
+      {t: 'Call within 10 minutes', d: '<strong>This is the highest-intent signal in your pipeline.</strong> Call now. Open with: "I saw some activity on your end — wanted to check in."'},
+      {t: 'Personalize to CRM data', d: 'Reference their <strong>specific history:</strong> "Last time we spoke you were evaluating X — has that changed?" Shows you listened.'},
+      {t: 'Update deal stage immediately', d: 'After contact: <strong>log the interaction and move the deal stage.</strong> Strike while the signal is fresh.'},
+    ]; },
+    cta: 'Open CRM Now', ctaBg: '#00a1e0'
+  },
+  {
+    channelId: 'review',
+    name: 'Review Site Approach',
+    icon: 'RV', color: '#ffb900', badge: 'EVALUATING', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'Review site activity', d: 'They are on: <strong>' + loc.label + '</strong>. Review site visitors are in active buying mode — this is bottom-of-funnel.'},
+      {t: 'Respond to their review', d: 'If they left a review: <strong>respond publicly within 2 hours.</strong> Personal, specific, and grateful. Others are watching.'},
+      {t: 'Direct outreach from G2/Capterra', d: 'Use the review platform: <strong>reach out via their profile or listed email.</strong> "Saw your review — would love to learn what we could do better."'},
+      {t: 'LinkedIn connection same day', d: 'Find them on LinkedIn: <strong>"Noticed you reviewed us on ' + loc.short + ' — your feedback was genuinely useful. Would love to connect."</strong>'},
+      {t: 'Offer a success manager call', d: '<strong>"Would a 20-min call with our customer success team be useful?"</strong> Reviewers convert to case study advocates at high rates.'},
+    ]; },
+    cta: 'Open Review Site Now', ctaBg: '#f59e0b'
+  },
+  {
+    channelId: 'community',
+    name: 'Online Community Approach',
+    icon: 'CM', color: '#a855f7', badge: 'COMMUNITY', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Community activity spotted', d: 'They are active in: <strong>' + loc.label + '</strong>. Community members respond to peer-level engagement, not vendor pitches.'},
+      {t: 'Engage their post genuinely', d: '<strong>Comment on their post with a specific, helpful response.</strong> Add data, a story, or a counterpoint — not a promotion.'},
+      {t: 'Community DM — peer framing', d: 'DM as a peer: <strong>"Hey, I saw your post in ' + loc.short + ' — we tackled the same problem at ' + lead.company + '. Happy to share what worked."</strong>'},
+      {t: 'Invite them to something exclusive', d: '<strong>Invite to a private roundtable, beta, or AMA</strong> relevant to what they discussed. Exclusivity creates urgency.'},
+      {t: 'Follow up via LinkedIn next day', d: 'Connect: <strong>"We connected in ' + loc.short + ' — would love to continue the conversation here."</strong>'},
+    ]; },
+    cta: 'Go to Community Now', ctaBg: '#9333ea'
+  },
+  {
+    channelId: 'newsletter',
+    name: 'Newsletter Approach',
+    icon: 'NL', color: '#06b6d4', badge: 'ENGAGED', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) { return [
+      {t: 'Newsletter engagement signal', d: 'Signal: <strong>' + loc.label + '</strong>. Newsletter engagement is a trust signal — they chose to stay subscribed.'},
+      {t: 'Reply if they responded', d: 'If they replied to your newsletter: <strong>respond within 30 minutes personally.</strong> This is a rare and warm signal.'},
+      {t: 'Personalized follow-up email', d: 'Reference the exact newsletter they engaged with: <strong>"You opened our piece on [topic] — here is the deeper resource behind it."</strong>'},
+      {t: 'Segment for high-touch sequence', d: '<strong>Move them into a high-touch email sequence</strong> separate from your broadcast list. Tailor every email to their engagement pattern.'},
+      {t: 'LinkedIn connection with context', d: 'Connect: <strong>"You have been reading our newsletter for a while — thought it was time to actually connect."</strong>'},
+    ]; },
+    cta: 'Open Newsletter Dashboard', ctaBg: '#0891b2'
+  },
+  {
+    channelId: 'affiliate',
+    name: 'Affiliate Lead Approach',
+    icon: 'AF', color: '#f59e0b', badge: 'WARM INTRO', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) { return [
+      {t: 'Affiliate referral detected', d: 'Source: <strong>' + loc.label + '</strong>. Affiliate leads are pre-warmed by a trusted recommendation — treat them as warm introductions.'},
+      {t: 'Contact within 30 minutes', d: '<strong>Affiliate leads expect fast response.</strong> The partner already raised expectations. Do not let them down.'},
+      {t: 'Reference the partner by name', d: 'Open with: <strong>"[Partner name] thought we would be a great fit for what you are working on at ' + lead.company + '."</strong>'},
+      {t: 'Offer partner-exclusive deal', d: '<strong>Give them a partner-exclusive incentive</strong> — discount, extended trial, or onboarding bonus. Reinforces the referral trust.'},
+      {t: 'Update the affiliate partner', d: '<strong>Tell the referring partner you reached out</strong> within 24 hours. Keeps them motivated to send more referrals.'},
+    ]; },
+    cta: 'Open Partner Portal Now', ctaBg: '#d97706'
+  },
+  {
+    channelId: 'chatbot',
+    name: 'Chatbot Handoff Approach',
+    icon: 'CB', color: '#10b981', badge: 'LIVE CHAT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'Chatbot session live NOW', d: 'Active: <strong>' + loc.label + '</strong>. They are on your site RIGHT NOW talking to a bot. Human handoff = instant conversion boost.'},
+      {t: 'Take over the chat immediately', d: '<strong>Jump in and introduce yourself personally:</strong> "Hey [name] — I am [your name], happy to answer this directly."'},
+      {t: 'Acknowledge their exact question', d: '<strong>Reference what they asked the bot</strong> word for word. Shows you were paying attention and adds immediate trust.'},
+      {t: 'Offer the next step live', d: '<strong>"Can I show you this in a quick screen share right now?"</strong> Live demos during chat sessions convert at 40%+ rates.'},
+      {t: 'If they leave — email in 5 min', d: '<strong>Email within 5 minutes of chat ending:</strong> "Wanted to follow up on your question about [topic] — here is the direct answer."'},
+    ]; },
+    cta: 'Open Chat Dashboard Now', ctaBg: '#059669'
+  },
+  {
+    channelId: 'webinar',
+    name: 'On-Demand Webinar Approach',
+    icon: 'WN', color: '#8b5cf6', badge: 'HIGH INTENT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) { return [
+      {t: 'On-demand viewing detected', d: 'Signal: <strong>' + loc.label + '</strong>. Someone watching a recorded webinar at their own time is highly motivated.'},
+      {t: 'Email within 1 hour of view', d: '<strong>Email: "Noticed you watched [webinar title] — what was most relevant to what you are working on?"</strong> Open-ended, no pitch.'},
+      {t: 'Reference the exact content', d: 'Mention a <strong>specific moment, stat, or insight from the webinar</strong> — proves you know what they watched and builds instant credibility.'},
+      {t: 'Offer the live version', d: '<strong>"We run a live version of this with Q&A — would you want a seat at the next one?"</strong> Live = higher commitment signal.'},
+      {t: 'LinkedIn connection same day', d: 'Connect: <strong>"Saw you caught our webinar on [topic] — curious if it addressed what you were looking for at ' + lead.company + '."</strong>'},
+    ]; },
+    cta: 'Open Webinar Dashboard', ctaBg: '#7c3aed'
+  },
+  {channelId:'amazon',name:'Amazon Marketplace',icon:'AMZ',color:'#ff9900',badge:'BUYER ACTIVE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Signal on Amazon',d:'Buyer triggered: <strong>'+loc.label+'</strong>. Amazon buyers are 3x more likely to purchase within 24h vs any other channel.'},
+      {t:'Respond to questions instantly',d:'If they asked a product Q&A: <strong>answer within 1 hour.</strong> Amazon rewards fast seller responses with buy box priority.'},
+      {t:'Email via Amazon Buyer-Seller Messaging',d:'Send a <strong>personalized follow-up</strong> through Amazon messaging: "Noticed you viewed our product — happy to answer any questions."'},
+      {t:'Target with Sponsored Product ad',d:'<strong>Launch a Sponsored Product ad targeting that exact ASIN</strong> they viewed. Retarget buyers who did not convert within 6 hours.'},
+      {t:'Offer a coupon or bundle',d:'Send a <strong>single-use discount coupon via Amazon</strong> directly to their cart. Converts abandoned carts at 28% rate.'},
+    ];},cta:'Open Seller Central',ctaBg:'#ff9900'},
+  {channelId:'ebay',name:'eBay Marketplace',icon:'EBY',color:'#e53238',badge:'ACTIVE BUYER',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'eBay activity detected',d:'Signal: <strong>'+loc.label+'</strong>. eBay watchers convert at 34% when followed up within 2 hours.'},
+      {t:'Send a Best Offer counter',d:'If they made an offer: <strong>counter within 30 minutes.</strong> Offers that sit more than 2 hours get abandoned.'},
+      {t:'Message via eBay inbox',d:'<strong>"Hi, saw you are watching our listing — happy to answer any questions or bundle with another item."</strong>'},
+      {t:'Relist with better photos',d:'If they viewed 3x without buying: <strong>relist with improved imagery and a "limited quantity" note.</strong> Creates urgency.'},
+      {t:'Offer combined shipping',d:'<strong>Message about combined shipping discounts</strong> if they are watching multiple items. Increases average order value.'},
+    ];},cta:'Open eBay Seller Hub',ctaBg:'#e53238'},
+  {channelId:'etsy',name:'Etsy Shop',icon:'ETY',color:'#f1641e',badge:'WARM BUYER',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Etsy buyer activity',d:'Signal: <strong>'+loc.label+'</strong>. Etsy buyers respond to personal, handcrafted messaging — not corporate tone.'},
+      {t:'Reply to Convo instantly',d:'If they sent a message: <strong>reply within 1 hour.</strong> Etsy Star Seller status requires fast response.'},
+      {t:'Offer customization',d:'Message: <strong>"Love that you favorited [item] — I can customize the color/size/text if you want something unique."</strong>'},
+      {t:'Send a coupon',d:'<strong>Offer a 10-15% discount</strong> directly through Etsy for items they favorited. Converts at 22% for warm leads.'},
+      {t:'Bundle suggestion',d:'<strong>"Customers who bought this also loved X — I can bundle both with free shipping."</strong> Increases AOV significantly.'},
+    ];},cta:'Open Etsy Shop Manager',ctaBg:'#f1641e'},
+  {channelId:'shopify',name:'Shopify Store',icon:'SHO',color:'#96bf48',badge:'ON SITE NOW',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Live session detected',d:'Buyer is in: <strong>'+loc.label+'</strong>. Shopify abandonment recovery within 15 minutes converts 26% of lost sales.'},
+      {t:'Trigger exit-intent popup',d:'<strong>Show a timed offer popup</strong> if they are on checkout: "Complete your order in next 10 min — get 10% off."'},
+      {t:'SMS abandonment recovery',d:'Send an <strong>automated SMS within 5 minutes</strong> of cart abandon: "You left something behind — your cart is saved."'},
+      {t:'Email sequence — 3 touchpoints',d:'<strong>Email 1 (1h): reminder. Email 2 (24h): social proof. Email 3 (72h): urgency offer.</strong> Recover up to 15% of carts.'},
+      {t:'Retarget on Meta and Google',d:'<strong>Launch dynamic product retargeting ad</strong> showing the exact item they viewed within 30 minutes of leaving your store.'},
+    ];},cta:'Open Shopify Admin',ctaBg:'#5c6bc0'},
+  {channelId:'pinterest',name:'Pinterest',icon:'PIN',color:'#e60023',badge:'PURCHASE INTENT',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Pinterest signal',d:'Activity: <strong>'+loc.label+'</strong>. Pinterest users plan purchases 2-3 weeks ahead — nurture them now.'},
+      {t:'Retarget with Shopping ad',d:'<strong>Launch Pinterest Shopping retargeting ad</strong> showing the exact product they pinned within 24 hours.'},
+      {t:'Create a Pin board around their interest',d:'<strong>Build a curated board</strong> around what they pinned and invite them to follow. Keeps you top of mind.'},
+      {t:'Email if known',d:'<strong>Email: "Noticed you saved [product] — it is currently on sale and limited stock."</strong> Pinterest buyers respond to scarcity.'},
+      {t:'Promoted Pin — lookalike audience',d:'Use their pin engagement to <strong>build a lookalike audience and scale</strong> your Promoted Pins to similar buyers.'},
+    ];},cta:'Open Pinterest Ads',ctaBg:'#e60023'},
+  {channelId:'bing',name:'Bing Shopping',icon:'BNG',color:'#008373',badge:'LOCAL INTENT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Bing buying signal',d:'Search detected: <strong>'+loc.label+'</strong>. Bing Shopping users are 18% more likely to complete a purchase vs Google.'},
+      {t:'Check Microsoft Ads campaign',d:'<strong>Review which ad they clicked</strong> in Microsoft Ads. Match your follow-up message to their exact search query.'},
+      {t:'Retarget with RLSA',d:'<strong>Add them to a Remarketing List</strong> in Microsoft Ads and serve a 15% off coupon ad within 6 hours.'},
+      {t:'LinkedIn Match from Bing data',d:'<strong>Upload Bing visitor data to LinkedIn Matched Audiences</strong> for professional-context retargeting.'},
+      {t:'Local follow-up if applicable',d:'For local searches: <strong>call or SMS within 1 hour.</strong> Local buyers expect fast response from nearby businesses.'},
+    ];},cta:'Open Microsoft Ads',ctaBg:'#008373'},
+  {channelId:'gshop',name:'Google Shopping',icon:'GSH',color:'#4285f4',badge:'BUY INTENT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Google Shopping signal',d:'Buyer triggered: <strong>'+loc.label+'</strong>. Google Shopping users are in active purchase mode — 72% buy within 24h.'},
+      {t:'Check Google Merchant Center',d:'<strong>Review their search query</strong> in Google Merchant Center. Match your retargeting copy to their exact intent.'},
+      {t:'Dynamic retargeting ad — 15 min',d:'<strong>Launch a dynamic shopping retargeting ad</strong> on Google Display showing the exact product viewed.'},
+      {t:'Google Business Profile follow-up',d:'If they clicked directions or called: <strong>follow up with a personalized offer within 30 minutes.</strong>'},
+      {t:'YouTube retargeting',d:'<strong>Serve a 15-second product testimonial ad</strong> on YouTube to the same audience segment within 24h.'},
+    ];},cta:'Open Google Merchant Center',ctaBg:'#4285f4'},
+  {channelId:'craigslist',name:'Classifieds',icon:'CL',color:'#7c3aed',badge:'LOCAL HOT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Classifieds inquiry live',d:'Signal: <strong>'+loc.label+'</strong>. Classifieds buyers want fast, human responses — reply within 10 minutes.'},
+      {t:'Reply with a personal message',d:'<strong>Avoid copy-paste templates.</strong> Reference their exact inquiry: "You asked about [item] — still available, can meet [time/place]."'},
+      {t:'Offer photos or video',d:'<strong>Send additional photos or a short video</strong> of the item unprompted. Sellers who do this close 2x faster.'},
+      {t:'Propose a meetup or delivery',d:'<strong>"Happy to meet at [location] or arrange delivery for [fee]."</strong> Remove all friction from the close.'},
+      {t:'Move to WhatsApp or phone',d:'<strong>Get off the classifieds platform fast.</strong> Suggest WhatsApp or a call: "Easier to send photos there."'},
+    ];},cta:'Check Classifieds Inbox',ctaBg:'#7c3aed'},
+  {channelId:'alibaba',name:'Alibaba / B2B Trade',icon:'ALI',color:'#ff6a00',badge:'BULK BUYER',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'B2B trade signal',d:'Buyer activity: <strong>'+loc.label+'</strong>. Alibaba RFQ buyers are ready to place orders — respond within 2 hours or lose the deal.'},
+      {t:'Reply to RFQ with full quote',d:'<strong>Send a complete, detailed quote within 1 hour</strong>: unit price, MOQ, lead time, shipping terms, payment options.'},
+      {t:'Offer a free sample',d:'<strong>"We can send a free sample before your bulk order."</strong> Alibaba buyers expect this — it de-risks their decision.'},
+      {t:'Video call to build trust',d:'<strong>Propose a 15-min video call to walk them through production.</strong> Most competitors will not do this — it wins deals.'},
+      {t:'Follow up every 48 hours',d:'<strong>Send a follow-up message every 2 days</strong> until they respond or decline. Alibaba buyers are evaluating multiple suppliers.'},
+    ];},cta:'Open Alibaba Supplier Portal',ctaBg:'#ff6a00'},
+  {channelId:'walmart',name:'Walmart Marketplace',icon:'WMT',color:'#0071dc',badge:'HIGH VOLUME',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Walmart activity detected',d:'Signal: <strong>'+loc.label+'</strong>. Walmart buyers are price-sensitive — lead with value and competitive positioning.'},
+      {t:'Optimize listing for the search term',d:'<strong>Update your product title and bullet points</strong> to match the search term they used. Boosts organic rank.'},
+      {t:'Run a Sponsored Product campaign',d:'<strong>Launch a Walmart Connect Sponsored ad</strong> targeting the exact keyword that brought them to your listing.'},
+      {t:'Price match competitor if needed',d:'<strong>Check the top 3 competing listings</strong> for the same search. Being within 2% of the lowest price wins the sale.'},
+      {t:'Email through Walmart Seller Center',d:'<strong>Send a post-view seller message</strong> if available: "Thanks for checking out our product — here is a coupon."'},
+    ];},cta:'Open Walmart Seller Center',ctaBg:'#0071dc'},
+  {channelId:'houzz',name:'Houzz',icon:'HOZ',color:'#7dbb00',badge:'PROJECT READY',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Houzz buyer signal',d:'Status: <strong>'+loc.label+'</strong>. Houzz buyers are planning home projects — they have budget and intent.'},
+      {t:'Respond to quote request in 30 min',d:'<strong>Reply to any quote request within 30 minutes.</strong> Houzz shows response time to buyers — faster = more trust.'},
+      {t:'Send portfolio examples',d:'<strong>Attach 3-5 project photos similar to their stated need.</strong> Visual proof is the #1 closing tool on Houzz.'},
+      {t:'Offer a free consultation',d:'<strong>"I can do a free 20-min site visit or video walkthrough"</strong> — reduces perceived risk and accelerates decision.'},
+      {t:'Follow up with a written proposal',d:'<strong>Send a formal proposal within 24h</strong> of initial contact. Houzz buyers evaluate 3-5 pros — speed wins.'},
+    ];},cta:'Open Houzz Pro',ctaBg:'#7dbb00'},
+  {channelId:'thumbtack',name:'Thumbtack',icon:'THB',color:'#009fd9',badge:'JOB POSTED',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'New job match detected',d:'Signal: <strong>'+loc.label+'</strong>. Thumbtack buyers contact the first 3 pros who respond — speed is everything.'},
+      {t:'Submit quote within 5 minutes',d:'<strong>First response wins 70% of Thumbtack jobs.</strong> Have a template ready — personalize the first line only.'},
+      {t:'Call immediately after quoting',d:'<strong>Call the customer right after sending your quote.</strong> Pro who calls first wins the job in 60% of cases.'},
+      {t:'Showcase reviews prominently',d:'<strong>Your first message should include your star rating and a 1-line testimonial.</strong> Social proof = trust = hire.'},
+      {t:'Offer a free estimate visit',d:'<strong>"I can come by tomorrow for a free no-obligation estimate."</strong> In-person contact converts at 4x the rate of digital.'},
+    ];},cta:'Open Thumbtack Pro',ctaBg:'#009fd9'},
+  {channelId:'angi',name:'Angi / HomeAdvisor',icon:'AGI',color:'#f96302',badge:'SERVICE LEAD',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Angi lead received',d:'Status: <strong>'+loc.label+'</strong>. Angi leads are shared with up to 4 pros — you must respond first to win.'},
+      {t:'Call within 2 minutes',d:'<strong>Call the customer within 2 minutes of receiving the lead.</strong> Response within 5 min = 400% higher close rate.'},
+      {t:'Text if no answer',d:'<strong>If no answer, text immediately:</strong> "Hi [name], this is [your name] from [company] — just saw your Angi request. When is a good time?"'},
+      {t:'Email with project portfolio',d:'<strong>Email within 5 minutes with 3 similar project photos</strong> and a quote range. Customers want proof before talking.'},
+      {t:'Follow up every 24 hours for 5 days',d:'<strong>Most pros give up after 1 contact.</strong> Send 5 follow-up messages across 5 days. Most conversions happen at touch 3-5.'},
+    ];},cta:'Open Angi Pro Dashboard',ctaBg:'#f96302'},
+  {channelId:'yelp',name:'Yelp',icon:'YLP',color:'#d32323',badge:'LOCAL INTENT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Yelp buyer activity',d:'Signal: <strong>'+loc.label+'</strong>. Yelp users are in active local purchasing mode — 82% visit within 24 hours.'},
+      {t:'Call back immediately',d:'If they clicked "Call": <strong>call them back within 5 minutes if you missed it.</strong> Leave a personalized voicemail.'},
+      {t:'Respond to their review publicly',d:'<strong>Reply to every review within 24h — positive and negative.</strong> Future buyers read your responses to assess professionalism.'},
+      {t:'Send a Yelp deal or offer',d:'<strong>Create a Yelp Deal or Check-In Offer</strong> targeting people who viewed your listing. Local offers convert at 19%.'},
+      {t:'Request a quote form setup',d:'<strong>Enable Yelp Request a Quote</strong> on your profile and respond to all quote requests within 1 hour.'},
+    ];},cta:'Open Yelp for Business',ctaBg:'#d32323'},
+  {channelId:'zillow',name:'Zillow / Real Estate',icon:'ZLW',color:'#006aff',badge:'HOME BUYER',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Real estate intent signal',d:'Buyer triggered: <strong>'+loc.label+'</strong>. Zillow leads who receive a response in 5 min are 21x more likely to convert.'},
+      {t:'Call within 5 minutes',d:'<strong>Call them immediately.</strong> The 5-minute rule is critical in real estate — every minute after reduces conversion by 20%.'},
+      {t:'Text if no answer',d:'<strong>Text: "Hi [name], saw you were interested in [address] — I am the listing agent. Available now to answer questions."</strong>'},
+      {t:'Schedule a showing same-day',d:'<strong>Offer a same-day or next-morning showing.</strong> Buyers viewing multiple properties make decisions fast.'},
+      {t:'Send comparable properties',d:'<strong>Email 3 comparable active listings</strong> to show range. Establishes you as the expert and keeps them engaged.'},
+    ];},cta:'Open Zillow Premier Agent',ctaBg:'#006aff'},
+  {channelId:'autotrader',name:'AutoTrader / Cars',icon:'AUT',color:'#e8232a',badge:'CAR BUYER',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Auto buyer signal',d:'Detected: <strong>'+loc.label+'</strong>. Car buyers visit 4.2 websites before purchasing — respond within 15 min to stay top of mind.'},
+      {t:'Call within 10 minutes',d:'<strong>Call the moment an inquiry comes in.</strong> Car dealers who respond in under 10 min close 4x more leads.'},
+      {t:'Video of the vehicle',d:'<strong>Send a 60-second walkaround video via text immediately.</strong> 78% of car buyers want to see video before visiting the lot.'},
+      {t:'Offer a test drive',d:'<strong>"I can have the car ready for a test drive today at [time] — does that work?"</strong> Specific + immediate = more conversions.'},
+      {t:'Trade-in offer',d:'<strong>"What are you currently driving? I can give you a trade-in estimate while you test drive."</strong> Reduces buyer hesitation.'},
+    ];},cta:'Open AutoTrader Leads',ctaBg:'#e8232a'},
+  {channelId:'fiverr',name:'Fiverr / Freelance',icon:'FVR',color:'#1dbf73',badge:'READY TO HIRE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Fiverr buyer signal',d:'Status: <strong>'+loc.label+'</strong>. Fiverr buyers are ready to spend — they self-selected your gig category.'},
+      {t:'Reply in under 1 hour',d:'<strong>Fiverr ranks sellers by response time.</strong> Replying under 1 hour boosts your gig placement and buyer confidence.'},
+      {t:'Ask 3 qualifying questions',d:'<strong>"To give you the best outcome — what is your deadline, budget range, and primary goal?"</strong> Shows professionalism and saves time.'},
+      {t:'Send a custom offer',d:'<strong>Create a custom offer tailored to their exact project</strong> instead of using your standard package. Converts at 3x higher rate.'},
+      {t:'Offer a rush delivery option',d:'<strong>"If you need it faster, I offer a 24h delivery add-on."</strong> Premium upsell that many buyers accept.'},
+    ];},cta:'Open Fiverr Inbox',ctaBg:'#1dbf73'},
+  {channelId:'upwork',name:'Upwork',icon:'UPW',color:'#6fda44',badge:'CLIENT READY',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Upwork opportunity detected',d:'Signal: <strong>'+loc.label+'</strong>. Upwork clients who invite freelancers hire within 48h — do not delay.'},
+      {t:'Submit proposal within 2 hours',d:'<strong>First 5 proposals get the most views.</strong> Submit fast with a personalized opener referencing their specific job description.'},
+      {t:'Open with their problem, not your skills',d:'<strong>"You need [specific outcome] by [deadline] — here is exactly how I would approach it."</strong> Most proposals miss this.'},
+      {t:'Show relevant portfolio piece',d:'<strong>Attach 1 directly relevant portfolio sample</strong> — not your best work, your most relevant work.'},
+      {t:'End with a low-friction question',d:'<strong>"Would a 15-min call to discuss the project make sense?"</strong> Never ask for the job directly in the first message.'},
+    ];},cta:'Open Upwork Proposals',ctaBg:'#14a800'},
+  {channelId:'apollo',name:'Apollo.io',icon:'APL',color:'#5d2ebe',badge:'SEQUENCE HOT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Apollo signal detected',d:'Live: <strong>'+loc.label+'</strong>. Apollo intent signals are the highest-quality buying signals in outbound — act immediately.'},
+      {t:'Check full contact timeline',d:'<strong>Open Apollo contact — review full activity log:</strong> emails opened, links clicked, pages visited. Go in fully informed.'},
+      {t:'Call them right now',d:'<strong>This is the moment to call.</strong> They just engaged with your email — they are thinking about you right now. Do not wait.'},
+      {t:'Send a hyper-personalized email',d:'<strong>Reference the exact link they clicked or email they opened.</strong> "Saw you read our case study on [topic] — relevant because..."'},
+      {t:'Move to next sequence step',d:'<strong>Mark the task complete and advance to the next step immediately.</strong> Momentum in a sequence matters.'},
+    ];},cta:'Open Apollo.io Now',ctaBg:'#5d2ebe'},
+  {channelId:'zoominfo',name:'ZoomInfo',icon:'ZMI',color:'#ff6600',badge:'INTENT SURGE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'ZoomInfo intent detected',d:'Alert: <strong>'+loc.label+'</strong>. Intent surges indicate a company actively evaluating vendors — you have a 2-week window.'},
+      {t:'Identify all decision makers',d:'<strong>Use ZoomInfo to find every stakeholder</strong> in the buying committee at this company. Map the org chart before outreach.'},
+      {t:'Multi-threaded outreach',d:'<strong>Reach out to 3-4 contacts simultaneously</strong>: economic buyer, technical buyer, champion, and influencer.'},
+      {t:'Personalize to their tech stack',d:'ZoomInfo shows their installed technologies: <strong>reference it.</strong> "I see you are using [tool] — we integrate natively."'},
+      {t:'Set account-based ads',d:'<strong>Launch LinkedIn and display ads targeting this company domain</strong> to increase brand recall before your SDR calls land.'},
+    ];},cta:'Open ZoomInfo Now',ctaBg:'#ff6600'},
+  {channelId:'clearbit',name:'Clearbit / Reveal',icon:'CLR',color:'#4158d0',badge:'DE-ANON NOW',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Visitor de-anonymized',d:'Clearbit identified: <strong>'+loc.label+'</strong>. You now know who this anonymous visitor is — act within 15 minutes.'},
+      {t:'Find them on LinkedIn immediately',d:'<strong>Search the identified company on LinkedIn.</strong> Find the most likely buyer by job title and send a connection request now.'},
+      {t:'Personalize to their page visit',d:'Outreach opener: <strong>"I noticed someone from [company] was exploring our [page] — thought it might be relevant to reach out."</strong>'},
+      {t:'Launch account-based campaign',d:'<strong>Create a LinkedIn Matched Audience using the company domain</strong> and serve a targeted ad to everyone at that company.'},
+      {t:'Alert your AE or SDR now',d:'<strong>Notify the account owner immediately with the full Clearbit profile.</strong> Assign it and set a follow-up task for today.'},
+    ];},cta:'Open Clearbit Dashboard',ctaBg:'#4158d0'},
+  {channelId:'bombora',name:'Bombora Intent',icon:'BMB',color:'#00b4d8',badge:'SURGE LIVE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Bombora intent surge',d:'Data: <strong>'+loc.label+'</strong>. A Bombora surge means this company is consuming content about your category right now across the web.'},
+      {t:'Strike in the next 7 days',d:'<strong>Intent surges peak for 7-14 days.</strong> Every day you wait reduces the probability of converting by 8%. Start outreach today.'},
+      {t:'Lead with the pain, not the product',d:'<strong>They are in research mode</strong> — send educational content first. A whitepaper or benchmark report opens more doors than a pitch.'},
+      {t:'Multi-contact at the account',d:'<strong>Reach out to 3+ contacts simultaneously</strong> at the surging company. Intent is account-level, not person-level.'},
+      {t:'Set up keyword retargeting',d:'<strong>Create a display and LinkedIn campaign targeting their company domain</strong> around the exact topics Bombora flagged.'},
+    ];},cta:'Open Bombora Dashboard',ctaBg:'#00b4d8'},
+  {channelId:'demandbase',name:'6sense / Demandbase',icon:'DMB',color:'#6b21a8',badge:'STAGE: DECISION',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'AI buying stage detected',d:'6sense predicts: <strong>'+loc.label+'</strong>. Accounts in the Decision stage have a 65% higher close rate — prioritize immediately.'},
+      {t:'Assign to senior rep NOW',d:'<strong>This account needs a senior AE, not an SDR.</strong> Escalate the account internally and brief them on the intent signals.'},
+      {t:'Executive outreach',d:'<strong>Send a CEO-to-CEO or VP-to-VP note.</strong> Decision-stage accounts respond to peer-level communication, not junior outreach.'},
+      {t:'Personalize with their research topics',d:'6sense shows what topics they are researching: <strong>lead with that exact topic.</strong> "I see your team has been exploring [X]..."'},
+      {t:'Create urgency with a time-bound offer',d:'<strong>"We have a Q2 pricing window closing [date]."</strong> Decision-stage accounts need a reason to act now vs next quarter.'},
+    ];},cta:'Open 6sense / Demandbase',ctaBg:'#6b21a8'},
+  {channelId:'g2crowd',name:'G2 Buyer Intent',icon:'G2',color:'#ff492c',badge:'EVALUATING',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'G2 evaluation signal',d:'Buyer is: <strong>'+loc.label+'</strong>. G2 intent buyers are in active vendor evaluation — they will choose someone in the next 30 days.'},
+      {t:'Claim and optimize your G2 profile',d:'<strong>Update your G2 listing immediately</strong> — fresh reviews, updated screenshots, accurate pricing. Buyers decide based on profile quality.'},
+      {t:'LinkedIn outreach with G2 social proof',d:'Message: <strong>"We are currently #1 in [category] on G2 — here is a 2-min overview of why companies in '+lead.industry+' choose us."</strong>'},
+      {t:'Offer a G2 comparison call',d:'<strong>"Happy to walk you through how we compare to [Competitor A and B] — 15 minutes?"</strong> Buyers evaluating on G2 are comparing vendors.'},
+      {t:'Activate G2 Buyer Intent in your CRM',d:'<strong>Push the G2 intent signal directly into HubSpot or Salesforce</strong> and trigger an automated high-priority task for the AE.'},
+    ];},cta:'Open G2 Seller Portal',ctaBg:'#ff492c'},
+  {channelId:'trustpilot',name:'Trustpilot',icon:'TPL',color:'#00b67a',badge:'REVIEW SIGNAL',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Trustpilot activity',d:'Signal: <strong>'+loc.label+'</strong>. Buyers who spend 5+ minutes reading reviews are in late-stage evaluation — close to a decision.'},
+      {t:'Respond to their review publicly',d:'<strong>Respond to every Trustpilot review within 24h.</strong> Responses show potential buyers you care about customers post-sale.'},
+      {t:'LinkedIn outreach for 5-star reviewers',d:'Find 5-star reviewers on LinkedIn: <strong>"Thank you for the kind words on Trustpilot — would love to feature your story."</strong>'},
+      {t:'Turn reviewers into case studies',d:'<strong>Ask top reviewers for a 10-min call to build a case study.</strong> Case studies with named customers convert 3x better.'},
+      {t:'Address concerns in flagged reviews',d:'<strong>Respond to any critical review with a resolution offer</strong> within 4 hours. Public resolutions build trust with future buyers.'},
+    ];},cta:'Open Trustpilot Business',ctaBg:'#00b67a'},
+  {channelId:'linkedin_jobs',name:'LinkedIn Jobs',icon:'LJB',color:'#0a66c2',badge:'TALENT LEAD',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'LinkedIn job signal',d:'Activity: <strong>'+loc.label+'</strong>. Job applicants and recruiters are warm leads who have raised their hand for engagement.'},
+      {t:'Personalize the recruiter outreach',d:'<strong>Message every qualified applicant within 24h</strong> with a personalized note referencing their specific experience.'},
+      {t:'Convert talent leads to sales leads',d:'Applicants from target companies = potential champions. <strong>Connect on LinkedIn and nurture as a product lead too.</strong>'},
+      {t:'Use hiring signals for outreach',d:'If a target company is hiring for a role you solve: <strong>"Noticed you are hiring [role] — that usually means [challenge]. We help with that."</strong>'},
+      {t:'Sponsored InMail to applicants',d:'<strong>Run LinkedIn InMail campaigns targeting people who applied</strong> to similar job roles at competitor companies.'},
+    ];},cta:'Open LinkedIn Talent Hub',ctaBg:'#0a66c2'},
+  {channelId:'indeed',name:'Indeed / Job Sites',icon:'IND',color:'#2164f3',badge:'APPLICANT',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Job site activity detected',d:'Signal: <strong>'+loc.label+'</strong>. Active applicants and job seekers represent a uniquely motivated audience.'},
+      {t:'Reply to applications within 2 hours',d:'<strong>Indeed rewards fast responders with higher job visibility.</strong> Candidates evaluate employers by response speed.'},
+      {t:'Personalize every interview invite',d:'<strong>Reference one specific thing from their resume.</strong> Generic invites get 40% fewer acceptances than personalized ones.'},
+      {t:'Glassdoor profile management',d:'<strong>Respond to every Glassdoor review — positive and negative.</strong> Candidates read 7 reviews before applying or accepting.'},
+      {t:'Competitor hiring as a trigger',d:'When a competitor posts a senior role: <strong>that company is investing and growing — they may need your product too.</strong>'},
+    ];},cta:'Open Indeed Employer',ctaBg:'#2164f3'},
+  {channelId:'coursera',name:'Coursera / EdTech',icon:'CRS',color:'#0056d2',badge:'LEARNER',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'EdTech signal detected',d:'Status: <strong>'+loc.label+'</strong>. Learners actively investing in education have growth mindset and budget intent.'},
+      {t:'Email the completing student',d:'<strong>Email at 80% course completion</strong>: "You are almost done — here is what successful graduates do next."'},
+      {t:'Upsell to advanced course or certificate',d:'<strong>"You have completed the foundation — our advanced program covers [X] and includes a certificate."</strong>'},
+      {t:'Offer a free 1-on-1 coaching call',d:'<strong>Top converters offer a free graduation call</strong> — review their goals and position your next offering as the logical step.'},
+      {t:'Community invitation',d:'<strong>Invite them to your alumni Slack, Discord, or community.</strong> Peer communities retain learners and generate upsell opportunities.'},
+    ];},cta:'Open Course Dashboard',ctaBg:'#0056d2'},
+  {channelId:'udemy',name:'Udemy / Online Courses',icon:'UDM',color:'#a435f0',badge:'STUDENT',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Course platform signal',d:'Activity: <strong>'+loc.label+'</strong>. Students who finish 80%+ of a course are primed for a higher-value offer.'},
+      {t:'Q&A response converts',d:'<strong>Answer every student Q&A question within 4 hours.</strong> Instructors who engage in Q&A get 5x more reviews and upsells.'},
+      {t:'Announce your next course in messages',d:'<strong>Send a course announcement via Udemy messaging</strong> to all students who completed your course — 22% buy the next one.'},
+      {t:'Offer a coupon to 5-star reviewers',d:'<strong>Message 5-star reviewers with a coupon for your next course.</strong> They are your most engaged buyers.'},
+      {t:'Drive to your own platform',d:'<strong>Use course completion to invite students to your own website or email list.</strong> Reduces dependence on marketplace and increases LTV.'},
+    ];},cta:'Open Instructor Dashboard',ctaBg:'#a435f0'},
+  {channelId:'airbnb',name:'Airbnb / Short-Term Rental',icon:'ABB',color:'#ff385c',badge:'GUEST INQUIRY',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Airbnb signal detected',d:'Status: <strong>'+loc.label+'</strong>. Airbnb inquiry response within 1 hour increases booking probability by 50%.'},
+      {t:'Reply within 1 hour always',d:'<strong>Super Host status requires fast replies.</strong> Set up Airbnb auto-responses for after-hours and respond manually within 1h.'},
+      {t:'Personalize the welcome message',d:'<strong>Reference their specific travel dates and purpose.</strong> "Looking forward to hosting you for your [anniversary/work trip] — I have prepared [X]."'},
+      {t:'Upsell early check-in or experiences',d:'<strong>"We offer early check-in for [fee] and can arrange [local experience]."</strong> Upsells convert at 35% for pre-arrival messages.'},
+      {t:'Post-stay follow-up for repeat bookings',d:'<strong>Message guests 30 days after checkout</strong>: "Hope the trip was great — here is a 10% discount for your next visit."'},
+    ];},cta:'Open Airbnb Host Dashboard',ctaBg:'#ff385c'},
+  {channelId:'snapchat',name:'Snapchat Ads',icon:'SNP',color:'#fffc00',badge:'GEN Z BUYER',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Snapchat ad engagement',d:'Signal: <strong>'+loc.label+'</strong>. Snapchat users who swipe up on product ads have 2x higher purchase intent than Instagram.'},
+      {t:'Retarget with Dynamic Product Ad',d:'<strong>Launch a Snap dynamic product retargeting ad</strong> within 30 minutes showing the exact product they engaged with.'},
+      {t:'Use AR lens retargeting',d:'If they used your AR lens: <strong>launch a follow-up story ad with a limited-time offer.</strong> AR engagement = high purchase intent.'},
+      {t:'Lookalike audience from engagers',d:'<strong>Build a Snap Lookalike Audience from video viewers and swipe-ups</strong> — scale your campaign to similar buyers.'},
+      {t:'Bridge to website or app',d:'<strong>Ensure the landing page is mobile-optimized and loads in under 2 seconds.</strong> Snap users bounce instantly on slow pages.'},
+    ];},cta:'Open Snapchat Ads Manager',ctaBg:'#ffcc00'},
+  {channelId:'nextdoor',name:'Nextdoor',icon:'NDR',color:'#00b246',badge:'LOCAL BUYER',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Nextdoor local signal',d:'Activity: <strong>'+loc.label+'</strong>. Nextdoor recommendations carry neighborhood trust — the highest form of local social proof.'},
+      {t:'Respond to the recommendation',d:'<strong>Reply publicly to thank the neighbor who recommended you.</strong> Other neighbors are reading — show your personality.'},
+      {t:'DM the person who asked',d:'<strong>Send a private message: "Saw your post asking about [service] — happy to help. Here is what we offer locally."</strong>'},
+      {t:'Claim your Nextdoor Business page',d:'<strong>Set up your Nextdoor Business profile</strong> with photos, services, and a special neighborhood offer. Free and highly effective.'},
+      {t:'Run a Nextdoor Local Deal',d:'<strong>Create a Nextdoor neighborhood promotion</strong> — "$20 off for [neighborhood name] residents this month." Hyper-local offers convert fast.'},
+    ];},cta:'Open Nextdoor Business',ctaBg:'#00b246'},
+  {channelId:'meetup',name:'Meetup / Events',icon:'MTP',color:'#f65858',badge:'IN-PERSON',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Event signal detected',d:'Status: <strong>'+loc.label+'</strong>. In-person event attendees are 5x more likely to convert vs digital-only leads.'},
+      {t:'Welcome them personally at the event',d:'<strong>Greet every RSVP by name at the door.</strong> "Hey [name] — great to meet you. What brought you to tonight&#39;s event?"'},
+      {t:'Collect business cards or LinkedIn',d:'<strong>End every conversation with "Let&#39;s connect on LinkedIn right now"</strong> while you are standing together. 85% accept.'},
+      {t:'Follow up within 24 hours',d:'<strong>Email or LinkedIn message the next morning</strong> referencing a specific moment from your conversation at the event.'},
+      {t:'Invite to your next event',d:'<strong>Add them to your event invite list immediately.</strong> Repeat event attendance builds trust faster than any other channel.'},
+    ];},cta:'Open Meetup Organizer',ctaBg:'#f65858'},
+  {channelId:'crunchbase',name:'Crunchbase',icon:'CRB',color:'#0288d1',badge:'INVESTOR SIGNAL',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Crunchbase signal detected',d:'Activity: <strong>'+loc.label+'</strong>. Funding signals are the highest-quality B2B buying signal — companies with new capital are ready to spend.'},
+      {t:'Find companies that just raised',d:'<strong>Filter Crunchbase for Series A/B in your ICP industries in the last 30 days.</strong> New funding = new budget = new vendors.'},
+      {t:'Reach out within 48h of funding announcement',d:'Message: <strong>"Congrats on the raise — companies scaling from [amount] to [amount] typically face [problem] around this time. We help with that."</strong>'},
+      {t:'LinkedIn outreach to new hires',d:'Funded companies hire fast. <strong>Target their new VP of Sales, Marketing, or Ops on LinkedIn</strong> — they have budget and are building their stack.'},
+      {t:'Monitor for tech stack changes',d:'Post-funding companies replace tools. <strong>Set a Crunchbase alert</strong> for your target companies and reach out when they show growth signals.'},
+    ];},cta:'Open Crunchbase Now',ctaBg:'#0288d1'},
+  {channelId:'typeform',name:'Survey / Typeform',icon:'TYP',color:'#262627',badge:'QUAL COMPLETE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Survey signal detected',d:'Status: <strong>'+loc.label+'</strong>. Survey completions are the clearest possible buying signal — they gave you their data voluntarily.'},
+      {t:'Call within 10 minutes of completion',d:'<strong>Personalize your call using their survey answers.</strong> "You said your biggest challenge is [X] — that is exactly what we solve."'},
+      {t:'Email within 15 minutes',d:'Subject: <strong>"Based on your answers — here is what I recommend."</strong> Personalize every sentence using survey data. No templates.'},
+      {t:'Segment into right nurture track',d:'<strong>Use survey answers to assign them to the right email sequence</strong> — budget tier, use case, company size. No one-size-fits-all.'},
+      {t:'Follow up at 48-hour intervals',d:'<strong>Send 3 follow-up emails over 6 days</strong> if no response. Each references a different survey answer. Most convert at email 2 or 3.'},
+    ];},cta:'Open Typeform Responses',ctaBg:'#262627'},
+  {channelId:'calendly',name:'Calendly',icon:'CAL',color:'#006bff',badge:'CALL BOOKED',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Call booking signal',d:'Status: <strong>'+loc.label+'</strong>. A booked call is the highest-intent signal in the funnel — now prepare to close.'},
+      {t:'Send confirmation with prep materials',d:'<strong>Immediately after booking: email a prep agenda, 1-pager, and a relevant case study.</strong> Educated buyers close 40% faster.'},
+      {t:'Remind 1 hour before the call',d:'<strong>Send a personal SMS 1 hour before:</strong> "Looking forward to our call at [time] — I have prepared [specific thing] for you."'},
+      {t:'Research their company deeply',d:'<strong>Spend 20 minutes researching before the call:</strong> recent news, LinkedIn activity, tech stack, Glassdoor score, job openings.'},
+      {t:'Send a follow-up within 30 min of call',d:'<strong>Email within 30 minutes of hanging up</strong> with: summary, next steps, proposal or timeline. Strike while the conversation is fresh.'},
+    ];},cta:'Open Calendly Dashboard',ctaBg:'#006bff'},
+  {channelId:'drift',name:'Drift / Conversational',icon:'DFT',color:'#3d1d96',badge:'CONVO LIVE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Live conversation detected',d:'Status: <strong>'+loc.label+'</strong>. A live chat on your pricing page is your best possible sales moment — take it personally.'},
+      {t:'Jump in immediately — be human',d:'<strong>Type your name and a warm opener in the first 10 seconds.</strong> "Hi! I am [name] from the team — I saw your question and wanted to jump in personally."'},
+      {t:'Ask one qualifying question',d:'<strong>"What is bringing you to [page] today?"</strong> — one question, not five. Listen more than you talk in the first exchange.'},
+      {t:'Offer a screen share right now',d:'<strong>"Want me to show you this live — takes 5 minutes?"</strong> Converting a chat to a live screen share closes at 55%.'},
+      {t:'Book a call before they leave',d:'<strong>If they are not ready to buy: "Can I send you a Calendly link to continue this tomorrow?"</strong> Do not let them disappear.'},
+    ];},cta:'Open Drift Dashboard',ctaBg:'#3d1d96'},
+  {channelId:'hubspot_mkt',name:'HubSpot Marketing',icon:'HMK',color:'#ff7a59',badge:'MQL NOW',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'HubSpot MQL triggered',d:'Signal: <strong>'+loc.label+'</strong>. A HubSpot lifecycle upgrade to SQL is your system telling you this contact is ready to buy.'},
+      {t:'Check full contact timeline',d:'<strong>Open the contact record and read every touchpoint</strong> — emails opened, pages visited, forms submitted, calls logged.'},
+      {t:'Call within 15 minutes of trigger',d:'<strong>The lifecycle change just happened.</strong> Call now. Reference their most recent action: "Saw you were exploring [page]..."'},
+      {t:'Personalize with workflow data',d:'<strong>Use HubSpot properties to personalize your outreach:</strong> industry, company size, last page visited, content downloaded.'},
+      {t:'Create a task for every SQL',d:'<strong>Assign a follow-up task in HubSpot to the AE with a due date of today.</strong> No SQL should sit unworked for more than 2 hours.'},
+    ];},cta:'Open HubSpot CRM',ctaBg:'#ff7a59'},
+  {channelId:'semrush',name:'SEMrush / SEO Intent',icon:'SEM',color:'#ff642d',badge:'SEARCH SURGE',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'SEO intent signal detected',d:'Data: <strong>'+loc.label+'</strong>. Search volume surges for your keywords signal increased market demand — capitalize now.'},
+      {t:'Publish content immediately',d:'<strong>Create content targeting the surging keyword today.</strong> New content indexed within 48h can capture demand at peak.'},
+      {t:'Run Google Search ads on the keyword',d:'<strong>Launch a Responsive Search Ad targeting the surge keyword</strong> while organic ranking catches up. Capture demand now.'},
+      {t:'Identify which competitors rank #1',d:'<strong>Find who is ranking for the keyword</strong> and analyze their content gap. Outrank them with a better, more specific piece.'},
+      {t:'Outreach to searchers via ads',d:'<strong>Layer the keyword into your RLSA (Remarketing List for Search Ads)</strong> to re-engage past visitors who are now searching again.'},
+    ];},cta:'Open SEMrush Dashboard',ctaBg:'#ff642d'},
+  {channelId:'salesforce',name:'Salesforce / Pardot',icon:'SFC',color:'#00a1e0',badge:'PIPELINE HOT',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Salesforce signal live',d:'CRM data: <strong>'+loc.label+'</strong>. Salesforce signals are your most reliable buying indicators — treat them as urgent.'},
+      {t:'Review the opportunity record',d:'<strong>Open the SF opportunity: check stage, next step, close date, and last activity.</strong> Know the full picture before any outreach.'},
+      {t:'Call the contact immediately',d:'<strong>For Decision-stage opportunities: call the economic buyer directly.</strong> Do not send an email — pick up the phone.'},
+      {t:'Update the next step and close date',d:'<strong>After every touchpoint, update the Salesforce next step field.</strong> "Following up Thursday" with a specific action keeps deals moving.'},
+      {t:'Escalate to management if needed',d:'For high-value opportunities: <strong>loop in your VP of Sales for an executive sponsor email or call.</strong> Executive-to-executive always accelerates deals.'},
+    ];},cta:'Open Salesforce Now',ctaBg:'#00a1e0'},
+  {channelId:'angelist',name:'AngelList / Wellfound',icon:'ANL',color:'#000000',badge:'STARTUP SIGNAL',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'AngelList signal detected',d:'Activity: <strong>'+loc.label+'</strong>. Startup founders and investors on AngelList are high-value leads with budget authority.'},
+      {t:'Connect as a fellow founder',d:'<strong>Reach out founder-to-founder:</strong> "Building something in the same space — would love to share learnings." Peer outreach converts 3x better.'},
+      {t:'Offer investor introductions',d:'If they are fundraising: <strong>"I know a couple investors who back companies doing exactly this — happy to make an intro."</strong>'},
+      {t:'LinkedIn follow-up with startup context',d:'Connect on LinkedIn: <strong>"Saw your company on AngelList — really interesting what you are building in [space]."</strong>'},
+      {t:'Pitch your product as a tool for scaling',d:'<strong>"We work with a lot of AngelList-listed startups at your stage — here is what the fastest-growing ones do differently."</strong>'},
+    ];},cta:'Open AngelList Now',ctaBg:'#374151'},
+  {channelId:'gartner',name:'Gartner / Analyst',icon:'GRT',color:'#ea1c2d',badge:'ENTERPRISE',badgeClass:'badge-high',
+    getSteps:function(loc,lead){return[
+      {t:'Analyst signal detected',d:'Status: <strong>'+loc.label+'</strong>. Enterprise buyers who reference Gartner are in formal procurement — this is a serious evaluation.'},
+      {t:'Request a Gartner analyst briefing',d:'<strong>Submit a Gartner vendor briefing request immediately.</strong> Being in the Gartner ecosystem is a key enterprise trust signal.'},
+      {t:'Reach out to the enterprise buyer directly',d:'<strong>Enterprise procurement includes 6+ stakeholders.</strong> Map the buying committee and reach out to each with tailored messaging.'},
+      {t:'Send an RFP-ready one-pager',d:'<strong>Enterprise buyers need security docs, SLAs, case studies, and pricing tiers.</strong> Have these ready and send proactively.'},
+      {t:'Executive sponsor engagement',d:'<strong>Have your CEO or CRO reach out to the economic buyer&#39;s equivalent.</strong> Executive sponsorship is expected at enterprise deal sizes.'},
+    ];},cta:'Open Gartner Profile',ctaBg:'#ea1c2d'},
+  {channelId:'techcrunch',name:'Tech Press / PR',icon:'TC',color:'#0a9f3c',badge:'PRESS SPIKE',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Press coverage signal',d:'Status: <strong>'+loc.label+'</strong>. Press coverage drives inbound spikes — capture every visitor while intent is at its peak.'},
+      {t:'Publish a landing page for press traffic',d:'<strong>Create a dedicated "As seen in [publication]" landing page</strong> and run ads pointing press traffic there within 2 hours.'},
+      {t:'Email your existing list about the coverage',d:'<strong>Send a broadcast: "We were just featured in [outlet]"</strong> — press mentions validate your brand to prospects on the fence.'},
+      {t:'LinkedIn post about the coverage',d:'<strong>Post the article on LinkedIn within 1 hour of publication.</strong> Tag the journalist. Maximize organic reach while the algorithm is fresh.'},
+      {t:'Retarget press traffic with ads',d:'<strong>Pixel all press traffic and retarget within 6 hours</strong> with a specific offer for people who came from the article.'},
+    ];},cta:'Open Press Dashboard',ctaBg:'#0a9f3c'},
+  {channelId:'clubhouse',name:'Clubhouse Audio',icon:'CLH',color:'#f5e6d3',badge:'LIVE ROOM',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Clubhouse room activity',d:'Status: <strong>'+loc.label+'</strong>. Live audio participants are fully engaged and open to organic conversation.'},
+      {t:'Raise your hand to speak',d:'<strong>Request to speak in the room and add a genuinely useful insight</strong> — not a pitch. Make the room smarter.'},
+      {t:'Follow the listener after the room',d:'<strong>Follow everyone who raised their hand or spoke</strong> — they are the most engaged. Most will follow back.'},
+      {t:'DM with room context',d:'<strong>"Great discussion in [room name] — your point about [X] really resonated."</strong> Room-specific openers have 3x higher reply rate.'},
+      {t:'Host your own room next week',d:'<strong>Host a room on a topic your ICP cares about.</strong> Room hosts are perceived as experts and attract inbound leads.'},
+    ];},cta:'Open Clubhouse App',ctaBg:'#8b5cf6'},
+  {channelId:'doordash',name:'DoorDash / Food Delivery',icon:'DRD',color:'#ff3008',badge:'REPEAT BUYER',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Food delivery signal',d:'Status: <strong>'+loc.label+'</strong>. Repeat delivery customers are your most loyal buyers — engage them to increase lifetime value.'},
+      {t:'Offer a loyalty reward',d:'<strong>"Thanks for ordering again — here is a free item or discount on your next order."</strong> Loyalty offers convert at 41% for repeat buyers.'},
+      {t:'Ask for a review',d:'<strong>After a completed order, send a review request within 15 minutes.</strong> Reviews drive 34% more new orders for local restaurants.'},
+      {t:'Upsell via special menu items',d:'<strong>Promote a premium bundle or seasonal special</strong> in your DoorDash store banner — repeat visitors notice changes.'},
+      {t:'Activate DoorDash Ads',d:'<strong>Run a DoorDash Sponsored Listing campaign</strong> targeting your delivery zone during peak hours (12-1pm and 6-8pm).'},
+    ];},cta:'Open DoorDash Merchant',ctaBg:'#ff3008'},
+  {channelId:'instacart',name:'Instacart',icon:'ICT',color:'#43b02a',badge:'GROCERY BUYER',badgeClass:'badge-med',
+    getSteps:function(loc,lead){return[
+      {t:'Instacart signal detected',d:'Activity: <strong>'+loc.label+'</strong>. Instacart buyers who search your brand are high-intent and ready to add to cart.'},
+      {t:'Optimize your product listing',d:'<strong>Update your Instacart product title, image, and description</strong> to match the search term that drove the view.'},
+      {t:'Run an Instacart Ads campaign',d:'<strong>Launch a Featured Product ad on Instacart</strong> targeting searches related to your category — converts at 4x organic.'},
+      {t:'Offer a coupon in-app',d:'<strong>Create an Instacart digital coupon for first-time buyers of your product.</strong> Coupons increase trial by 28% on grocery platforms.'},
+      {t:'Bundle promotion',d:'<strong>Set up a "frequently bought together" bundle</strong> with complementary products — increases average order value by 22%.'},
+    ];},cta:'Open Instacart Ads',ctaBg:'#43b02a'},
+];
+
+/* ---- COMPANIES, ROLES, INTENTS, etc. ---- */
+var COMPANIES = [
+  'Acme Corp','Nova Labs','Syntech','BlueBridge','Orion Media','DataCore','PeakFlow','Vertex AI',
+  'Luminar','Coastal Ventures','TrueNorth','FluxDrive','Solaris','RedWood Co','AlphaPoint',
+  'Cascade IO','Pinnacle SaaS','Meridian Tech','Solstice AI','IronClad','Quantum Leap',
+  'BrightEdge','StormPath','Nexus Group','Tidal Systems','OakBridge Capital','Prism Analytics',
+  'Cloudrift','Helix Health','Momentum Labs','Stardust Media','CipherBase','Nomad Commerce',
+  'BlueHaven','Patchwork AI','Drift Engine','Vortex CRM','Launchpad Ventures','RocketFuel',
+  'GridIron Tech','Basecamp Pro','Zenith Cloud','HorizonNet','Parallax Media','Cobalt Digital',
+  'Axiom Health','Torchlight','Silverline','Granite AI','Apex Dynamics','Riverstone Labs',
+  'Compass Analytics','Trident Systems','Ember Cloud','Bolt Networks','Aether Labs','Crestline',
+  'Harbinger Tech','Watershed IO','Vanguard AI','Summit CRM','Linkbridge','ClearSight',
+  'Radiant Works','Fieldstone Inc','Arcadia Health','Tempest Media','Cascade Networks',
+  'Redshift Labs','Goldleaf AI','Nightfall Tech','Ironwood Capital','Springboard SaaS',
+  'Helios Group','Firewatch IO','SandBar Digital','Ironhive','Loft Analytics','Overhang AI',
+  'Bravo Commerce','Nomadic Media','Pinnacle Health','Sable Cloud','Upshift Tech','Lagoon AI',
+  'LandMark CRM','CloudNest','StellarOps','SkyBridge AI','Forgepoint Capital','Holloway Health',
+  'Terrapin Labs','Mosaic Tech','Sapphire Cloud','BlueStar Analytics','Greenfield IO',
+  'Ironshore','Nightwatch Media','Zenith AI','Trident Health','Avalon CRM','Deepwave',
+  'Tundra Labs','Crestwood IO','SilverPeak','Ridgeline AI','Skyline Health','Catalyst CRM',
+  'Foundry Networks','Westbridge','Bayshore Labs','Clearpath Analytics','Dayspring Media',
+  'TrueBeam AI','Springdale Systems','Wavefront Tech','Landmark AI','Lodestar Cloud',
+  'Ironclad SaaS','Vantage IO','Highmark Analytics','Outpost Media','Riverbend Tech',
+  'Onyx Capital','Flashpoint AI','Threshold Labs','Skyview Health','Hilltop CRM',
+  'Waypoint Tech','Stratus IO','Cloudburst AI','Beacon Labs','Summit Analytics',
+  'Cornerstone Media','Ironveil','Highpoint SaaS','Overland Systems','Firstlight AI',
+  'Crossroads IO','Windfall Tech','Stonebridge','Upland CRM','Deeproot Labs',
+  'Frostbite Media','Irongate AI','Ashfield Health','Clearwater Systems','Redline IO',
+  'Highrise Analytics','Bridgestone Tech','Cloudline SaaS','Ironhold Capital','Sagebrush AI',
+  'Timberline Media','Fern Analytics','Ridgemont IO','Cliffside Tech','Lowland CRM',
+  'Cobaltstone AI','Highwall Labs','Creekside Health','Streamline IO','Ironpoint Media',
+  'TrueNorth SaaS','Broadfield Tech','Silvergate AI','Lowridge Analytics','Northgate IO',
+  'Eastbridge CRM','Westfield Labs','Southgate AI','Northwall Tech','Fairbridge Media',
+  'Newbridge AI','Oldgate Tech','Goodwall IO','Lastpost CRM','Firstbase Labs',
+  'Cleargate AI','Darkwood Media','Lightridge Analytics','Brightwall IO','Nightgate Health',
+  'Dayline SaaS','Stormgate AI','Snowfield Labs','Rainveil Tech','Sunbridge IO',
+  'Cloudgate CRM','Moonridge Analytics','Starfield Media','Skygate Health','Earthwall AI',
+  'Fireline IO','Waterbridge Labs','Windgate Tech','Ironfield SaaS','Stoneveil Analytics',
+  'Goldbridge IO','Silverfield CRM','Bronzegate Tech','Copperwall AI','Tinveil Media',
+  'Steelbridge Health','Leadfield IO','Zincgate Analytics','Alumwall Labs','Titanveil SaaS',
+  'Platinumridge AI','Diamondwall IO','Crystalgate Tech','Gemfield CRM','Jewelbridge Labs',
+  'Rubywall Analytics','Sapphiregate IO','Emeraldfield AI','Topazwall Tech','Opalveil SaaS',
+  'Jaderidge Media','Amethystfield IO','Quartzwall Analytics','Graniteridge Tech','Marbleveil AI',
+  'SlateField IO','BasaltWall CRM','VolcanicRidge Labs','Igneousgate Tech','Metamorphic SaaS',
+  'SedimentField AI','Fossilwall IO','Crystalline Tech','Limestone CRM','SandstoneRidge AI',
+  'ShaleField IO','ClayWall Labs','MudBrick Tech','CementVeil SaaS','ConcreteRidge Media',
+  'AsphaltField IO','TarWall Analytics','BitumenRidge Tech','PitchVeil AI','CoalField CRM',
+  'PeatWall Labs','CharcoalRidge IO','CarbonField Tech','GraphiteVeil SaaS','DiamondRidge Analytics',
+  'CrystalField IO','GemWall Tech','JewelRidge CRM','StoneVeil Labs','RockField AI',
+  'BoulderWall IO','PebbleRidge Analytics','GravelField Tech','SandVeil SaaS','DustField Media',
+  'AshWall IO','CinderRidge Analytics','EmberField Tech','FlameVeil AI','FireField CRM',
+  'BlazeWall Labs','InfernoRidge IO','FurnaceField Tech','KilnVeil SaaS','ForgeField Analytics',
+  'SmeltWall IO','CastRidge Tech','MoldField CRM','AnvilVeil Labs','HammerField AI',
+  'ChiselWall IO','SawRidge Analytics','DrillField Tech','BoltVeil SaaS','NailField Media',
+  'ScrewWall IO','WrenchRidge Analytics','PlierField Tech','CutterVeil AI','GrinderField CRM',
+  'PolisherWall Labs','BufferRidge IO','SanderField Tech','PrimerVeil SaaS','PaintField Analytics',
+  'CoatWall IO','FinishRidge Tech','SealField CRM','VarnishVeil Labs','LacquerField AI',
+  'GlossWall IO','MatteRidge Analytics','ShineField Tech','GlowVeil SaaS','LustrousField Media',
+  'BrilliantWall IO','RadiantRidge Analytics','Dazzling Tech','Sparkling AI','GlitterField CRM',
+  'ShimmerWall Labs','GleamRidge IO','FlashField Tech','BlinkVeil SaaS','TwinkleField Analytics',
+  'SparkField IO','GlintWall Tech','ShimmerRidge CRM','GlowField Labs','LightVeil AI',
+  'BrightField IO','WhiteWall Analytics','SilverRidge Tech','GoldVeil SaaS','PlatinumField Media',
+  'DiamondWall IO','CrystalRidge Analytics','GemField Tech','JewelVeil AI','RubyField CRM',
+  'SapphireWall Labs','EmeraldRidge IO','TopazField Tech','OpalVeil SaaS','JadeField Analytics',
+];
+
+var ROLES = [
+  'CEO','VP Sales','Marketing Director','CTO','Head of Growth','Founder','CMO','BizDev Lead',
+  'Product Manager','Sales Manager','Chief Revenue Officer','VP Marketing','Director of Sales',
+  'Account Executive','SDR','Growth Hacker','Demand Gen Manager','Digital Marketing Lead',
+  'E-commerce Director','Partnership Manager','Channel Sales Manager','VP of Partnerships',
+  'Head of Revenue','Chief Growth Officer','Director of Demand Gen','Inside Sales Manager',
+  'Enterprise Account Exec','Strategic Account Manager','Sales Engineer','Customer Success Director',
+  'Performance Marketing Lead','SEO Director','Paid Media Manager','Social Media Director',
+  'Content Marketing Director','Brand Manager','Product Marketing Manager','VP of Product',
+  'Co-Founder','Managing Director','General Manager','COO','VP Engineering','Head of BD',
+];
+
+var INTENTS = [
+  'Requested a demo','Downloaded whitepaper','Viewed pricing page 3x','Clicked CTA button',
+  'Submitted contact form','Joined live webinar','Replied to cold email','Engaged on LinkedIn post',
+  'Opened 5 emails in 24h','Clicked paid ad','Visited case study page','Watched product video',
+  'Started free trial','Attended virtual event','Booked discovery call','Clicked ROI calculator',
+  'Visited /features 4x','Asked pricing question in chat','Downloaded comparison guide',
+  'Signed up for newsletter','Explored API documentation','Opened retargeting ad',
+  'Clicked email CTA twice','Viewed onboarding page','Searched branded keyword',
+  'Submitted RFP request','Watched demo video fully','Engaged with chatbot','Replied to LinkedIn DM',
+  'Completed online assessment','Filled ROI form','Downloaded product sheet',
+  'Clicked retargeting banner','Signed up for free webinar','Watched explainer video',
+  'Liked thought leadership post','Commented on competitor content','Clicked podcast ad link',
+];
+
+var INDUSTRIES = [
+  'SaaS','FinTech','HealthTech','E-commerce','EdTech','LegalTech','PropTech','InsurTech',
+  'MarTech','AdTech','CleanTech','BioTech','MedTech','RetailTech','HRTech','Cybersecurity',
+  'AI / ML','Data Analytics','Cloud Infra','DevTools','Logistics Tech','AgriTech',
+];
+
+var LOCATIONS = [
+  'New York, NY','San Francisco, CA','Austin, TX','Chicago, IL','Boston, MA','Seattle, WA',
+  'Los Angeles, CA','Miami, FL','Denver, CO','Atlanta, GA','London, UK','Berlin, DE',
+  'Toronto, CA','Sydney, AU','Singapore, SG','Amsterdam, NL','Paris, FR','Tokyo, JP',
+  'Dubai, UAE','Sao Paulo, BR','Bangalore, IN','Stockholm, SE','Tel Aviv, IL','Oslo, NO',
+];
+
+/* ======================================================
+   STATE
+   ====================================================== */
+var totalLeads = 0;
+var hotLeads = 0;
+var hourLeads = 0;
+var activeNow = 0;
+var miniBarData = [];
+for (var _b = 0; _b < 14; _b++) { miniBarData.push(0); }
+var selectedLead = null;
+
+/* ======================================================
+   INIT
+   ====================================================== */
+function init() {
+  buildChannels();
+  buildHeatmap();
+  buildMiniChart();
+  startClock();
+  document.getElementById('refresh-btn').addEventListener('click', buildHeatmap);
+  document.getElementById('clear-btn').addEventListener('click', function() {
+    document.getElementById('feed').innerHTML = '';
+    selectedLead = null;
+    showNoSelection();
+  });
+  for (var s = 0; s < 12; s++) { generateLead(true); }
+  updateKPIs();
+  setInterval(function() {
+    if (Math.random() < 0.72) { generateLead(false); updateKPIs(); }
+  }, 2600);
+  setInterval(updateMiniChart, 4000);
+  showNoSelection();
+}
+
+/* ======================================================
+   CHANNELS
+   ====================================================== */
+function buildChannels() {
+  for (var i = 0; i < CHANNELS.length; i++) {
+    CHANNELS[i].leads = Math.floor(Math.random() * 130) + 30;
+    CHANNELS[i].score = Math.floor(Math.random() * 40) + 45;
+  }
+  renderChannels();
+}
+
+function renderChannels() {
+  var total = 0;
+  for (var i = 0; i < CHANNELS.length; i++) { total += CHANNELS[i].leads; }
+  var sorted = CHANNELS.slice().sort(function(a, b) { return b.leads - a.leads; });
+  var html = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var ch = sorted[i];
+    var pct = Math.round(ch.leads / total * 100);
+    var ac = (i === 0) ? ' active' : '';
+    html += '<div class="channel-item' + ac + '" onclick="selectChannel(this)">';
+    html += '<div class="channel-icon" style="background:' + ch.color + '18;border-color:' + ch.color + '30">' + ch.icon + '</div>';
+    html += '<div class="channel-info">';
+    html += '<div class="channel-name">' + ch.name + '</div>';
+    html += '<div class="channel-meta">Score ' + ch.score + ' &middot; ' + pct + '%</div>';
+    html += '</div>';
+    html += '<div class="channel-count" style="color:' + ch.color + '">' + ch.leads + '</div>';
+    html += '</div>';
+    html += '<div class="channel-bar-wrap"><div class="channel-bar-bg">';
+    html += '<div class="channel-bar-fill" style="width:' + pct + '%;background:' + ch.color + '"></div>';
+    html += '</div></div>';
+  }
+  document.getElementById('channel-list').innerHTML = html;
+}
+
+function selectChannel(el) {
+  var items = document.querySelectorAll('.channel-item');
+  for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
+  el.classList.add('active');
+}
+
+/* ======================================================
+   HEATMAP
+   ====================================================== */
+function buildHeatmap() {
+  var el = document.getElementById('heatmap');
+  el.innerHTML = '';
+  var peakHours = [9,10,11,14,15,16,17];
+  var peakDays = [1,2,3];
+  var dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  for (var day = 0; day < 7; day++) {
+    for (var hour = 0; hour < 24; hour++) {
+      var val = Math.random() * 0.25;
+      if (peakHours.indexOf(hour) > -1) { val += Math.random() * 0.5; }
+      if (peakDays.indexOf(day) > -1) { val += Math.random() * 0.3; }
+      if (val > 1) { val = 1; }
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      cell.style.gridColumn = String(hour + 1);
+      cell.style.gridRow = String(day + 1);
+      cell.style.background = valToColor(val);
+      var hStr = (hour === 0) ? '12am' : (hour < 12) ? (hour+'am') : (hour === 12) ? '12pm' : ((hour-12)+'pm');
+      cell.dataset.label = dayNames[day] + ' ' + hStr + ' - ' + Math.round(val * 100) + ' leads';
+      cell.addEventListener('mouseenter', showTip);
+      cell.addEventListener('mouseleave', hideTip);
+      cell.addEventListener('mousemove', moveTip);
+      el.appendChild(cell);
+    }
+  }
+}
+
+function valToColor(v) {
+  if (v < 0.15) { return '#1a2535'; }
+  if (v < 0.35) { return '#0d3a5c'; }
+  if (v < 0.55) { return '#005f8f'; }
+  if (v < 0.75) { return '#0096b7'; }
+  return '#00e5ff';
+}
+
+function showTip(e) { var t = document.getElementById('tooltip'); t.textContent = e.target.dataset.label; t.style.opacity='1'; moveTip(e); }
+function hideTip() { document.getElementById('tooltip').style.opacity='0'; }
+function moveTip(e) { var t = document.getElementById('tooltip'); t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY-36)+'px'; }
+
+/* ======================================================
+   LEAD GENERATION
+   ====================================================== */
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function generateLead(silent) {
+  var ch = rnd(CHANNELS);
+  var locList = LIVE_LOCATIONS[ch.id] || LIVE_LOCATIONS['website'];
+  var liveLoc = rnd(locList);
+  var lead = {
+    ch: ch,
+    company: rnd(COMPANIES),
+    role: rnd(ROLES),
+    intent: rnd(INTENTS),
+    industry: rnd(INDUSTRIES),
+    city: rnd(LOCATIONS),
+    score: Math.floor(Math.random() * 60) + 28,
+    liveLoc: liveLoc,
+    time: new Date(),
+    id: 'lead-' + Date.now() + '-' + Math.floor(Math.random()*9999),
+  };
+
+  var isHot = lead.score >= 74;
+  var isWarm = lead.score >= 50 && lead.score < 74;
+  lead.heatLabel = isHot ? 'HOT' : isWarm ? 'WARM' : 'COLD';
+  lead.heatEmoji = isHot ? '&#128293;' : isWarm ? '&#127777;' : '&#10052;';
+  lead.heatClass = isHot ? 'tag-hot' : isWarm ? 'tag-warm' : 'tag-cold';
+  lead.scoreColor = isHot ? 'var(--danger)' : isWarm ? 'var(--warning)' : 'var(--muted2)';
+
+  totalLeads++;
+  hourLeads++;
+  if (isHot) { hotLeads++; }
+  ch.leads++;
+  activeNow = Math.min(activeNow + Math.floor(Math.random() * 4) + 1, 248);
+
+  miniBarData.shift();
+  miniBarData.push(miniBarData[miniBarData.length - 1] + 1);
+
+  if (!silent) {
+    addFeedItem(lead);
+    renderChannels();
+    updateMiniChart();
+  }
+}
+
+/* ======================================================
+   FEED ITEM
+   ====================================================== */
+function addFeedItem(lead) {
+  var feed = document.getElementById('feed');
+  var timeStr = lead.time.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  var locIcon = lead.liveLoc.type === 'group' ? '&#128101;' : lead.liveLoc.type === 'event' ? '&#127881;' : lead.liveLoc.type === 'session' ? '&#128196;' : '&#128205;';
+  var locClass = lead.liveLoc.type === 'group' ? 'group' : lead.liveLoc.type === 'session' ? 'session' : 'page';
+
+  var item = document.createElement('div');
+  item.className = 'feed-item';
+  item.id = lead.id;
+  item.dataset.leadId = lead.id;
+
+  var html = '';
+  html += '<div class="feed-icon" style="background:' + lead.ch.color + '18;border:1px solid ' + lead.ch.color + '30;color:' + lead.ch.color + '">' + lead.ch.icon + '</div>';
+  html += '<div class="feed-body">';
+  html += '<div class="feed-headline">' + lead.role + ' @ ' + lead.company + '</div>';
+  html += '<div class="feed-sub">';
+  html += '<span class="feed-tag ' + lead.heatClass + '">' + lead.heatEmoji + ' ' + lead.heatLabel + '</span>';
+  html += '<span>' + lead.intent + '</span>';
+  html += '</div>';
+  html += '<div class="feed-location-row">';
+  html += '<div class="loc-pulse"></div>';
+  html += '<span class="loc-pill ' + locClass + '">' + locIcon + ' ' + lead.liveLoc.short + '</span>';
+  html += '<span style="color:var(--muted);font-size:10px">' + lead.city + '</span>';
+  html += '</div>';
+  var goUrl = lead.liveLoc.url || 'https://www.google.com';
+  html += '<a href="' + goUrl + '" target="_blank" rel="noopener" class="go-btn go-btn-feed" onclick="event.stopPropagation()">';
+  html += '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M6 2l4 4-4 4"/></svg>';
+  html += 'Go Now</a>';
+  html += '</div>';
+  html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;margin-left:6px">';
+  html += '<div style="font-family:var(--font-display);font-size:16px;font-weight:800;line-height:1;color:' + lead.scoreColor + '">' + lead.score + '</div>';
+  html += '<div style="font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase">score</div>';
+  html += '</div>';
+  html += '<div class="feed-time">' + timeStr + '</div>';
+
+  item.innerHTML = html;
+
+  // store lead data on element
+  item._leadData = lead;
+
+  item.addEventListener('click', function() {
+    onLeadClick(this);
+  });
+
+  feed.insertBefore(item, feed.firstChild);
+  while (feed.children.length > 50) { feed.removeChild(feed.lastChild); }
+}
+
+/* ======================================================
+   LEAD CLICK — UPDATE RIGHT PANEL
+   ====================================================== */
+function onLeadClick(el) {
+  // deselect previous
+  var prev = document.querySelector('.feed-item.selected');
+  if (prev) { prev.classList.remove('selected'); }
+  el.classList.add('selected');
+
+  var lead = el._leadData;
+  selectedLead = lead;
+  renderApproachPanel(lead);
+}
+
+function showNoSelection() {
+  document.getElementById('context-section').innerHTML =
+    '<div class="no-selection"><strong>&#128064; No lead selected</strong>Click any lead in the feed to see exactly where they are right now and get a personalized approach playbook.</div>';
+  document.getElementById('approach-cards').innerHTML = '';
+  document.getElementById('approach-sub').textContent = 'Click a lead to get real-time approach tactics';
+}
+
+function renderApproachPanel(lead) {
+  var now = new Date();
+  var timeStr = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  var locIcon = lead.liveLoc.type === 'group' ? '&#128101;' : lead.liveLoc.type === 'event' ? '&#127881;' : lead.liveLoc.type === 'session' ? '&#128196;' : '&#128205;';
+
+  document.getElementById('approach-sub').textContent = lead.role + ' @ ' + lead.company + ' — live now';
+
+  /* CONTEXT BANNER */
+  var ctxHtml = '';
+  ctxHtml += '<div class="context-banner">';
+  ctxHtml += '<div class="context-banner-top">';
+  ctxHtml += '<div class="cb-dot"></div>';
+  ctxHtml += '<div class="cb-title">Live Location Detected</div>';
+  ctxHtml += '<div class="cb-time">' + timeStr + '</div>';
+  ctxHtml += '</div>';
+  ctxHtml += '<div class="context-body">';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#128100;</div><div class="ctx-info"><div class="ctx-label">Lead</div><div class="ctx-val">' + lead.role + ' @ <span>' + lead.company + '</span></div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">' + locIcon + '</div><div class="ctx-info"><div class="ctx-label">Right Now</div><div class="ctx-val"><span>' + lead.liveLoc.label + '</span></div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#127758;</div><div class="ctx-info"><div class="ctx-label">Location</div><div class="ctx-val">' + lead.city + ' &bull; ' + lead.industry + '</div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#127919;</div><div class="ctx-info"><div class="ctx-label">Intent Signal</div><div class="ctx-val">' + lead.intent + '</div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#9889;</div><div class="ctx-info"><div class="ctx-label">Lead Score</div><div class="ctx-val" style="color:' + lead.scoreColor + '">' + lead.score + ' / 100 &mdash; ' + lead.heatLabel + '</div></div></div>';
+  ctxHtml += '</div>';
+  var ctxUrl = lead.liveLoc.url || 'https://www.google.com';
+  ctxHtml += '<div style="padding:12px 14px;border-top:1px solid rgba(0,229,255,.1);">';
+  ctxHtml += '<a href="' + ctxUrl + '" target="_blank" rel="noopener" class="go-banner-btn">';
+  ctxHtml += '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 7h9M7 2.5l4.5 4.5L7 11.5"/></svg>';
+  ctxHtml += '&#9889; GO THERE NOW &rarr; ' + lead.liveLoc.short;
+  ctxHtml += '</a></div>';
+  ctxHtml += '</div>';
+  document.getElementById('context-section').innerHTML = ctxHtml;
+
+  /* APPROACH CARDS — primary card first (matching channel), others below */
+  var cardsHtml = '';
+  var primaryIdx = -1;
+
+  for (var i = 0; i < APPROACH_TEMPLATES.length; i++) {
+    if (APPROACH_TEMPLATES[i].channelId === lead.ch.id) { primaryIdx = i; break; }
+  }
+
+  // Primary approach first (open by default)
+  if (primaryIdx > -1) {
+    cardsHtml += buildApproachCard(APPROACH_TEMPLATES[primaryIdx], lead, true);
+  }
+
+  // Secondary approaches (closed)
+  for (var j = 0; j < APPROACH_TEMPLATES.length; j++) {
+    if (j !== primaryIdx) {
+      cardsHtml += buildApproachCard(APPROACH_TEMPLATES[j], lead, false);
+    }
+  }
+
+  document.getElementById('approach-cards').innerHTML = cardsHtml;
+}
+
+function buildApproachCard(tmpl, lead, isOpen) {
+  var steps = tmpl.getSteps(lead.liveLoc, lead);
+  var openCls = isOpen ? ' open' : '';
+  var html = '';
+  html += '<div class="approach-card' + openCls + '" id="ac-' + tmpl.channelId + '">';
+  html += '<div class="ac-header" onclick="toggleAC(\'' + tmpl.channelId + '\')">';
+  html += '<div class="ac-icon" style="background:' + tmpl.color + '1a;border:1px solid ' + tmpl.color + '33;color:' + tmpl.color + '">' + tmpl.icon + '</div>';
+  html += '<div class="ac-meta"><div class="ac-name">' + tmpl.name + '</div><div class="ac-sub">via ' + lead.ch.name + ' &bull; ' + lead.city + '</div></div>';
+  html += '<div class="ac-badge ' + tmpl.badgeClass + '">' + tmpl.badge + '</div>';
+  html += '</div>';
+  html += '<div class="ac-body">';
+
+  // LIVE INSTRUCTION — unique to this lead&#39;s real-time location
+  html += '<div class="live-instruction">';
+  html += '<div class="li-header"><div class="li-pulse"></div><div class="li-label">&#9889; Real-Time Context</div></div>';
+  html += '<div class="li-text">They are currently <strong>' + lead.liveLoc.label + '</strong>. This approach is calibrated for this exact moment.</div>';
+  html += '</div>';
+
+  for (var i = 0; i < steps.length; i++) {
+    var st = steps[i];
+    html += '<div class="ac-step">';
+    html += '<div class="step-num" style="background:' + tmpl.color + '22;color:' + tmpl.color + '">' + (i + 1) + '</div>';
+    html += '<div class="step-text"><strong>' + st.t + '</strong><br>' + st.d + '</div>';
+    html += '</div>';
+  }
+  var cardUrl = lead.liveLoc.url || 'https://www.google.com';
+  html += '<a href="' + cardUrl + '" target="_blank" rel="noopener" class="go-btn go-btn-card" style="background:' + tmpl.ctaBg + ';text-decoration:none;display:flex;">';
+  html += '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M2.5 7h9M7 2.5l4.5 4.5L7 11.5"/></svg>';
+  html += ' Go There Now &rarr; ' + lead.liveLoc.short;
+  html += '</a>';
+  html += '</div></div>';
+  return html;
+}
+
+function toggleAC(channelId) {
+  var card = document.getElementById('ac-' + channelId);
+  if (card) { card.classList.toggle('open'); }
+}
+
+/* ======================================================
+   KPIs
+   ====================================================== */
+function updateKPIs() {
+  animCount('kpi-total', totalLeads);
+  animCount('kpi-hot', hotLeads);
+  animCount('kpi-active', activeNow);
+  document.getElementById('kpi-total-d').textContent = '+' + hourLeads + ' this hour';
+  document.getElementById('kpi-hot-d').textContent = '+' + hotLeads + ' new';
+  document.getElementById('kpi-active-d').textContent = 'on tracked pages';
+  var sorted = CHANNELS.slice().sort(function(a, b) { return b.leads - a.leads; });
+  document.getElementById('kpi-channel').textContent = sorted[0].name.split(' ')[0];
+  document.getElementById('kpi-ch-d').textContent = sorted[0].leads + ' leads detected';
+  var sum = 0;
+  for (var i = 0; i < CHANNELS.length; i++) { sum += CHANNELS[i].score; }
+  animCount('kpi-score', Math.round(sum / CHANNELS.length));
+}
+
+function animCount(id, target) {
+  var el = document.getElementById(id);
+  var current = parseInt(el.textContent, 10) || 0;
+  var diff = target - current;
+  if (diff <= 0) { el.textContent = target; return; }
+  var step = Math.ceil(diff / 8);
+  var val = current;
+  var iv = setInterval(function() {
+    val = Math.min(val + step, target);
+    el.textContent = val;
+    if (val >= target) { clearInterval(iv); }
+  }, 40);
+}
+
+/* ======================================================
+   MINI CHART
+   ====================================================== */
+function buildMiniChart() {
+  var el = document.getElementById('mini-chart');
+  el.innerHTML = '';
+  for (var i = 0; i < 14; i++) {
+    var bar = document.createElement('div');
+    bar.className = 'mini-bar';
+    el.appendChild(bar);
+  }
+}
+
+function updateMiniChart() {
+  var bars = document.querySelectorAll('.mini-bar');
+  var maxV = 1;
+  for (var i = 0; i < miniBarData.length; i++) { if (miniBarData[i] > maxV) { maxV = miniBarData[i]; } }
+  for (var i = 0; i < bars.length; i++) {
+    bars[i].style.height = Math.max(4, Math.round(miniBarData[i] / maxV * 22)) + 'px';
+    if (i === bars.length - 1) { bars[i].classList.add('peak'); }
+    else { bars[i].classList.remove('peak'); }
+  }
+}
+
+/* ======================================================
+   CLOCK
+   ====================================================== */
+function startClock() {
+  function tick() {
+    document.getElementById('clock').textContent =
+      new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ======================================================
+   START
+   ====================================================== */
+window.addEventListener('DOMContentLoaded', init);
+</script>
+
+
+
+
+<script>
+/* role pill */
+document.addEventListener('DOMContentLoaded',function(){
+  var el=document.getElementById('hdr-role');
+  if(!el)return;
+  var r=typeof window._lpRole==='function'?window._lpRole():'';
+  if(r==='O'){el.textContent='OWNER';el.style.background='rgba(0,229,255,.1)';el.style.color='#00e5ff';el.style.borderColor='rgba(0,229,255,.3)';}
+  else if(r==='G'){el.textContent='GUEST';el.style.background='rgba(127,255,107,.08)';el.style.color='#7fff6b';el.style.borderColor='rgba(127,255,107,.25)';}
+  else{el.style.display='none';}
+});
+</script>
+</body>
+</html>
