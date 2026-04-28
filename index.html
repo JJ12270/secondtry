@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Website</title>
+</head>
+
+<body>
+
+<h1>My Platform</h1>
+
+<p>Welcome to the site</p>
+
+<script src="app.js"></script>
+
+</body>
+</html>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadPulse — Real-Time Lead Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#020408; --surface:#080d14; --surface2:#0d1520;
+  --border:#1a2535; --border2:#243347;
+  --accent:#00e5ff; --accent2:#ff6b35; --accent3:#7fff6b; --accent4:#d4ff3d;
+  --text:#e8f4ff; --muted:#4a6080; --muted2:#7090b0;
+  --danger:#ff3d5a; --warning:#ffb020; --success:#00d47e;
+  --font-display:'Syne',sans-serif;
+  --font-body:'Cabinet Grotesk',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(2,4,8,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:10px;}
+.logo-dot{width:9px;height:9px;background:var(--accent);border-radius:50%;animation:pdot 1.5s ease-in-out infinite;box-shadow:0 0 10px var(--accent);}
+@keyframes pdot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+.logo span{color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:16px;}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,212,126,.1);border:1px solid rgba(0,212,126,.3);border-radius:20px;padding:4px 12px;font-family:var(--font-mono);font-size:10px;color:var(--success);letter-spacing:1px;text-transform:uppercase;}
+.live-badge::before{content:'';width:6px;height:6px;background:var(--success);border-radius:50%;animation:pdot 1s ease-in-out infinite;box-shadow:0 0 6px var(--success);}
+.header-time{font-family:var(--font-mono);font-size:12px;color:var(--muted2);}
+
+/* LAYOUT */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:260px 1fr 360px;grid-template-rows:auto 1fr;height:calc(100vh - 60px);overflow:hidden;}
+.top-bar{grid-column:1/-1;display:flex;gap:12px;padding:16px 20px 14px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.kpi-card{flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 18px;position:relative;overflow:hidden;transition:border-color .3s;}
+.kpi-card:hover{border-color:var(--border2);}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--kpi-color,var(--accent));opacity:.6;}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);font-family:var(--font-mono);margin-bottom:7px;}
+.kpi-value{font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--kpi-color,var(--accent));line-height:1;margin-bottom:3px;}
+.kpi-delta{font-size:11px;color:var(--muted2);}
+.kpi-delta.up{color:var(--success);}
+
+/* LEFT */
+.left-panel{border-right:1px solid var(--border);overflow-y:auto;padding:16px 0;display:flex;flex-direction:column;}
+.left-panel::-webkit-scrollbar{width:3px;}
+.left-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.panel-title{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 18px;margin-bottom:14px;}
+.channel-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-left:3px solid transparent;cursor:pointer;transition:all .2s;}
+.channel-item:hover,.channel-item.active{background:rgba(0,229,255,.04);border-left-color:var(--accent);}
+.channel-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border);}
+.channel-info{flex:1;min-width:0;}
+.channel-name{font-size:12px;font-weight:600;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.channel-meta{font-family:var(--font-mono);font-size:10px;color:var(--muted2);}
+.channel-bar-wrap{width:100%;padding:2px 18px;margin-bottom:4px;}
+.channel-bar-bg{height:3px;background:var(--border);border-radius:4px;overflow:hidden;}
+.channel-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.channel-count{font-family:var(--font-display);font-size:14px;font-weight:700;flex-shrink:0;}
+
+/* CENTER */
+.center-panel{display:flex;flex-direction:column;overflow:hidden;}
+.heatmap-section{padding:16px 20px 0;flex-shrink:0;}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.section-title{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.section-action{font-family:var(--font-mono);font-size:10px;color:var(--accent);cursor:pointer;opacity:.7;transition:opacity .2s;}
+.section-action:hover{opacity:1;}
+.heatmap-grid{display:grid;grid-template-columns:repeat(24,1fr);grid-template-rows:repeat(7,1fr);gap:2px;height:98px;margin-bottom:5px;}
+.heatmap-cell{border-radius:2px;transition:transform .15s;cursor:pointer;}
+.heatmap-cell:hover{transform:scale(1.6);z-index:10;position:relative;}
+.heatmap-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:12px;}
+.feed-section{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:0 20px 16px;}
+.feed-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px;}
+.feed-scroll::-webkit-scrollbar{width:3px;}
+.feed-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* FEED ITEM */
+.feed-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:flex-start;gap:10px;animation:slidein .35s cubic-bezier(.16,1,.3,1);transition:all .2s;cursor:pointer;}
+.feed-item:hover{border-color:var(--accent);background:rgba(0,229,255,.02);}
+.feed-item.selected{border-color:var(--accent);background:rgba(0,229,255,.05);box-shadow:0 0 0 1px var(--accent);}
+@keyframes slidein{from{opacity:0;transform:translateY(-8px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.feed-icon{width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.feed-body{flex:1;min-width:0;}
+.feed-headline{font-size:12px;font-weight:600;margin-bottom:2px;line-height:1.3;}
+.feed-sub{font-size:10px;color:var(--muted2);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+.feed-location-row{font-family:var(--font-mono);font-size:10px;color:var(--accent);display:flex;align-items:center;gap:5px;margin-top:2px;}
+.loc-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:5px;padding:2px 7px;font-size:10px;}
+.loc-pill.page{color:var(--accent);}
+.loc-pill.group{color:var(--accent3);background:rgba(127,255,107,.08);border-color:rgba(127,255,107,.2);}
+.loc-pill.session{color:var(--warning);background:rgba(255,176,32,.08);border-color:rgba(255,176,32,.2);}
+.loc-pulse{width:5px;height:5px;background:var(--success);border-radius:50%;animation:pdot .9s ease-in-out infinite;display:inline-block;flex-shrink:0;}
+.feed-tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-family:var(--font-mono);font-size:10px;border:1px solid;}
+.feed-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);flex-shrink:0;padding-top:1px;}
+.tag-hot{color:var(--danger);border-color:rgba(255,61,90,.3);background:rgba(255,61,90,.08);}
+.tag-warm{color:var(--warning);border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.08);}
+.tag-cold{color:#7090b0;border-color:rgba(112,144,176,.3);background:rgba(112,144,176,.08);}
+
+/* RIGHT — APPROACH PANEL */
+.right-panel{border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+.right-panel::-webkit-scrollbar{width:3px;}
+.right-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.approach-header{padding:16px 18px 14px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border);}
+.approach-title{font-family:var(--font-display);font-size:15px;font-weight:800;margin-bottom:3px;}
+.approach-sub{font-size:11px;color:var(--muted2);}
+
+/* LIVE CONTEXT BANNER */
+.context-banner{margin:14px 14px 0;border-radius:11px;overflow:hidden;border:1px solid rgba(0,229,255,.25);background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(0,229,255,.02));}
+.context-banner-top{padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,229,255,.12);}
+.cb-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pdot .9s ease-in-out infinite;box-shadow:0 0 6px var(--accent);flex-shrink:0;}
+.cb-title{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;flex:1;}
+.cb-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.context-body{padding:12px 14px;display:flex;flex-direction:column;gap:7px;}
+.ctx-row{display:flex;align-items:flex-start;gap:8px;}
+.ctx-icon{font-size:13px;flex-shrink:0;margin-top:1px;}
+.ctx-info{flex:1;}
+.ctx-label{font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.ctx-val{font-size:12px;font-weight:600;color:var(--text);}
+.ctx-val span{color:var(--accent);}
+.no-selection{padding:20px 18px;text-align:center;color:var(--muted2);font-size:12px;line-height:1.6;}
+.no-selection strong{display:block;margin-bottom:6px;color:var(--muted);font-size:13px;}
+
+/* APPROACH CARDS */
+.approach-cards{padding:0 14px;}
+.approach-card{margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.approach-card:hover{border-color:var(--border2);}
+.ac-header{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid transparent;transition:border-color .2s;}
+.approach-card.open .ac-header{border-bottom-color:var(--border);}
+.ac-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:var(--font-mono);}
+.ac-meta{flex:1;}
+.ac-name{font-weight:700;font-size:12px;margin-bottom:2px;}
+.ac-sub{font-family:var(--font-mono);font-size:10px;color:var(--muted2);}
+.ac-badge{font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:20px;border:1px solid;flex-shrink:0;font-weight:600;text-transform:uppercase;}
+.ac-body{padding:0;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.approach-card.open .ac-body{max-height:800px;padding:14px;}
+
+/* LIVE INSTRUCTION BOX */
+.live-instruction{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:10px 12px;margin-bottom:12px;}
+.li-header{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.li-pulse{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pdot .9s ease-in-out infinite;flex-shrink:0;}
+.li-label{font-family:var(--font-mono);font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;}
+.li-text{font-size:11px;color:var(--text);line-height:1.55;}
+.li-text strong{color:var(--accent);}
+
+.ac-step{display:flex;gap:9px;margin-bottom:10px;align-items:flex-start;}
+.ac-step:last-child{margin-bottom:0;}
+.step-num{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;font-weight:600;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:11px;color:var(--muted2);line-height:1.55;}
+.step-text strong{color:var(--text);font-weight:600;}
+.cta-btn{display:block;width:100%;margin-top:12px;padding:9px;border-radius:8px;border:none;font-family:var(--font-body);font-weight:700;font-size:11px;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:all .2s;}
+.cta-btn:hover{transform:translateY(-1px);filter:brightness(1.1);}
+
+/* MINI CHART */
+.mini-chart{display:flex;align-items:flex-end;gap:2px;height:22px;}
+.mini-bar{width:4px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.4;transition:height .6s ease;}
+.mini-bar.peak{opacity:1;}
+
+/* TOOLTIP */
+.tooltip{position:fixed;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text);pointer-events:none;z-index:999;opacity:0;transition:opacity .15s;white-space:nowrap;}
+.badge-high{color:var(--danger);border-color:rgba(255,61,90,.4);}
+.badge-med{color:var(--warning);border-color:rgba(255,176,32,.4);}
+.badge-low{color:var(--success);border-color:rgba(0,212,126,.4);}
+.right-pad{height:20px;}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-dot"></div>Lead<span>Pulse</span></div>
+  <div class="header-right">
+    <div class="live-badge">Live Monitoring</div>
+    <div class="header-time" id="clock">--:--:--</div>
+  </div>
+</header>
+
+<div class="app">
+  <!-- KPI BAR -->
+  <div class="top-bar">
+    <div class="kpi-card" style="--kpi-color:var(--accent)">
+      <div class="kpi-label">Total Leads Today</div>
+      <div class="kpi-value" id="kpi-total">0</div>
+      <div class="kpi-delta up" id="kpi-total-d">+0 this hour</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--danger)">
+      <div class="kpi-label">Hot Leads</div>
+      <div class="kpi-value" id="kpi-hot">0</div>
+      <div class="kpi-delta up" id="kpi-hot-d">+0 new</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent3)">
+      <div class="kpi-label">Top Channel</div>
+      <div class="kpi-value" id="kpi-channel" style="font-size:15px;padding-top:6px">-</div>
+      <div class="kpi-delta" id="kpi-ch-d">detecting...</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent4)">
+      <div class="kpi-label">Avg Lead Score</div>
+      <div class="kpi-value" id="kpi-score">0</div>
+      <div class="kpi-delta">trending up</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent2)">
+      <div class="kpi-label">Active Right Now</div>
+      <div class="kpi-value" id="kpi-active">0</div>
+      <div class="kpi-delta" id="kpi-active-d">on tracked pages</div>
+    </div>
+  </div>
+
+  <!-- LEFT CHANNELS -->
+  <div class="left-panel">
+    <div class="panel-title">Lead Channels</div>
+    <div id="channel-list"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-panel">
+    <div class="heatmap-section">
+      <div class="section-header">
+        <div class="section-title">Activity Heatmap — 7 Days x 24h</div>
+        <div class="section-action" id="refresh-btn">&#8635; Refresh</div>
+      </div>
+      <div class="heatmap-grid" id="heatmap"></div>
+      <div class="heatmap-labels">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+    </div>
+    <div class="feed-section">
+      <div class="section-header">
+        <div class="section-title">&#128204; Real-Time Lead Feed — click any lead</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="mini-chart" id="mini-chart"></div>
+          <div class="section-action" id="clear-btn">Clear</div>
+        </div>
+      </div>
+      <div class="feed-scroll" id="feed"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: APPROACH PANEL -->
+  <div class="right-panel">
+    <div class="approach-header">
+      <div class="approach-title">&#128225; Approach Methods</div>
+      <div class="approach-sub" id="approach-sub">Click a lead to get real-time approach tactics</div>
+    </div>
+    <div id="context-section">
+      <div class="no-selection">
+        <strong>&#128064; No lead selected</strong>
+        Click any lead in the feed to see exactly where they are right now and get a personalized approach playbook.
+      </div>
+    </div>
+    <div class="approach-cards" id="approach-cards"></div>
+    <div class="right-pad"></div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ======================================================
+   DATA
+   ====================================================== */
+
+var CHANNELS = [
+  {id:'linkedin', name:'LinkedIn',         icon:'&#128188;', color:'#0a66c2', leads:0, score:0},
+  {id:'email',    name:'Email Campaigns',  icon:'&#128231;', color:'#ff6b35', leads:0, score:0},
+  {id:'website',  name:'Website Visitors', icon:'&#127760;', color:'#00e5ff', leads:0, score:0},
+  {id:'referral', name:'Referrals',        icon:'&#129309;', color:'#7fff6b', leads:0, score:0},
+  {id:'google',   name:'Google Ads',       icon:'&#128226;', color:'#d4ff3d', leads:0, score:0},
+  {id:'twitter',  name:'X / Twitter',      icon:'&#128038;', color:'#1d9bf0', leads:0, score:0},
+  {id:'events',   name:'Events & Webinars',icon:'&#127919;', color:'#d0a0ff', leads:0, score:0},
+  {id:'cold',     name:'Cold Outreach',    icon:'&#128222;', color:'#ff3d5a', leads:0, score:0},
+  {id:'youtube',  name:'YouTube',          icon:'&#9654;',   color:'#ff4444', leads:0, score:0},
+  {id:'podcast',  name:'Podcasts',         icon:'&#127908;', color:'#ff9500', leads:0, score:0},
+];
+
+/* ---- REAL-TIME LOCATIONS: where the lead IS right now ---- */
+var LIVE_LOCATIONS = {
+  linkedin: [
+    {type:'group', label:'Group: SaaS Founders Circle (12,400 members)', short:'SaaS Founders Circle'},
+    {type:'group', label:'Group: B2B Growth Hackers (8,900 members)', short:'B2B Growth Hackers'},
+    {type:'group', label:'Group: CRO & Revenue Leaders (5,200 members)', short:'CRO & Revenue Leaders'},
+    {type:'group', label:'Group: VC-Backed Startups Network (3,800 members)', short:'VC-Backed Startups'},
+    {type:'page',  label:'Browsing: Competitor Company Page (TechRival Inc)', short:'TechRival Inc page'},
+    {type:'page',  label:'Browsing: LinkedIn Sales Navigator - Lead Search', short:'Sales Navigator search'},
+    {type:'page',  label:'Reading: "Top 10 SaaS Tools 2025" article feed', short:'SaaS Tools article'},
+    {type:'page',  label:'Viewing: Your company page (last 3 mins)', short:'Your company page'},
+    {type:'page',  label:'Browsing: Job listings at competitor companies', short:'Competitor job posts'},
+    {type:'event', label:'Registered: "AI in B2B Sales" virtual event (tomorrow)', short:'AI in B2B Sales event'},
+    {type:'event', label:'Attending: "RevOps Summit 2025" LinkedIn Live', short:'RevOps Summit Live'},
+  ],
+  email: [
+    {type:'page',    label:'Opened email: "How to 3x pipeline in Q2" (2 mins ago)', short:'Opened nurture email'},
+    {type:'page',    label:'Clicked: Pricing CTA inside drip email #3', short:'Email pricing CTA'},
+    {type:'page',    label:'Forwarded: Case study email to 2 colleagues', short:'Forwarded case study'},
+    {type:'page',    label:'Opened email 4x in last 12 hours', short:'Repeated email opens'},
+    {type:'page',    label:'Clicked: "Book a demo" link in welcome email', short:'Demo CTA in email'},
+    {type:'page',    label:'Replied to cold outreach email (1 min ago)', short:'Replied to cold email'},
+  ],
+  website: [
+    {type:'page',    label:'Currently on: /pricing (2 min 18 sec dwell time)', short:'/pricing page'},
+    {type:'page',    label:'Currently on: /demo - filling out request form', short:'/demo form'},
+    {type:'page',    label:'Currently on: /case-studies/enterprise', short:'/case-studies/enterprise'},
+    {type:'page',    label:'Currently on: /features/integrations (4th visit today)', short:'/features page'},
+    {type:'page',    label:'Currently on: /blog/roi-calculator (high intent)', short:'/roi-calculator'},
+    {type:'page',    label:'Currently on: /compare/us-vs-competitor', short:'/compare page'},
+    {type:'page',    label:'Currently on: /onboarding - step 2 of 4', short:'/onboarding step 2'},
+    {type:'session', label:'Session: 8 pages in 14 mins, score 92/100', short:'8-page session'},
+    {type:'session', label:'Session: Returned after 3-day gap, viewing /pricing again', short:'Return visit /pricing'},
+    {type:'session', label:'Session: Scrolled 90% of /enterprise page', short:'Enterprise page scroll'},
+  ],
+  referral: [
+    {type:'page',    label:'Intro by: David Chen (your current customer, NPS 10)', short:'Intro by David Chen'},
+    {type:'page',    label:'Intro by: Sarah Mills via LinkedIn mutual connection', short:'Intro by Sarah Mills'},
+    {type:'page',    label:'Came from: Partner portal - PartnerStack referral link', short:'PartnerStack link'},
+    {type:'page',    label:'Came from: G2 review page - clicked "Get a demo"', short:'G2 review page'},
+    {type:'page',    label:'Came from: Capterra profile - clicked contact button', short:'Capterra profile'},
+  ],
+  google: [
+    {type:'page',    label:'Clicked ad: "[Your brand] vs Competitor" search query', short:'Competitor ad click'},
+    {type:'page',    label:'Clicked ad: "best CRM for SaaS startups" - landed /pricing', short:'Pricing landing page'},
+    {type:'page',    label:'Clicked ad: "how to scale B2B sales" - landed /blog', short:'Blog landing page'},
+    {type:'page',    label:'Clicked retargeting banner on TechCrunch article', short:'TechCrunch retarget'},
+    {type:'page',    label:'Clicked YouTube pre-roll ad (watched 45 sec)', short:'YouTube pre-roll ad'},
+  ],
+  twitter: [
+    {type:'page',    label:'Engaged: Replied to your company tweet (1 min ago)', short:'Replied to tweet'},
+    {type:'page',    label:'Browsing: #SaaS hashtag - saw your sponsored post', short:'#SaaS hashtag feed'},
+    {type:'group',   label:'Twitter Space: "Future of B2B Sales" (live, 340 listeners)', short:'B2B Sales Twitter Space'},
+    {type:'page',    label:'Liked and retweeted: Your thought leadership thread', short:'Retweeted your thread'},
+    {type:'page',    label:'Clicked link in your pinned tweet to /pricing', short:'Pinned tweet click'},
+  ],
+  events: [
+    {type:'event',   label:'Live now: Watching your webinar "Scale to $10M ARR"', short:'Scale to $10M ARR webinar'},
+    {type:'event',   label:'Registered: "SaaS Growth Masterclass" next Tuesday', short:'SaaS Growth Masterclass'},
+    {type:'event',   label:'Attended: Last 3 of your webinars (high intent)', short:'3x webinar attendee'},
+    {type:'event',   label:'Booth scan: SaaStr Annual 2025 - Badge scanned', short:'SaaStr Annual 2025'},
+    {type:'event',   label:'Virtual summit: "RevOps Week" - Session 3 live', short:'RevOps Week Session 3'},
+  ],
+  cold: [
+    {type:'page',    label:'Viewed: Your LinkedIn profile (30 sec ago)', short:'Viewed your LinkedIn'},
+    {type:'page',    label:'Opened cold email x3 without replying', short:'3x cold email opens'},
+    {type:'page',    label:'Visited website after cold call (2 min after hangup)', short:'Post-call website visit'},
+    {type:'page',    label:'Connected on LinkedIn after cold DM (accepted 5 min ago)', short:'Accepted LinkedIn DM'},
+    {type:'page',    label:'Searched your brand on Google after cold email', short:'Post-email brand search'},
+  ],
+  youtube: [
+    {type:'page',    label:'Watching: "How to build a B2B sales funnel" (4:22 / 11:30)', short:'YouTube sales funnel video'},
+    {type:'page',    label:'Subscribed to your YouTube channel (2 min ago)', short:'Subscribed to channel'},
+    {type:'page',    label:'Clicked: CTA link in video description to /pricing', short:'YouTube desc CTA'},
+    {type:'page',    label:'Watched 3 of your videos in past 1 hour', short:'3x video session'},
+  ],
+  podcast: [
+    {type:'event',   label:'Listening: Your guest spot on "SaaS Unplugged" Ep.112', short:'SaaS Unplugged Ep.112'},
+    {type:'page',    label:'Clicked: Podcast show notes link to /free-trial', short:'Podcast show notes CTA'},
+    {type:'page',    label:'Left 5-star review mentioning your brand by name', short:'5-star podcast review'},
+    {type:'event',   label:'Live podcast: "B2B Founders Roundtable" - mentioned you', short:'B2B Founders Roundtable'},
+  ],
+};
+
+/* ---- Approach playbooks — dynamically injected with live location ---- */
+var APPROACH_TEMPLATES = [
+  {
+    channelId: 'linkedin',
+    name: 'LinkedIn Approach',
+    icon: 'LI', color: '#0a66c2', badge: 'ACT NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Find them right now', d: 'They are currently in <strong>' + loc.label + '</strong>. Navigate there immediately before the window closes.'},
+        {t: 'Warm engagement first', d: 'If in a group: <strong>comment on a post they liked or made</strong> in that group. Do not DM yet. Let them notice you organically.'},
+        {t: 'Context-aware connection note', d: 'Reference the exact location: <strong>"I saw you in ' + loc.short + ' — your comment on [X] resonated."</strong> Max 200 chars.'},
+        {t: 'Value DM within 24h', d: 'After they accept, send a <strong>specific insight tied to what they were reading or discussing</strong> in that location. No pitch.'},
+        {t: 'Soft CTA (Day 5)', d: '<strong>"Given what you were exploring in ' + loc.short + ', would a 15-min chat make sense?"</strong> One time slot. Low commitment.'},
+      ];
+    },
+    cta: 'Open LinkedIn Now', ctaBg: '#0a66c2'
+  },
+  {
+    channelId: 'email',
+    name: 'Email Approach',
+    icon: 'EM', color: '#ff6b35', badge: 'TRIGGER NOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Immediate trigger detected', d: 'Signal: <strong>' + loc.label + '</strong>. This is a high-intent moment — respond within 5 minutes for best results.'},
+        {t: 'Personalize to exact action', d: 'Open with: <strong>"I noticed you [specific action from ' + loc.short + ']"</strong> — this specificity boosts reply rates by 3x.'},
+        {t: 'One insight, not a pitch', d: 'Share <strong>one relevant stat or case study</strong> tied to what they engaged with. No product mention in email 1.'},
+        {t: 'Next email — social proof', d: 'Day 3: Send a <strong>case study from a company identical to ' + lead.company + '</strong> in size and industry.'},
+        {t: 'Hard CTA at Day 7', d: 'If they opened emails 2x+: <strong>direct booking link with urgency frame</strong>. "Spots filling this week."'},
+      ];
+    },
+    cta: 'Send Email Now', ctaBg: '#ff6b35'
+  },
+  {
+    channelId: 'website',
+    name: 'Website Intercept',
+    icon: 'WB', color: '#00e5ff', badge: 'LIVE SESSION', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'They are on-site RIGHT NOW', d: '<strong>Active session detected: ' + loc.label + '</strong>. This is the highest-intent moment possible.'},
+        {t: 'Fire personalized chat NOW', d: 'Trigger live chat: <strong>"Hey, I saw you exploring ' + loc.short + ' — can I answer anything specific?"</strong> Use their company name if known.'},
+        {t: 'Route to SDR in under 60 sec', d: 'Score is ' + lead.score + '/100. <strong>Alert the nearest available rep immediately.</strong> Brief them on pages visited: ' + loc.short + '.'},
+        {t: 'If they leave — retarget', d: 'Launch <strong>LinkedIn + Google retargeting ad</strong> within 15 min of session end. Use copy referencing ' + loc.short + '.'},
+        {t: 'Follow-up email within 1h', d: '<strong>Send a personalized email referencing their ' + loc.short + ' visit.</strong> Include one case study from their industry: ' + lead.industry + '.'},
+      ];
+    },
+    cta: 'Open Live Chat Now', ctaBg: '#0097a7'
+  },
+  {
+    channelId: 'referral',
+    name: 'Referral Approach',
+    icon: 'RF', color: '#7fff6b', badge: 'WARM INTRO', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Source identified', d: 'This lead came via <strong>' + loc.label + '</strong>. Warm leads convert 4x higher — act within 60 minutes.'},
+        {t: 'Contact within 1 hour', d: '<strong>Speed is everything with referrals.</strong> Reach out immediately via the same channel they came from: ' + loc.short + '.'},
+        {t: 'Mention the referral source', d: 'Open with: <strong>"[Referrer name] mentioned you — they thought [specific reason] would resonate with you."</strong>'},
+        {t: 'Personalize to their role', d: lead.role + ' at ' + lead.company + ': frame your message around <strong>outcomes for their seniority level</strong> in the ' + lead.industry + ' space.'},
+        {t: 'Close the loop with referrer', d: '<strong>Notify the referrer you reached out</strong> — this encourages repeat referrals and keeps the relationship warm.'},
+      ];
+    },
+    cta: 'Reach Out Now', ctaBg: '#43a047'
+  },
+  {
+    channelId: 'google',
+    name: 'Ad Lead Intercept',
+    icon: 'AD', color: '#d4ff3d', badge: 'HIGH INTENT', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Ad click source', d: 'They found you via: <strong>' + loc.label + '</strong>. The query reveals their exact pain point — use it.'},
+        {t: 'Match landing page to intent', d: 'Ensure the page they landed on directly answers <strong>what the ad promised.</strong> Mismatch = immediate bounce.'},
+        {t: 'Fire retargeting within 5 min', d: 'If they left without converting: <strong>launch LinkedIn retargeting ad immediately</strong> with social proof for ' + lead.industry + ' companies.'},
+        {t: 'SDR follow-up call', d: 'For score ' + lead.score + '+: <strong>call within 30 minutes of the click.</strong> Reference the search term they used from ' + loc.short + '.'},
+        {t: 'Email sequence trigger', d: '<strong>Add to bottom-funnel email sequence immediately.</strong> Day 1 email subject should mirror the search intent from ' + loc.short + '.'},
+      ];
+    },
+    cta: 'Launch Retargeting', ctaBg: '#9e9d24'
+  },
+  {
+    channelId: 'twitter',
+    name: 'Social Intercept',
+    icon: 'TW', color: '#1d9bf0', badge: 'ENGAGE NOW', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Activity spotted', d: 'They are active on: <strong>' + loc.label + '</strong>. Engage while they are still in that context.'},
+        {t: 'Reply in the same thread/space', d: 'If in a Twitter Space or thread: <strong>add a valuable comment or question</strong> — not a pitch. Be the smartest voice in the room.'},
+        {t: 'Follow + DM within 10 min', d: 'Follow their account, then DM: <strong>"Caught your activity in ' + loc.short + ' — your take on [X] was sharp."</strong>'},
+        {t: 'Bridge to LinkedIn', d: 'After Twitter engagement: <strong>send a LinkedIn connection request within 24h</strong> referencing the Twitter interaction as context.'},
+        {t: 'Nurture over 7 days', d: 'Engage with their content daily for 7 days before sending any CTA. <strong>Build familiarity before asking for anything.</strong>'},
+      ];
+    },
+    cta: 'Engage on Twitter', ctaBg: '#1565c0'
+  },
+  {
+    channelId: 'events',
+    name: 'Event Lead Approach',
+    icon: 'EV', color: '#d0a0ff', badge: 'HOT WINDOW', badgeClass: 'badge-high',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Caught live at event', d: 'Status: <strong>' + loc.label + '</strong>. Event leads have a 48-hour peak window — every minute counts.'},
+        {t: 'Engage during event', d: 'If webinar/live event: <strong>message them via the event chat or Q&A</strong> with a relevant insight — not a pitch.'},
+        {t: 'Within 1h post-event outreach', d: 'Email subject: <strong>"Your question during ' + loc.short + '"</strong> — reference something specific they said or asked. Response rates spike 60%.'},
+        {t: 'LinkedIn connect same day', d: 'Send connection with note: <strong>"Also attended ' + loc.short + ' — your perspective on [X] stood out."</strong>'},
+        {t: 'Follow-up Day 2 — offer value', d: 'Send the <strong>event recording + a one-page cheat sheet</strong> tailored to ' + lead.role + 's in ' + lead.industry + '.'},
+      ];
+    },
+    cta: 'Send Event Follow-Up', ctaBg: '#7b1fa2'
+  },
+  {
+    channelId: 'cold',
+    name: 'Cold Outreach Pivot',
+    icon: 'CO', color: '#ff3d5a', badge: 'SIGNAL LIVE', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Intent signal detected', d: 'Cold lead just showed interest: <strong>' + loc.label + '</strong>. This changes your approach entirely — warm them now.'},
+        {t: 'Pivot from cold to warm', d: 'Reference the signal explicitly: <strong>"I noticed you ' + loc.short + ' — most people only do that when they\'re actively evaluating options."</strong>'},
+        {t: 'Phone call within 15 min', d: '<strong>Call now — this is the highest-intent window in a cold sequence.</strong> Lead with the observation, not your pitch.'},
+        {t: 'If no answer — email immediately', d: 'Subject: <strong>"Saw your activity just now"</strong> — reference ' + loc.short + '. One sentence. One question. No pitch.'},
+        {t: 'LinkedIn follow-up within 1h', d: '<strong>Send LinkedIn message referencing the signal.</strong> "Noticed you [action] — happy to answer any questions directly."'},
+      ];
+    },
+    cta: 'Call Now', ctaBg: '#c62828'
+  },
+  {
+    channelId: 'youtube',
+    name: 'Video Lead Capture',
+    icon: 'YT', color: '#ff4444', badge: 'CONTENT WARM', badgeClass: 'badge-med',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Content engagement detected', d: 'Activity: <strong>' + loc.label + '</strong>. Content-warmed leads convert at 2x the rate of cold outreach.'},
+        {t: 'Retarget via YouTube ads', d: '<strong>Launch a targeted YouTube pre-roll ad</strong> to their viewer profile within 1 hour. Use testimonial-style creative.'},
+        {t: 'LinkedIn match and outreach', d: 'Match their email to LinkedIn. <strong>Send DM referencing the content: "Saw you engaged with our ' + loc.short + '."</strong>'},
+        {t: 'Lead magnet follow-up', d: 'Offer a <strong>free resource tied to the video topic</strong> in exchange for a discovery call. Lower barrier than direct sales ask.'},
+        {t: 'Add to nurture sequence', d: '<strong>Email sequence starting with the video topic</strong> as subject line. Personalize to ' + lead.role + ' at ' + lead.company + '.'},
+      ];
+    },
+    cta: 'Launch Retargeting', ctaBg: '#b71c1c'
+  },
+  {
+    channelId: 'podcast',
+    name: 'Podcast Lead Approach',
+    icon: 'PD', color: '#ff9500', badge: 'BRAND WARM', badgeClass: 'badge-low',
+    getSteps: function(loc, lead) {
+      return [
+        {t: 'Podcast touchpoint', d: 'They interacted via: <strong>' + loc.label + '</strong>. Podcast audiences have the highest brand trust of any channel.'},
+        {t: 'Email via show notes CTA', d: 'If they clicked a show notes link: <strong>trigger immediate email referencing the specific episode</strong> and guest insight.'},
+        {t: 'LinkedIn outreach with episode hook', d: 'Message: <strong>"Noticed you engaged with ' + loc.short + ' — curious what your take was on [episode topic]."</strong>'},
+        {t: 'Invite to next live episode', d: '<strong>Offer an exclusive listener invite</strong> to your next live recording or Q&A session. Deepens the relationship.'},
+        {t: 'Nurture with related content', d: 'Send <strong>2 more related podcast episodes or blog posts</strong> before any sales CTA. Build authority first.'},
+      ];
+    },
+    cta: 'Send Podcast Follow-Up', ctaBg: '#e65100'
+  },
+];
+
+/* ---- COMPANIES, ROLES, INTENTS, etc. ---- */
+var COMPANIES = [
+  'Acme Corp','Nova Labs','Syntech','BlueBridge','Orion Media','DataCore','PeakFlow','Vertex AI',
+  'Luminar','Coastal Ventures','TrueNorth','FluxDrive','Solaris','RedWood Co','AlphaPoint',
+  'Cascade IO','Pinnacle SaaS','Meridian Tech','Solstice AI','IronClad','Quantum Leap',
+  'BrightEdge','StormPath','Nexus Group','Tidal Systems','OakBridge Capital','Prism Analytics',
+  'Cloudrift','Helix Health','Momentum Labs','Stardust Media','CipherBase','Nomad Commerce',
+  'BlueHaven','Patchwork AI','Drift Engine','Vortex CRM','Launchpad Ventures','RocketFuel',
+  'GridIron Tech','Basecamp Pro','Zenith Cloud','HorizonNet','Parallax Media','Cobalt Digital',
+  'Axiom Health','Torchlight','Silverline','Granite AI','Apex Dynamics','Riverstone Labs',
+  'Compass Analytics','Trident Systems','Ember Cloud','Bolt Networks','Aether Labs','Crestline',
+  'Harbinger Tech','Watershed IO','Vanguard AI','Summit CRM','Linkbridge','ClearSight',
+  'Radiant Works','Fieldstone Inc','Arcadia Health','Tempest Media','Cascade Networks',
+  'Redshift Labs','Goldleaf AI','Nightfall Tech','Ironwood Capital','Springboard SaaS',
+  'Helios Group','Firewatch IO','SandBar Digital','Ironhive','Loft Analytics','Overhang AI',
+  'Bravo Commerce','Nomadic Media','Pinnacle Health','Sable Cloud','Upshift Tech','Lagoon AI',
+  'LandMark CRM','CloudNest','StellarOps','SkyBridge AI','Forgepoint Capital','Holloway Health',
+  'Terrapin Labs','Mosaic Tech','Sapphire Cloud','BlueStar Analytics','Greenfield IO',
+  'Ironshore','Nightwatch Media','Zenith AI','Trident Health','Avalon CRM','Deepwave',
+  'Tundra Labs','Crestwood IO','SilverPeak','Ridgeline AI','Skyline Health','Catalyst CRM',
+  'Foundry Networks','Westbridge','Bayshore Labs','Clearpath Analytics','Dayspring Media',
+  'TrueBeam AI','Springdale Systems','Wavefront Tech','Landmark AI','Lodestar Cloud',
+  'Ironclad SaaS','Vantage IO','Highmark Analytics','Outpost Media','Riverbend Tech',
+  'Onyx Capital','Flashpoint AI','Threshold Labs','Skyview Health','Hilltop CRM',
+  'Waypoint Tech','Stratus IO','Cloudburst AI','Beacon Labs','Summit Analytics',
+  'Cornerstone Media','Ironveil','Highpoint SaaS','Overland Systems','Firstlight AI',
+  'Crossroads IO','Windfall Tech','Stonebridge','Upland CRM','Deeproot Labs',
+  'Frostbite Media','Irongate AI','Ashfield Health','Clearwater Systems','Redline IO',
+  'Highrise Analytics','Bridgestone Tech','Cloudline SaaS','Ironhold Capital','Sagebrush AI',
+  'Timberline Media','Fern Analytics','Ridgemont IO','Cliffside Tech','Lowland CRM',
+  'Cobaltstone AI','Highwall Labs','Creekside Health','Streamline IO','Ironpoint Media',
+  'TrueNorth SaaS','Broadfield Tech','Silvergate AI','Lowridge Analytics','Northgate IO',
+  'Eastbridge CRM','Westfield Labs','Southgate AI','Northwall Tech','Fairbridge Media',
+  'Newbridge AI','Oldgate Tech','Goodwall IO','Lastpost CRM','Firstbase Labs',
+  'Cleargate AI','Darkwood Media','Lightridge Analytics','Brightwall IO','Nightgate Health',
+  'Dayline SaaS','Stormgate AI','Snowfield Labs','Rainveil Tech','Sunbridge IO',
+  'Cloudgate CRM','Moonridge Analytics','Starfield Media','Skygate Health','Earthwall AI',
+  'Fireline IO','Waterbridge Labs','Windgate Tech','Ironfield SaaS','Stoneveil Analytics',
+  'Goldbridge IO','Silverfield CRM','Bronzegate Tech','Copperwall AI','Tinveil Media',
+  'Steelbridge Health','Leadfield IO','Zincgate Analytics','Alumwall Labs','Titanveil SaaS',
+  'Platinumridge AI','Diamondwall IO','Crystalgate Tech','Gemfield CRM','Jewelbridge Labs',
+  'Rubywall Analytics','Sapphiregate IO','Emeraldfield AI','Topazwall Tech','Opalveil SaaS',
+  'Jaderidge Media','Amethystfield IO','Quartzwall Analytics','Graniteridge Tech','Marbleveil AI',
+  'SlateField IO','BasaltWall CRM','VolcanicRidge Labs','Igneousgate Tech','Metamorphic SaaS',
+  'SedimentField AI','Fossilwall IO','Crystalline Tech','Limestone CRM','SandstoneRidge AI',
+  'ShaleField IO','ClayWall Labs','MudBrick Tech','CementVeil SaaS','ConcreteRidge Media',
+  'AsphaltField IO','TarWall Analytics','BitumenRidge Tech','PitchVeil AI','CoalField CRM',
+  'PeatWall Labs','CharcoalRidge IO','CarbonField Tech','GraphiteVeil SaaS','DiamondRidge Analytics',
+  'CrystalField IO','GemWall Tech','JewelRidge CRM','StoneVeil Labs','RockField AI',
+  'BoulderWall IO','PebbleRidge Analytics','GravelField Tech','SandVeil SaaS','DustField Media',
+  'AshWall IO','CinderRidge Analytics','EmberField Tech','FlameVeil AI','FireField CRM',
+  'BlazeWall Labs','InfernoRidge IO','FurnaceField Tech','KilnVeil SaaS','ForgeField Analytics',
+  'SmeltWall IO','CastRidge Tech','MoldField CRM','AnvilVeil Labs','HammerField AI',
+  'ChiselWall IO','SawRidge Analytics','DrillField Tech','BoltVeil SaaS','NailField Media',
+  'ScrewWall IO','WrenchRidge Analytics','PlierField Tech','CutterVeil AI','GrinderField CRM',
+  'PolisherWall Labs','BufferRidge IO','SanderField Tech','PrimerVeil SaaS','PaintField Analytics',
+  'CoatWall IO','FinishRidge Tech','SealField CRM','VarnishVeil Labs','LacquerField AI',
+  'GlossWall IO','MatteRidge Analytics','ShineField Tech','GlowVeil SaaS','LustrousField Media',
+  'BrilliantWall IO','RadiantRidge Analytics','Dazzling Tech','Sparkling AI','GlitterField CRM',
+  'ShimmerWall Labs','GleamRidge IO','FlashField Tech','BlinkVeil SaaS','TwinkleField Analytics',
+  'SparkField IO','GlintWall Tech','ShimmerRidge CRM','GlowField Labs','LightVeil AI',
+  'BrightField IO','WhiteWall Analytics','SilverRidge Tech','GoldVeil SaaS','PlatinumField Media',
+  'DiamondWall IO','CrystalRidge Analytics','GemField Tech','JewelVeil AI','RubyField CRM',
+  'SapphireWall Labs','EmeraldRidge IO','TopazField Tech','OpalVeil SaaS','JadeField Analytics',
+];
+
+var ROLES = [
+  'CEO','VP Sales','Marketing Director','CTO','Head of Growth','Founder','CMO','BizDev Lead',
+  'Product Manager','Sales Manager','Chief Revenue Officer','VP Marketing','Director of Sales',
+  'Account Executive','SDR','Growth Hacker','Demand Gen Manager','Digital Marketing Lead',
+  'E-commerce Director','Partnership Manager','Channel Sales Manager','VP of Partnerships',
+  'Head of Revenue','Chief Growth Officer','Director of Demand Gen','Inside Sales Manager',
+  'Enterprise Account Exec','Strategic Account Manager','Sales Engineer','Customer Success Director',
+  'Performance Marketing Lead','SEO Director','Paid Media Manager','Social Media Director',
+  'Content Marketing Director','Brand Manager','Product Marketing Manager','VP of Product',
+  'Co-Founder','Managing Director','General Manager','COO','VP Engineering','Head of BD',
+];
+
+var INTENTS = [
+  'Requested a demo','Downloaded whitepaper','Viewed pricing page 3x','Clicked CTA button',
+  'Submitted contact form','Joined live webinar','Replied to cold email','Engaged on LinkedIn post',
+  'Opened 5 emails in 24h','Clicked paid ad','Visited case study page','Watched product video',
+  'Started free trial','Attended virtual event','Booked discovery call','Clicked ROI calculator',
+  'Visited /features 4x','Asked pricing question in chat','Downloaded comparison guide',
+  'Signed up for newsletter','Explored API documentation','Opened retargeting ad',
+  'Clicked email CTA twice','Viewed onboarding page','Searched branded keyword',
+  'Submitted RFP request','Watched demo video fully','Engaged with chatbot','Replied to LinkedIn DM',
+  'Completed online assessment','Filled ROI form','Downloaded product sheet',
+  'Clicked retargeting banner','Signed up for free webinar','Watched explainer video',
+  'Liked thought leadership post','Commented on competitor content','Clicked podcast ad link',
+];
+
+var INDUSTRIES = [
+  'SaaS','FinTech','HealthTech','E-commerce','EdTech','LegalTech','PropTech','InsurTech',
+  'MarTech','AdTech','CleanTech','BioTech','MedTech','RetailTech','HRTech','Cybersecurity',
+  'AI / ML','Data Analytics','Cloud Infra','DevTools','Logistics Tech','AgriTech',
+];
+
+var LOCATIONS = [
+  'New York, NY','San Francisco, CA','Austin, TX','Chicago, IL','Boston, MA','Seattle, WA',
+  'Los Angeles, CA','Miami, FL','Denver, CO','Atlanta, GA','London, UK','Berlin, DE',
+  'Toronto, CA','Sydney, AU','Singapore, SG','Amsterdam, NL','Paris, FR','Tokyo, JP',
+  'Dubai, UAE','Sao Paulo, BR','Bangalore, IN','Stockholm, SE','Tel Aviv, IL','Oslo, NO',
+];
+
+/* ======================================================
+   STATE
+   ====================================================== */
+var totalLeads = 0;
+var hotLeads = 0;
+var hourLeads = 0;
+var activeNow = 0;
+var miniBarData = [];
+for (var _b = 0; _b < 14; _b++) { miniBarData.push(0); }
+var selectedLead = null;
+
+/* ======================================================
+   INIT
+   ====================================================== */
+function init() {
+  buildChannels();
+  buildHeatmap();
+  buildMiniChart();
+  startClock();
+  document.getElementById('refresh-btn').addEventListener('click', buildHeatmap);
+  document.getElementById('clear-btn').addEventListener('click', function() {
+    document.getElementById('feed').innerHTML = '';
+    selectedLead = null;
+    showNoSelection();
+  });
+  for (var s = 0; s < 12; s++) { generateLead(true); }
+  updateKPIs();
+  setInterval(function() {
+    if (Math.random() < 0.72) { generateLead(false); updateKPIs(); }
+  }, 2600);
+  setInterval(updateMiniChart, 4000);
+  showNoSelection();
+}
+
+/* ======================================================
+   CHANNELS
+   ====================================================== */
+function buildChannels() {
+  for (var i = 0; i < CHANNELS.length; i++) {
+    CHANNELS[i].leads = Math.floor(Math.random() * 130) + 30;
+    CHANNELS[i].score = Math.floor(Math.random() * 40) + 45;
+  }
+  renderChannels();
+}
+
+function renderChannels() {
+  var total = 0;
+  for (var i = 0; i < CHANNELS.length; i++) { total += CHANNELS[i].leads; }
+  var sorted = CHANNELS.slice().sort(function(a, b) { return b.leads - a.leads; });
+  var html = '';
+  for (var i = 0; i < sorted.length; i++) {
+    var ch = sorted[i];
+    var pct = Math.round(ch.leads / total * 100);
+    var ac = (i === 0) ? ' active' : '';
+    html += '<div class="channel-item' + ac + '" onclick="selectChannel(this)">';
+    html += '<div class="channel-icon" style="background:' + ch.color + '18;border-color:' + ch.color + '30">' + ch.icon + '</div>';
+    html += '<div class="channel-info">';
+    html += '<div class="channel-name">' + ch.name + '</div>';
+    html += '<div class="channel-meta">Score ' + ch.score + ' &middot; ' + pct + '%</div>';
+    html += '</div>';
+    html += '<div class="channel-count" style="color:' + ch.color + '">' + ch.leads + '</div>';
+    html += '</div>';
+    html += '<div class="channel-bar-wrap"><div class="channel-bar-bg">';
+    html += '<div class="channel-bar-fill" style="width:' + pct + '%;background:' + ch.color + '"></div>';
+    html += '</div></div>';
+  }
+  document.getElementById('channel-list').innerHTML = html;
+}
+
+function selectChannel(el) {
+  var items = document.querySelectorAll('.channel-item');
+  for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
+  el.classList.add('active');
+}
+
+/* ======================================================
+   HEATMAP
+   ====================================================== */
+function buildHeatmap() {
+  var el = document.getElementById('heatmap');
+  el.innerHTML = '';
+  var peakHours = [9,10,11,14,15,16,17];
+  var peakDays = [1,2,3];
+  var dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  for (var day = 0; day < 7; day++) {
+    for (var hour = 0; hour < 24; hour++) {
+      var val = Math.random() * 0.25;
+      if (peakHours.indexOf(hour) > -1) { val += Math.random() * 0.5; }
+      if (peakDays.indexOf(day) > -1) { val += Math.random() * 0.3; }
+      if (val > 1) { val = 1; }
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      cell.style.gridColumn = String(hour + 1);
+      cell.style.gridRow = String(day + 1);
+      cell.style.background = valToColor(val);
+      var hStr = (hour === 0) ? '12am' : (hour < 12) ? (hour+'am') : (hour === 12) ? '12pm' : ((hour-12)+'pm');
+      cell.dataset.label = dayNames[day] + ' ' + hStr + ' - ' + Math.round(val * 100) + ' leads';
+      cell.addEventListener('mouseenter', showTip);
+      cell.addEventListener('mouseleave', hideTip);
+      cell.addEventListener('mousemove', moveTip);
+      el.appendChild(cell);
+    }
+  }
+}
+
+function valToColor(v) {
+  if (v < 0.15) { return '#1a2535'; }
+  if (v < 0.35) { return '#0d3a5c'; }
+  if (v < 0.55) { return '#005f8f'; }
+  if (v < 0.75) { return '#0096b7'; }
+  return '#00e5ff';
+}
+
+function showTip(e) { var t = document.getElementById('tooltip'); t.textContent = e.target.dataset.label; t.style.opacity='1'; moveTip(e); }
+function hideTip() { document.getElementById('tooltip').style.opacity='0'; }
+function moveTip(e) { var t = document.getElementById('tooltip'); t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY-36)+'px'; }
+
+/* ======================================================
+   LEAD GENERATION
+   ====================================================== */
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function generateLead(silent) {
+  var ch = rnd(CHANNELS);
+  var locList = LIVE_LOCATIONS[ch.id] || LIVE_LOCATIONS['website'];
+  var liveLoc = rnd(locList);
+  var lead = {
+    ch: ch,
+    company: rnd(COMPANIES),
+    role: rnd(ROLES),
+    intent: rnd(INTENTS),
+    industry: rnd(INDUSTRIES),
+    city: rnd(LOCATIONS),
+    score: Math.floor(Math.random() * 60) + 28,
+    liveLoc: liveLoc,
+    time: new Date(),
+    id: 'lead-' + Date.now() + '-' + Math.floor(Math.random()*9999),
+  };
+
+  var isHot = lead.score >= 74;
+  var isWarm = lead.score >= 50 && lead.score < 74;
+  lead.heatLabel = isHot ? 'HOT' : isWarm ? 'WARM' : 'COLD';
+  lead.heatEmoji = isHot ? '&#128293;' : isWarm ? '&#127777;' : '&#10052;';
+  lead.heatClass = isHot ? 'tag-hot' : isWarm ? 'tag-warm' : 'tag-cold';
+  lead.scoreColor = isHot ? 'var(--danger)' : isWarm ? 'var(--warning)' : 'var(--muted2)';
+
+  totalLeads++;
+  hourLeads++;
+  if (isHot) { hotLeads++; }
+  ch.leads++;
+  activeNow = Math.min(activeNow + Math.floor(Math.random() * 4) + 1, 248);
+
+  miniBarData.shift();
+  miniBarData.push(miniBarData[miniBarData.length - 1] + 1);
+
+  if (!silent) {
+    addFeedItem(lead);
+    renderChannels();
+    updateMiniChart();
+  }
+}
+
+/* ======================================================
+   FEED ITEM
+   ====================================================== */
+function addFeedItem(lead) {
+  var feed = document.getElementById('feed');
+  var timeStr = lead.time.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  var locIcon = lead.liveLoc.type === 'group' ? '&#128101;' : lead.liveLoc.type === 'event' ? '&#127881;' : lead.liveLoc.type === 'session' ? '&#128196;' : '&#128205;';
+  var locClass = lead.liveLoc.type === 'group' ? 'group' : lead.liveLoc.type === 'session' ? 'session' : 'page';
+
+  var item = document.createElement('div');
+  item.className = 'feed-item';
+  item.id = lead.id;
+  item.dataset.leadId = lead.id;
+
+  var html = '';
+  html += '<div class="feed-icon" style="background:' + lead.ch.color + '18;border:1px solid ' + lead.ch.color + '30;color:' + lead.ch.color + '">' + lead.ch.icon + '</div>';
+  html += '<div class="feed-body">';
+  html += '<div class="feed-headline">' + lead.role + ' @ ' + lead.company + '</div>';
+  html += '<div class="feed-sub">';
+  html += '<span class="feed-tag ' + lead.heatClass + '">' + lead.heatEmoji + ' ' + lead.heatLabel + '</span>';
+  html += '<span>' + lead.intent + '</span>';
+  html += '</div>';
+  html += '<div class="feed-location-row">';
+  html += '<div class="loc-pulse"></div>';
+  html += '<span class="loc-pill ' + locClass + '">' + locIcon + ' ' + lead.liveLoc.short + '</span>';
+  html += '<span style="color:var(--muted);font-size:10px">' + lead.city + '</span>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;margin-left:6px">';
+  html += '<div style="font-family:var(--font-display);font-size:16px;font-weight:800;line-height:1;color:' + lead.scoreColor + '">' + lead.score + '</div>';
+  html += '<div style="font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase">score</div>';
+  html += '</div>';
+  html += '<div class="feed-time">' + timeStr + '</div>';
+
+  item.innerHTML = html;
+
+  // store lead data on element
+  item._leadData = lead;
+
+  item.addEventListener('click', function() {
+    onLeadClick(this);
+  });
+
+  feed.insertBefore(item, feed.firstChild);
+  while (feed.children.length > 50) { feed.removeChild(feed.lastChild); }
+}
+
+/* ======================================================
+   LEAD CLICK — UPDATE RIGHT PANEL
+   ====================================================== */
+function onLeadClick(el) {
+  // deselect previous
+  var prev = document.querySelector('.feed-item.selected');
+  if (prev) { prev.classList.remove('selected'); }
+  el.classList.add('selected');
+
+  var lead = el._leadData;
+  selectedLead = lead;
+  renderApproachPanel(lead);
+}
+
+function showNoSelection() {
+  document.getElementById('context-section').innerHTML =
+    '<div class="no-selection"><strong>&#128064; No lead selected</strong>Click any lead in the feed to see exactly where they are right now and get a personalized approach playbook.</div>';
+  document.getElementById('approach-cards').innerHTML = '';
+  document.getElementById('approach-sub').textContent = 'Click a lead to get real-time approach tactics';
+}
+
+function renderApproachPanel(lead) {
+  var now = new Date();
+  var timeStr = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  var locIcon = lead.liveLoc.type === 'group' ? '&#128101;' : lead.liveLoc.type === 'event' ? '&#127881;' : lead.liveLoc.type === 'session' ? '&#128196;' : '&#128205;';
+
+  document.getElementById('approach-sub').textContent = lead.role + ' @ ' + lead.company + ' — live now';
+
+  /* CONTEXT BANNER */
+  var ctxHtml = '';
+  ctxHtml += '<div class="context-banner">';
+  ctxHtml += '<div class="context-banner-top">';
+  ctxHtml += '<div class="cb-dot"></div>';
+  ctxHtml += '<div class="cb-title">Live Location Detected</div>';
+  ctxHtml += '<div class="cb-time">' + timeStr + '</div>';
+  ctxHtml += '</div>';
+  ctxHtml += '<div class="context-body">';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#128100;</div><div class="ctx-info"><div class="ctx-label">Lead</div><div class="ctx-val">' + lead.role + ' @ <span>' + lead.company + '</span></div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">' + locIcon + '</div><div class="ctx-info"><div class="ctx-label">Right Now</div><div class="ctx-val"><span>' + lead.liveLoc.label + '</span></div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#127758;</div><div class="ctx-info"><div class="ctx-label">Location</div><div class="ctx-val">' + lead.city + ' &bull; ' + lead.industry + '</div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#127919;</div><div class="ctx-info"><div class="ctx-label">Intent Signal</div><div class="ctx-val">' + lead.intent + '</div></div></div>';
+  ctxHtml += '<div class="ctx-row"><div class="ctx-icon">&#9889;</div><div class="ctx-info"><div class="ctx-label">Lead Score</div><div class="ctx-val" style="color:' + lead.scoreColor + '">' + lead.score + ' / 100 &mdash; ' + lead.heatLabel + '</div></div></div>';
+  ctxHtml += '</div></div>';
+  document.getElementById('context-section').innerHTML = ctxHtml;
+
+  /* APPROACH CARDS — primary card first (matching channel), others below */
+  var cardsHtml = '';
+  var primaryIdx = -1;
+
+  for (var i = 0; i < APPROACH_TEMPLATES.length; i++) {
+    if (APPROACH_TEMPLATES[i].channelId === lead.ch.id) { primaryIdx = i; break; }
+  }
+
+  // Primary approach first (open by default)
+  if (primaryIdx > -1) {
+    cardsHtml += buildApproachCard(APPROACH_TEMPLATES[primaryIdx], lead, true);
+  }
+
+  // Secondary approaches (closed)
+  for (var j = 0; j < APPROACH_TEMPLATES.length; j++) {
+    if (j !== primaryIdx) {
+      cardsHtml += buildApproachCard(APPROACH_TEMPLATES[j], lead, false);
+    }
+  }
+
+  document.getElementById('approach-cards').innerHTML = cardsHtml;
+}
+
+function buildApproachCard(tmpl, lead, isOpen) {
+  var steps = tmpl.getSteps(lead.liveLoc, lead);
+  var openCls = isOpen ? ' open' : '';
+  var html = '';
+  html += '<div class="approach-card' + openCls + '" id="ac-' + tmpl.channelId + '">';
+  html += '<div class="ac-header" onclick="toggleAC(\'' + tmpl.channelId + '\')">';
+  html += '<div class="ac-icon" style="background:' + tmpl.color + '1a;border:1px solid ' + tmpl.color + '33;color:' + tmpl.color + '">' + tmpl.icon + '</div>';
+  html += '<div class="ac-meta"><div class="ac-name">' + tmpl.name + '</div><div class="ac-sub">via ' + lead.ch.name + ' &bull; ' + lead.city + '</div></div>';
+  html += '<div class="ac-badge ' + tmpl.badgeClass + '">' + tmpl.badge + '</div>';
+  html += '</div>';
+  html += '<div class="ac-body">';
+
+  // LIVE INSTRUCTION — unique to this lead's real-time location
+  html += '<div class="live-instruction">';
+  html += '<div class="li-header"><div class="li-pulse"></div><div class="li-label">&#9889; Real-Time Context</div></div>';
+  html += '<div class="li-text">They are currently <strong>' + lead.liveLoc.label + '</strong>. This approach is calibrated for this exact moment.</div>';
+  html += '</div>';
+
+  for (var i = 0; i < steps.length; i++) {
+    var st = steps[i];
+    html += '<div class="ac-step">';
+    html += '<div class="step-num" style="background:' + tmpl.color + '22;color:' + tmpl.color + '">' + (i + 1) + '</div>';
+    html += '<div class="step-text"><strong>' + st.t + '</strong><br>' + st.d + '</div>';
+    html += '</div>';
+  }
+  html += '<button class="cta-btn" style="background:' + tmpl.ctaBg + ';color:#fff">' + tmpl.cta + ' &#8594;</button>';
+  html += '</div></div>';
+  return html;
+}
+
+function toggleAC(channelId) {
+  var card = document.getElementById('ac-' + channelId);
+  if (card) { card.classList.toggle('open'); }
+}
+
+/* ======================================================
+   KPIs
+   ====================================================== */
+function updateKPIs() {
+  animCount('kpi-total', totalLeads);
+  animCount('kpi-hot', hotLeads);
+  animCount('kpi-active', activeNow);
+  document.getElementById('kpi-total-d').textContent = '+' + hourLeads + ' this hour';
+  document.getElementById('kpi-hot-d').textContent = '+' + hotLeads + ' new';
+  document.getElementById('kpi-active-d').textContent = 'on tracked pages';
+  var sorted = CHANNELS.slice().sort(function(a, b) { return b.leads - a.leads; });
+  document.getElementById('kpi-channel').textContent = sorted[0].name.split(' ')[0];
+  document.getElementById('kpi-ch-d').textContent = sorted[0].leads + ' leads detected';
+  var sum = 0;
+  for (var i = 0; i < CHANNELS.length; i++) { sum += CHANNELS[i].score; }
+  animCount('kpi-score', Math.round(sum / CHANNELS.length));
+}
+
+function animCount(id, target) {
+  var el = document.getElementById(id);
+  var current = parseInt(el.textContent, 10) || 0;
+  var diff = target - current;
+  if (diff <= 0) { el.textContent = target; return; }
+  var step = Math.ceil(diff / 8);
+  var val = current;
+  var iv = setInterval(function() {
+    val = Math.min(val + step, target);
+    el.textContent = val;
+    if (val >= target) { clearInterval(iv); }
+  }, 40);
+}
+
+/* ======================================================
+   MINI CHART
+   ====================================================== */
+function buildMiniChart() {
+  var el = document.getElementById('mini-chart');
+  el.innerHTML = '';
+  for (var i = 0; i < 14; i++) {
+    var bar = document.createElement('div');
+    bar.className = 'mini-bar';
+    el.appendChild(bar);
+  }
+}
+
+function updateMiniChart() {
+  var bars = document.querySelectorAll('.mini-bar');
+  var maxV = 1;
+  for (var i = 0; i < miniBarData.length; i++) { if (miniBarData[i] > maxV) { maxV = miniBarData[i]; } }
+  for (var i = 0; i < bars.length; i++) {
+    bars[i].style.height = Math.max(4, Math.round(miniBarData[i] / maxV * 22)) + 'px';
+    if (i === bars.length - 1) { bars[i].classList.add('peak'); }
+    else { bars[i].classList.remove('peak'); }
+  }
+}
+
+/* ======================================================
+   CLOCK
+   ====================================================== */
+function startClock() {
+  function tick() {
+    document.getElementById('clock').textContent =
+      new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ======================================================
+   START
+   ====================================================== */
+window.addEventListener('DOMContentLoaded', init);
+</script>
+
+
+
+</body>
+</html>
